@@ -3,8 +3,11 @@ import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, FONTS } from '../constants';
 import { MaterialIcons } from '@expo/vector-icons';
+import useAuthStore from '../store/authStore';
 
 const Settings = ({ navigation }) => {
+  const { auth, logout: logOut } = useAuthStore((state) => state);
+
   const navigateToEditProfile = () => {
     navigation.navigate('EditProfile');
   };
@@ -50,7 +53,8 @@ const Settings = ({ navigation }) => {
   };
 
   const logout = () => {
-    console.log('Logout');
+    logOut();
+    navigation.navigate('Welcome');
   };
 
   const accountItems = [

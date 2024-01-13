@@ -5,8 +5,9 @@ import {
   TextInput,
   ScrollView,
   Image,
+  RefreshControl,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Ionicons,
   MaterialCommunityIcons,
@@ -14,7 +15,22 @@ import {
   Entypo,
 } from '@expo/vector-icons';
 import PostCard from '../components/post/PostCard';
+import usePostStore from '../store/postStore';
 const Home = () => {
+  const { posts, getPosts } = usePostStore((state) => state);
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    getPosts();
+    setRefreshing(false);
+  }, []);
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
   return (
     <View className="px-4">
       <StatusBar barStyle="light-content" />
@@ -28,6 +44,11 @@ const Home = () => {
         <MaterialCommunityIcons name="bell-outline" size={30} />
       </View>
       <ScrollView className="mt-4" showsVerticalScrollIndicator={false}>
+        <RefreshControl
+          title="Pull to refresh"
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+        />
         <ScrollView
           className="mb-4 mt-2 gap-4"
           horizontal
@@ -78,8 +99,8 @@ const Home = () => {
           </View>
         </ScrollView>
 
-        <PostCard />
-        <PostCard />
+        {posts.length > 0 &&
+          posts.map((post) => <PostCard key={post.id} post={post} />)}
         <View className="h-[200px]"></View>
       </ScrollView>
     </View>

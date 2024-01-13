@@ -3,11 +3,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomTabNav from './navigations/BottomTabNav';
 import EditProfile from './screens/EditProfile';
 import { useFonts } from 'expo-font';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import { Login, Signup, Welcome } from './screens';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import BottomSheetComponent from './components/BottomSheetComponent';
+
+import Toast from 'react-native-toast-message';
 
 const Stack = createNativeStackNavigator();
 
@@ -63,6 +65,7 @@ export default function App() {
               headerShown: false,
             }}
           />
+
           <Stack.Screen
             name="EditProfile"
             component={EditProfile}
@@ -73,6 +76,7 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
       <BottomSheetComponent />
+      <Toast position="top" bottomOffset={20} visibilityTime={1000} />
     </GestureHandlerRootView>
   );
 }

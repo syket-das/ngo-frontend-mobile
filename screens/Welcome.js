@@ -1,10 +1,38 @@
 import { View, Text, Pressable, Image } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import COLORS from '../constants/colors';
 import Button from '../components/Button';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import { URL } from '../constants/data';
 const Welcome = ({ navigation }) => {
+  const checkToken = async () => {
+    const authToken = await AsyncStorage.getItem('auth');
+
+    if (authToken) {
+      try {
+        const { data } = await axios({
+          method: 'GET',
+          url: `${URL}/api/v1/auth/check-token`,
+          headers: {
+            Authorization: `Bearer ${JSON.parse(authToken).token}`,
+          },
+        });
+
+        if (data.success) {
+          navigation.navigate('BottomTabNavigation');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    checkToken();
+  }, [navigation]);
+
   return (
     <LinearGradient
       style={{
@@ -133,7 +161,6 @@ const Welcome = ({ navigation }) => {
 
           <Button
             title="Join Now"
-            onPress={() => navigation.navigate('BottomTabNavigation')}
             style={{
               marginTop: 22,
               width: '100%',

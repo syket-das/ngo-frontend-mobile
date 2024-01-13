@@ -5,17 +5,44 @@ import {
   Pressable,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
-import React, { useState } from 'react';
+import Toast from 'react-native-toast-message';
+
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import COLORS from '../constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import Checkbox from 'expo-checkbox';
 import Button from '../components/Button';
-
+import useAuthStore from '../store/authStore';
 const Login = ({ navigation }) => {
+  const { auth, loginUser } = useAuthStore((state) => state);
   const [isPasswordShown, setIsPasswordShown] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+
+  const handleLogin = async ({ navigation }) => {
+    if (formData.email == '' || formData.password == '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Missing Fields',
+        text2: 'Please fill all the fields',
+      });
+    }
+
+    loginUser(formData);
+  };
+
+  useEffect(() => {
+    if (auth) {
+      navigation.navigate('BottomTabNavigation');
+    }
+  }, [auth, navigation]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
@@ -72,6 +99,8 @@ const Login = ({ navigation }) => {
               style={{
                 width: '100%',
               }}
+              value={formData.email}
+              onChangeText={(text) => setFormData({ ...formData, email: text })}
             />
           </View>
         </View>
@@ -106,6 +135,10 @@ const Login = ({ navigation }) => {
               style={{
                 width: '100%',
               }}
+              value={formData.password}
+              onChangeText={(text) =>
+                setFormData({ ...formData, password: text })
+              }
             />
 
             <TouchableOpacity
@@ -141,6 +174,7 @@ const Login = ({ navigation }) => {
         </View>
 
         <Button
+          onPress={handleLogin}
           title="Login"
           filled
           style={{
@@ -164,7 +198,7 @@ const Login = ({ navigation }) => {
               marginHorizontal: 10,
             }}
           />
-          <Text style={{ fontSize: 14 }}>Or Login with</Text>
+          <Text style={{ fontSize: 14 }}>Or Login As </Text>
           <View
             style={{
               flex: 1,
@@ -193,19 +227,12 @@ const Login = ({ navigation }) => {
               borderColor: COLORS.grey,
               marginRight: 4,
               borderRadius: 10,
+              gap: 4,
             }}
           >
-            <Image
-              source={require('../assets/facebook.png')}
-              style={{
-                height: 36,
-                width: 36,
-                marginRight: 8,
-              }}
-              resizeMode="contain"
-            />
+            <Ionicons name="people-outline" size={24} />
 
-            <Text>Facebook</Text>
+            <Text>Community</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -222,17 +249,7 @@ const Login = ({ navigation }) => {
               borderRadius: 10,
             }}
           >
-            <Image
-              source={require('../assets/google.png')}
-              style={{
-                height: 36,
-                width: 36,
-                marginRight: 8,
-              }}
-              resizeMode="contain"
-            />
-
-            <Text>Google</Text>
+            <Text>NGO</Text>
           </TouchableOpacity>
         </View>
 
