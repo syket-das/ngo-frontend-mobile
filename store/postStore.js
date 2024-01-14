@@ -86,6 +86,26 @@ const usePostStore = create((set, get) => ({
       console.log(JSON.stringify(error));
     }
   },
+
+  commentOnPostByUser: async (postId, comment) => {
+    try {
+      const { data } = await axios({
+        method: 'POST',
+        url: `${URL}/api/v1/post/comment/create/user`,
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(await AsyncStorage.getItem('auth')).token
+          }`,
+        },
+        data: {
+          postId,
+          comment,
+        },
+      });
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+  },
 }));
 
 export default usePostStore;
