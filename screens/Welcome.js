@@ -15,7 +15,6 @@ const Welcome = ({ navigation }) => {
 
     if (authToken) {
       try {
-        console.log('called');
         const { data } = await axios({
           method: 'GET',
           url: `${URL}/api/v1/auth/check-token`,
