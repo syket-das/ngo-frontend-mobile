@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 const PostVote = ({ post }) => {
   const navigation = useNavigation();
   const [singlePost, setSinglePost] = React.useState(post);
-  const { voteOnPostByUser, getPosts } = usePostStore((state) => state);
+  const { voteOnPostByUser } = usePostStore((state) => state);
 
   const getSinglePost = async (postId) => {
     try {
@@ -34,7 +34,7 @@ const PostVote = ({ post }) => {
   }, [singlePost]);
 
   return (
-    <View className="flex-row justify-between mt-2">
+    <View className="flex-row justify-between ">
       <View className="flex-row  items-center bg-slate-200 px-2 py-1 rounded-lg">
         <TouchableOpacity
           className="flex-row  items-center gap-1"
@@ -103,17 +103,6 @@ const PostVote = ({ post }) => {
           />
         </TouchableOpacity>
       </View>
-
-      <TouchableOpacity
-        className="flex-row items-center gap-2"
-        onPress={() => {
-          setBottomSheet(true);
-          setBottomSheetContent(<CommentContainer />);
-        }}
-      >
-        <Text className="text-xs">{singlePost.commentsCount}</Text>
-        <Ionicons name="chatbubble-outline" size={18} />
-      </TouchableOpacity>
     </View>
   );
 };

@@ -1,21 +1,17 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { Ionicons } from '@expo/vector-icons';
 import useBottomSheetStore from '../../store/bottomSheetStore';
-import CommentContainer from '../comment/CommentContainer';
-import usePostStore from '../../store/postStore';
+
 import PostVote from './PostVote';
+import PostCommentContainer from './PostCommentContainer';
 
 const PostCard = ({ post }) => {
+  const postBy = post.ownUserId ? 'USER' : post.ownNgoId ? 'NGO' : '';
   const { setBottomSheet, setBottomSheetContent } = useBottomSheetStore(
     (state) => state
   );
-
-  const { voteOnPostByUser, getPosts } = usePostStore((state) => state);
-
-  const postBy = post.ownUserId ? 'USER' : post.ownNgoId ? 'NGO' : '';
-
   return (
     <View className="mb-4">
       <View className="flex-row justify-between items-center">
@@ -48,7 +44,19 @@ const PostCard = ({ post }) => {
         }}
       />
 
-      <PostVote post={post} />
+      <View className="flex-row items-center justify-between mt-2">
+        <PostVote post={post} />
+        <TouchableOpacity
+          className="flex-row items-center gap-2"
+          onPress={() => {
+            setBottomSheet(true);
+            setBottomSheetContent(<PostCommentContainer post={post} />);
+          }}
+        >
+          <Text className="text-xs">{post.commentsCount}</Text>
+          <Ionicons name="chatbubble-outline" size={18} />
+        </TouchableOpacity>
+      </View>
 
       <View className="flex-row justify-start gap-2 items-center mt-2">
         <Text className="font-semibold text-xs text-gray-500 ">#FreeLife</Text>

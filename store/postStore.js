@@ -66,6 +66,26 @@ const usePostStore = create((set, get) => ({
       console.log(JSON.stringify(error));
     }
   },
+
+  voteOnPostCommentByUser: async (commentId, voteType) => {
+    try {
+      const { data } = await axios({
+        method: 'PATCH',
+        url: `${URL}/api/v1/post/comment/vote/mutate/user`,
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(await AsyncStorage.getItem('auth')).token
+          }`,
+        },
+        data: {
+          commentId,
+          voteType,
+        },
+      });
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+  },
 }));
 
 export default usePostStore;
