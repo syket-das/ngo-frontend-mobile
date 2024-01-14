@@ -1,4 +1,10 @@
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  StatusBar,
+} from 'react-native';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, FONTS } from '../constants';
@@ -236,6 +242,7 @@ const Settings = ({ navigation }) => {
           </View>
         </View>
       </ScrollView>
+      <StatusBar backgroundColor={COLORS.primary} />
     </SafeAreaView>
   );
 };

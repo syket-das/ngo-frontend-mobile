@@ -6,6 +6,7 @@ import {
   Image,
   TextInput,
   Modal,
+  StatusBar,
 } from 'react-native';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -337,6 +338,7 @@ const EditProfile = ({ navigation }) => {
 
         {renderDatePicker()}
       </ScrollView>
+      <StatusBar backgroundColor={COLORS.primary} />
     </SafeAreaView>
   );
 };

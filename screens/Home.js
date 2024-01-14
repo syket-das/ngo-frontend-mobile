@@ -16,6 +16,7 @@ import {
 } from '@expo/vector-icons';
 import PostCard from '../components/post/PostCard';
 import usePostStore from '../store/postStore';
+import { COLORS } from '../constants';
 const Home = () => {
   const { posts, getPosts } = usePostStore((state) => state);
 
@@ -33,7 +34,8 @@ const Home = () => {
 
   return (
     <View className="px-4">
-      <StatusBar barStyle="light-content" />
+      <StatusBar backgroundColor={COLORS.primary} />
+
       <View className="flex-row justify-between mt-8">
         <View>
           <View className="flex-row items-center">

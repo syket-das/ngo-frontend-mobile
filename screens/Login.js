@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  StatusBar,
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 
@@ -277,6 +278,7 @@ const Login = ({ navigation }) => {
           </Pressable>
         </View>
       </View>
+      <StatusBar backgroundColor={COLORS.primary} />
     </SafeAreaView>
   );
 };
