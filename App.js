@@ -10,10 +10,14 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import BottomSheetComponent from './components/BottomSheetComponent';
 
 import Toast from 'react-native-toast-message';
+import useBottomSheetStore from './store/bottomSheetStore';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const { bottomSheetRef, setBottomSheetRef } = useBottomSheetStore(
+    (state) => state
+  );
   const [fontsLoaded] = useFonts({
     black: require('./assets/fonts/Inter-Black.ttf'),
     bold: require('./assets/fonts/Inter-Bold.ttf'),
@@ -34,7 +38,13 @@ export default function App() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <NavigationContainer>
+      <NavigationContainer
+        onStateChange={() => {
+          if (bottomSheetRef?.current) {
+            bottomSheetRef?.current.close();
+          }
+        }}
+      >
         <Stack.Navigator initialRouteName="Welcome">
           <Stack.Screen
             name="Welcome"

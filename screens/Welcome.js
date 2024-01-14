@@ -6,12 +6,16 @@ import Button from '../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { URL } from '../constants/data';
+import { useIsFocused } from '@react-navigation/native';
 const Welcome = ({ navigation }) => {
+  const isFocused = useIsFocused();
+
   const checkToken = async () => {
     const authToken = await AsyncStorage.getItem('auth');
 
     if (authToken) {
       try {
+        console.log('called');
         const { data } = await axios({
           method: 'GET',
           url: `${URL}/api/v1/auth/check-token`,
@@ -30,8 +34,10 @@ const Welcome = ({ navigation }) => {
   };
 
   useEffect(() => {
-    checkToken();
-  }, [navigation]);
+    if (isFocused) {
+      checkToken();
+    }
+  }, [isFocused, navigation]);
 
   return (
     <LinearGradient

@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native';
-import React, { useEffect, useMemo } from 'react';
-import BottomSheet from '@gorhom/bottom-sheet';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import useBottomSheetStore from '../store/bottomSheetStore';
 
 const BottomSheetComponent = ({}) => {
-  const { bottomSheet, setBottomSheet, bottomSheetContent } =
+  const { bottomSheet, setBottomSheet, bottomSheetContent, setBottomSheetRef } =
     useBottomSheetStore((state) => state);
   const snapPoints = useMemo(() => ['25%', '50%', '100%'], []);
   const bottomSheetRef = React.useRef(null);
@@ -17,7 +17,21 @@ const BottomSheetComponent = ({}) => {
     bottomSheetRef.current?.expand();
   };
 
+  const renderBackdrop = useCallback(
+    (props) => (
+      <BottomSheetBackdrop
+        enableTouchThrough={false}
+        pressBehavior={'close'}
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+        {...props}
+      />
+    ),
+    []
+  );
+
   useEffect(() => {
+    setBottomSheetRef(bottomSheetRef);
     if (bottomSheet) {
       handleOpen();
     } else {
@@ -39,6 +53,7 @@ const BottomSheetComponent = ({}) => {
           setBottomSheet(false);
         }
       }}
+      backdropComponent={renderBackdrop}
     >
       <View
         style={{
