@@ -18,7 +18,7 @@ import Checkbox from 'expo-checkbox';
 import Button from '../components/Button';
 import useAuthStore from '../store/authStore';
 const Login = ({ navigation }) => {
-  const { auth, loginUser } = useAuthStore((state) => state);
+  const { auth, loginUser, authLoading } = useAuthStore((state) => state);
   const [isPasswordShown, setIsPasswordShown] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
 
@@ -36,7 +36,15 @@ const Login = ({ navigation }) => {
       });
     }
 
-    loginUser(formData);
+    try {
+      await loginUser(formData);
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Something went wrong',
+      });
+    }
   };
 
   useEffect(() => {
@@ -174,7 +182,8 @@ const Login = ({ navigation }) => {
           <Text>Remenber Me</Text>
         </View>
 
-        <Button
+        {/* <Button
+          disabled={authLoading}
           onPress={handleLogin}
           title="Login"
           filled
@@ -182,7 +191,31 @@ const Login = ({ navigation }) => {
             marginTop: 18,
             marginBottom: 4,
           }}
-        />
+        /> */}
+
+        <TouchableOpacity disabled={authLoading} onPress={handleLogin}>
+          <View
+            style={{
+              width: '100%',
+              height: 48,
+              backgroundColor: authLoading ? COLORS.grey : COLORS.primary,
+              borderRadius: 8,
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginTop: 18,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: 'bold',
+                color: COLORS.white,
+              }}
+            >
+              Login
+            </Text>
+          </View>
+        </TouchableOpacity>
 
         <View
           style={{

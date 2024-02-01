@@ -39,8 +39,10 @@ const Home = () => {
       <View className="flex-row justify-between mt-8">
         <View>
           <View className="flex-row items-center">
-            <Text className="text-2xl font-bold">Hello,</Text>
-            <Text className="text-2xl font-bold ml-1">John</Text>
+            <Image
+              source={require('../assets/transparent_logo.png')}
+              className="h-8 w-[150px]"
+            />
           </View>
         </View>
         <MaterialCommunityIcons name="bell-outline" size={30} />

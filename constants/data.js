@@ -11,4 +11,4 @@ export const photos = [
 
 export const imagesDataURL = ['https://i.ibb.co/W29btXp/profile.jpg'];
 
-export const URL = 'http://20.244.4.96:5000';
+export const URL = 'https://cypindia.onrender.com';

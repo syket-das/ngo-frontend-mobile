@@ -7,14 +7,20 @@ import Toast from 'react-native-toast-message';
 
 const useAuthStore = create((set) => ({
   auth: null,
+  authLoading: false,
+  setAuthLoading: (d) => set((state) => ({ authLoading: d })),
 
   loginUser: async (d) => {
     try {
+      set((state) => ({ authLoading: true }));
+
       const { data } = await axios({
         method: 'POST',
         url: `${URL}/api/v1/auth/login/user`,
         data: d,
       });
+
+      set((state) => ({ authLoading: false }));
 
       if (data.success) {
         set((state) => ({ auth: data }));
@@ -27,6 +33,7 @@ const useAuthStore = create((set) => ({
         });
       }
     } catch (error) {
+      set((state) => ({ authLoading: false }));
       set((state) => ({ auth: null }));
       await AsyncStorage.removeItem('auth');
 
