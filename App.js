@@ -11,6 +11,7 @@ import BottomSheetComponent from './components/BottomSheetComponent';
 
 import Toast from 'react-native-toast-message';
 import useBottomSheetStore from './store/bottomSheetStore';
+import SignupStack from './navigations/SignupStack';
 
 const Stack = createNativeStackNavigator();
 
@@ -62,7 +63,7 @@ export default function App() {
           />
           <Stack.Screen
             name="Signup"
-            component={Signup}
+            component={SignupStack}
             options={{
               headerShown: false,
             }}

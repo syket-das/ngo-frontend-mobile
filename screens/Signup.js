@@ -13,10 +13,15 @@ import COLORS from '../constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import Checkbox from 'expo-checkbox';
 import Button from '../components/Button';
+import StepIndicator from 'react-native-step-indicator';
+import { stepIndicatorStyles } from '../styles/stepIndicatorStyles';
 
 const Signup = ({ navigation }) => {
   const [isPasswordShown, setIsPasswordShown] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+
+  const labels = ['Basic Info', 'Verify Email', 'Set Password'];
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <View style={{ flex: 1, marginHorizontal: 22 }}>
@@ -42,7 +47,7 @@ const Signup = ({ navigation }) => {
           </Text>
         </View>
 
-        <View style={{ marginBottom: 12 }}>
+        {/* <View style={{ marginBottom: 12 }}>
           <Text
             style={{
               fontSize: 16,
@@ -194,6 +199,13 @@ const Signup = ({ navigation }) => {
             marginTop: 18,
             marginBottom: 4,
           }}
+        /> */}
+
+        <StepIndicator
+          customStyles={stepIndicatorStyles}
+          currentPosition={1}
+          labels={labels}
+          stepCount={3}
         />
 
         <View

@@ -165,6 +165,7 @@ const Welcome = ({ navigation }) => {
           </View>
 
           <Button
+            onPress={() => navigation.navigate('Signup')}
             title="Join Now"
             style={{
               marginTop: 22,

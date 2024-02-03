@@ -10,6 +10,8 @@ const useAuthStore = create((set) => ({
   authLoading: false,
   setAuthLoading: (d) => set((state) => ({ authLoading: d })),
 
+  registration: {},
+
   loginUser: async (d) => {
     try {
       set((state) => ({ authLoading: true }));
@@ -53,6 +55,128 @@ const useAuthStore = create((set) => ({
       text1: 'Logout Successful',
       text2: 'You have successfully logged out',
     });
+  },
+
+  registerUser: async (d) => {
+    try {
+      set((state) => ({ authLoading: true }));
+
+      const { data } = await axios({
+        method: 'POST',
+        url: `${URL}/api/v1/auth/register/user`,
+        data: d,
+      });
+
+      set((state) => ({ authLoading: false }));
+
+      if (data.success) {
+        set((state) => ({ auth: data }));
+        Toast.show({
+          type: 'success',
+          text1: 'Registration Successful',
+          text2: 'You have successfully registered',
+        });
+      }
+    } catch (error) {
+      set((state) => ({ authLoading: false }));
+
+      Toast.show({
+        type: 'error',
+        text1: 'Registration Failed',
+        text2:
+          error.response.data.message || error.message || 'Please try again',
+      });
+    }
+  },
+  verifyUserEmail: async (d) => {
+    try {
+      set((state) => ({ authLoading: true }));
+
+      const { data } = await axios({
+        method: 'POST',
+        url: `${URL}/api/v1/auth/verify/user`,
+        data: d,
+      });
+
+      set((state) => ({ authLoading: false }));
+
+      if (data.success) {
+        Toast.show({
+          type: 'success',
+          text1: 'Email Verification Successful',
+          text2: 'You have successfully verified your email',
+        });
+      }
+    } catch (error) {
+      set((state) => ({ authLoading: false }));
+
+      Toast.show({
+        type: 'error',
+        text1: 'Email Verification Failed',
+        text2:
+          error.response.data.message || error.message || 'Please try again',
+      });
+    }
+  },
+  resendUserOTP: async (d) => {
+    try {
+      set((state) => ({ authLoading: true }));
+
+      const { data } = await axios({
+        method: 'POST',
+        url: `${URL}/api/v1/auth/resend-otp/user`,
+        data: d,
+      });
+
+      set((state) => ({ authLoading: false }));
+
+      if (data.success) {
+        Toast.show({
+          type: 'success',
+          text1: 'OTP Resend Successful',
+          text2: 'You have successfully resent the OTP',
+        });
+      }
+    } catch (error) {
+      set((state) => ({ authLoading: false }));
+
+      Toast.show({
+        type: 'error',
+        text1: 'OTP Resend Failed',
+        text2:
+          error.response.data.message || error.message || 'Please try again',
+      });
+    }
+  },
+  setUserPassword: async (d) => {
+    try {
+      set((state) => ({ authLoading: true }));
+
+      const { data } = await axios({
+        method: 'POST',
+        url: `${URL}/api/v1/auth/set-password/user`,
+        data: d,
+      });
+
+      set((state) => ({ authLoading: false }));
+
+      if (data.success) {
+        Toast.show({
+          type: 'success',
+          text1: 'Password Set Successful',
+          text2: 'You have successfully set your password',
+        });
+      }
+    } catch (error) {
+      set((state) => ({ authLoading: false }));
+
+      Toast.show({
+        type: 'error',
+        text1: 'Password Set Failed',
+        text2:
+          error.response.data.message || error.message || 'Please try again',
+      });
+    }
   },
 }));
 

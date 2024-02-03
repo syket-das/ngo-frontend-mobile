@@ -3,6 +3,7 @@ import React from 'react';
 import COLORS from '../constants/colors';
 
 const Button = (props) => {
+  const disabled = props.disabled;
   const filledBgColor = props.color || COLORS.primary;
   const outlinedColor = COLORS.white;
   const bgColor = props.filled ? filledBgColor : outlinedColor;
@@ -10,11 +11,12 @@ const Button = (props) => {
 
   return (
     <TouchableOpacity
-      disabled={props.disabled}
+      disabled={disabled}
       style={{
         ...styles.button,
         ...{ backgroundColor: bgColor },
         ...props.style,
+        opacity: disabled ? 0.5 : 1,
       }}
       onPress={props.onPress}
     >
