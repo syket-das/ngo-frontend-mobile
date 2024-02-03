@@ -6,8 +6,12 @@ import StepIndicator from 'react-native-step-indicator';
 import COLORS from '../../../constants/colors';
 import { stepIndicatorStyles } from '../../../styles/stepIndicatorStyles';
 import Button from '../../../components/Button';
+import Toast from 'react-native-toast-message';
+import useAuthStore from '../../../store/authStore';
 
 const NgoStep1 = ({ navigation }) => {
+  const { registerNgo } = useAuthStore((state) => state);
+
   const [data, setData] = useState({
     name: '',
     email: '',
@@ -19,8 +23,46 @@ const NgoStep1 = ({ navigation }) => {
 
   const labels = ['Basic Info', 'Verify Email', 'Set Password'];
 
-  const onNext = () => {
-    navigation.navigate('NgoStep2');
+  const onNext = async () => {
+    if (
+      data.name &&
+      data.email &&
+      data.phone &&
+      data.location &&
+      data.isChecked
+    ) {
+      try {
+        await registerNgo({
+          name: data.name,
+          email: data.email,
+          phone: data.code + data.phone,
+          address: {
+            city: data.location,
+          },
+
+          type: 'social',
+        });
+
+        navigation.navigate('NgoStep2', {
+          email: data.email,
+        });
+      } catch (error) {
+        Toast.show({
+          type: 'error',
+          position: 'top',
+          text1: 'Error',
+          text2: error.message,
+        });
+      }
+    } else {
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Error',
+        text2: 'Please fill all the fields',
+        autoHide: true,
+      });
+    }
   };
 
   return (

@@ -8,27 +8,69 @@ import { stepIndicatorStyles } from '../../../styles/stepIndicatorStyles';
 import Button from '../../../components/Button';
 import { OtpInput } from 'react-native-otp-entry';
 import Toast from 'react-native-toast-message';
+import useAuthStore from '../../../store/authStore';
 
-const NgoStep2 = ({ navigation }) => {
+const NgoStep2 = ({ route, navigation }) => {
+  const { verifyNgoEmail, resendNgoOTP } = useAuthStore((state) => state);
+
   const [otp, setOtp] = useState('');
   const [verified, setVerified] = useState(true);
 
   const labels = ['Basic Info', 'Verify Email', 'Set Password'];
 
-  const onNext = () => {
-    navigation.navigate('NgoStep3');
+  const onNext = async () => {
+    if (!otp) {
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Please enter the OTP',
+        position: 'top',
+      });
+      return;
+    }
+
+    try {
+      await verifyNgoEmail({
+        email: route.params.email,
+        otp,
+      });
+
+      navigation.navigate('NgoStep3', {
+        email: route.params.email,
+      });
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: error.message,
+        position: 'top',
+      });
+    }
   };
   const onBack = () => {
     navigation.navigate('NgoStep1');
   };
 
-  const resendOtp = () => {
-    Toast.show({
-      type: 'success',
-      text1: 'OTP Resent',
-      text2: 'OTP has been resent to your email',
-      position: 'top',
-    });
+  const resendOtp = async () => {
+    try {
+      await resendNgoOTP({
+        email: route.params.email,
+      });
+
+      Toast.show({
+        type: 'success',
+        text1: 'Success',
+        text2: 'OTP sent successfully',
+        position: 'top',
+      });
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: error.message,
+        position: 'top',
+      });
+    }
   };
 
   return (

@@ -174,6 +174,125 @@ const useAuthStore = create((set) => ({
       );
     }
   },
+
+  // NGO
+
+  registerNgo: async (d) => {
+    try {
+      set((state) => ({ authLoading: true }));
+
+      const { data } = await axios({
+        method: 'POST',
+        url: `${URL}/api/v1/auth/register/ngo`,
+        data: d,
+      });
+
+      set((state) => ({ authLoading: false }));
+
+      if (data.success) {
+        set((state) => ({
+          registration: {
+            ...state.registration,
+            setp1: true,
+          },
+        }));
+      }
+    } catch (error) {
+      set((state) => ({ authLoading: false }));
+
+      throw new Error(
+        error.response.data.message || error.message || 'Please try again'
+      );
+    }
+  },
+
+  verifyNgoEmail: async (d) => {
+    try {
+      set((state) => ({ authLoading: true }));
+
+      const { data } = await axios({
+        method: 'POST',
+        url: `${URL}/api/v1/auth/verify/ngo`,
+        data: d,
+      });
+
+      set((state) => ({ authLoading: false }));
+
+      if (data.success) {
+        set((state) => ({
+          registration: {
+            ...state.registration,
+            setp2: true,
+          },
+        }));
+      }
+    } catch (error) {
+      set((state) => ({ authLoading: false }));
+
+      throw new Error(
+        error.response.data.message || error.message || 'Please try again'
+      );
+    }
+  },
+
+  resendNgoOTP: async (d) => {
+    try {
+      set((state) => ({ authLoading: true }));
+
+      const { data } = await axios({
+        method: 'POST',
+        url: `${URL}/api/v1/auth/resend-otp/ngo`,
+        data: d,
+      });
+
+      set((state) => ({ authLoading: false }));
+
+      if (data.success) {
+      }
+    } catch (error) {
+      set((state) => ({ authLoading: false }));
+
+      throw new Error(
+        error.response.data.message || error.message || 'Please try again'
+      );
+    }
+  },
+
+  setNgoPassword: async (d) => {
+    try {
+      set((state) => ({ authLoading: true }));
+
+      const { data } = await axios({
+        method: 'POST',
+        url: `${URL}/api/v1/auth/set-password/ngo`,
+        data: d,
+      });
+
+      set((state) => ({ authLoading: false }));
+
+      if (data.success) {
+        set((state) => ({
+          registration: {
+            setp1: false,
+            setp2: false,
+            setp3: true,
+          },
+        }));
+
+        Toast.show({
+          type: 'success',
+          text1: 'Password Set Successful',
+          text2: 'You have successfully set your password',
+        });
+      }
+    } catch (error) {
+      set((state) => ({ authLoading: false }));
+
+      throw new Error(
+        error.response.data.message || error.message || 'Please try again'
+      );
+    }
+  },
 }));
 
 export default useAuthStore;

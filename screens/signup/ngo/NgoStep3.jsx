@@ -13,8 +13,11 @@ import { stepIndicatorStyles } from '../../../styles/stepIndicatorStyles';
 import Button from '../../../components/Button';
 import Toast from 'react-native-toast-message';
 import { Ionicons } from '@expo/vector-icons';
+import useAuthStore from '../../../store/authStore';
 
-const UserStep3 = ({ navigation }) => {
+const UserStep3 = ({ route, navigation }) => {
+  const { setNgoPassword } = useAuthStore((state) => state);
+
   const [isPasswordShown, setIsPasswordShown] = useState(false);
   const [data, setData] = useState({
     password: '',
@@ -23,7 +26,7 @@ const UserStep3 = ({ navigation }) => {
 
   const labels = ['Basic Info', 'Verify Email', 'Set Password'];
 
-  const onNext = () => {
+  const onNext = async () => {
     if (data.password !== data.confirmPassword) {
       Toast.show({
         type: 'error',
@@ -34,7 +37,20 @@ const UserStep3 = ({ navigation }) => {
       return;
     }
 
-    navigation.navigate('NgoStep3');
+    try {
+      await setNgoPassword({
+        email: route.params.email,
+        password: data.password,
+      });
+      navigation.navigate('Login');
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: error.message,
+        position: 'top',
+      });
+    }
   };
 
   return (
