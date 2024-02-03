@@ -1,13 +1,21 @@
 import { View, Text, TextInput, StatusBar } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Checkbox from 'expo-checkbox';
 import StepIndicator from 'react-native-step-indicator';
 import COLORS from '../../../constants/colors';
 import { stepIndicatorStyles } from '../../../styles/stepIndicatorStyles';
 import Button from '../../../components/Button';
+import useAuthStore from '../../../store/authStore';
+import Toast from 'react-native-toast-message';
+
+import { useIsFocused } from '@react-navigation/native';
 
 const UserStep1 = ({ navigation }) => {
+  const { registration, registerUser } = useAuthStore((state) => state);
+
+  const isFocused = useIsFocused();
+
   const [data, setData] = useState({
     name: '',
     email: '',
@@ -18,8 +26,43 @@ const UserStep1 = ({ navigation }) => {
 
   const labels = ['Basic Info', 'Verify Email', 'Set Password'];
 
-  const onNext = () => {
-    navigation.navigate('UserStep2', { data });
+  const onNext = async () => {
+    if (!data.name || !data.email || !data.code || !data.phone) {
+      return Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Error',
+        text2: 'All fields are required',
+      });
+    }
+
+    if (!data.isChecked) {
+      return Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Error',
+        text2: 'Please agree to the terms and conditions',
+      });
+    }
+
+    try {
+      await registerUser({
+        fullName: data.name,
+        email: data.email,
+        phone: `${data.code}${data.phone}`,
+      });
+
+      navigation.navigate('UserStep2', {
+        email: data.email,
+      });
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Error',
+        text2: error.message,
+      });
+    }
   };
 
   return (

@@ -10,7 +10,11 @@ const useAuthStore = create((set) => ({
   authLoading: false,
   setAuthLoading: (d) => set((state) => ({ authLoading: d })),
 
-  registration: {},
+  registration: {
+    setp1: false,
+    setp2: false,
+    setp3: false,
+  },
 
   loginUser: async (d) => {
     try {
@@ -70,22 +74,19 @@ const useAuthStore = create((set) => ({
       set((state) => ({ authLoading: false }));
 
       if (data.success) {
-        set((state) => ({ auth: data }));
-        Toast.show({
-          type: 'success',
-          text1: 'Registration Successful',
-          text2: 'You have successfully registered',
-        });
+        set((state) => ({
+          registration: {
+            ...state.registration,
+            setp1: true,
+          },
+        }));
       }
     } catch (error) {
       set((state) => ({ authLoading: false }));
 
-      Toast.show({
-        type: 'error',
-        text1: 'Registration Failed',
-        text2:
-          error.response.data.message || error.message || 'Please try again',
-      });
+      throw new Error(
+        error.response.data.message || error.message || 'Please try again'
+      );
     }
   },
   verifyUserEmail: async (d) => {
@@ -101,21 +102,19 @@ const useAuthStore = create((set) => ({
       set((state) => ({ authLoading: false }));
 
       if (data.success) {
-        Toast.show({
-          type: 'success',
-          text1: 'Email Verification Successful',
-          text2: 'You have successfully verified your email',
-        });
+        set((state) => ({
+          registration: {
+            ...state.registration,
+            setp2: true,
+          },
+        }));
       }
     } catch (error) {
       set((state) => ({ authLoading: false }));
 
-      Toast.show({
-        type: 'error',
-        text1: 'Email Verification Failed',
-        text2:
-          error.response.data.message || error.message || 'Please try again',
-      });
+      throw new Error(
+        error.response.data.message || error.message || 'Please try again'
+      );
     }
   },
   resendUserOTP: async (d) => {
@@ -131,21 +130,13 @@ const useAuthStore = create((set) => ({
       set((state) => ({ authLoading: false }));
 
       if (data.success) {
-        Toast.show({
-          type: 'success',
-          text1: 'OTP Resend Successful',
-          text2: 'You have successfully resent the OTP',
-        });
       }
     } catch (error) {
       set((state) => ({ authLoading: false }));
 
-      Toast.show({
-        type: 'error',
-        text1: 'OTP Resend Failed',
-        text2:
-          error.response.data.message || error.message || 'Please try again',
-      });
+      throw new Error(
+        error.response.data.message || error.message || 'Please try again'
+      );
     }
   },
   setUserPassword: async (d) => {
@@ -161,6 +152,14 @@ const useAuthStore = create((set) => ({
       set((state) => ({ authLoading: false }));
 
       if (data.success) {
+        set((state) => ({
+          registration: {
+            setp1: false,
+            setp2: false,
+            setp3: true,
+          },
+        }));
+
         Toast.show({
           type: 'success',
           text1: 'Password Set Successful',
@@ -170,12 +169,9 @@ const useAuthStore = create((set) => ({
     } catch (error) {
       set((state) => ({ authLoading: false }));
 
-      Toast.show({
-        type: 'error',
-        text1: 'Password Set Failed',
-        text2:
-          error.response.data.message || error.message || 'Please try again',
-      });
+      throw new Error(
+        error.response.data.message || error.message || 'Please try again'
+      );
     }
   },
 }));
