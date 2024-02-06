@@ -1,5 +1,6 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native';
-import React from 'react';
+import { View, Text, Image, TouchableOpacity, Dimensions } from 'react-native';
+import React, { useEffect } from 'react';
+import Carousel from 'react-native-reanimated-carousel';
 
 import { Ionicons } from '@expo/vector-icons';
 import useBottomSheetStore from '../../store/bottomSheetStore';
@@ -12,6 +13,7 @@ const PostCard = ({ post }) => {
   const { setBottomSheet, setBottomSheetContent } = useBottomSheetStore(
     (state) => state
   );
+
   return (
     <View className="mb-4">
       <View className="flex-row justify-between items-center">
@@ -37,12 +39,43 @@ const PostCard = ({ post }) => {
           {post.address?.city} {post.address?.state} {post.address?.country}
         </Text>
       </View>
-      <Image
-        className="w-full h-64 rounded-xl mt-2"
-        source={{
-          uri: post?.media[0]?.url || 'https://picsum.photos/200/300?blur=8',
-        }}
-      />
+
+      {post?.media && post.media.length > 0 ? (
+        <Carousel
+          width={Dimensions.get('window').width - 20}
+          height={300}
+          data={post.media || []}
+          renderItem={({ item, index }) => {
+            return (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  position: 'relative',
+                }}
+              >
+                <View className="absolute top-2 right-8 z-10 p-1 bg-slate-200 rounded-md">
+                  <Text className="text-xs text-red-500 text-center">
+                    {index + 1} of {post.media.length}
+                  </Text>
+                </View>
+
+                <Image
+                  className="w-full h-full"
+                  source={{
+                    uri: item.url,
+                  }}
+                />
+              </View>
+            );
+          }}
+        />
+      ) : (
+        <Image
+          className="w-full h-60"
+          source={{ uri: 'https://picsum.photos/200/300' }}
+        />
+      )}
 
       <View className="flex-row items-center justify-between mt-2">
         <PostVote post={post} />

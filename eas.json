@@ -14,8 +14,9 @@
         "gradleCommand": ":app:assembleRelease"
       }
     },
-    "preview3": {
-      "developmentClient": true
+    "dev": {
+      "developmentClient": true,
+      "distribution": "internal"
     },
     "preview4": {
       "distribution": "internal"
