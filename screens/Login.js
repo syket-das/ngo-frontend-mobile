@@ -16,8 +16,16 @@ import COLORS from '../constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import Checkbox from 'expo-checkbox';
 import useAuthStore from '../store/authStore';
+import SvgView from '../components/SvgView';
+import { svgs } from '../assets/svg/svgs';
+import Button from '../components/Button';
 const Login = ({ navigation }) => {
-  const { auth, loginUser, authLoading } = useAuthStore((state) => state);
+  const [methods, setMethods] = useState(['user', 'ngo', 'community']);
+  const [slectedMethod, setSelectedMethod] = useState(methods[0]);
+
+  const { auth, loginUser, authLoading, loginNgo } = useAuthStore(
+    (state) => state
+  );
   const [isPasswordShown, setIsPasswordShown] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
 
@@ -33,15 +41,21 @@ const Login = ({ navigation }) => {
         text1: 'Missing Fields',
         text2: 'Please fill all the fields',
       });
+
+      return;
     }
 
     try {
-      await loginUser(formData);
+      if (slectedMethod == 'user') {
+        await loginUser(formData);
+      } else if (slectedMethod == 'ngo') {
+        await loginNgo(formData);
+      }
     } catch (error) {
       Toast.show({
         type: 'error',
         text1: 'Error',
-        text2: 'Something went wrong',
+        text2: error.message,
       });
     }
   };
@@ -71,9 +85,10 @@ const Login = ({ navigation }) => {
             style={{
               fontSize: 16,
               color: COLORS.black,
+              fontWeight: 400,
             }}
           >
-            Hello again you have been missed!
+            Login to continue with your account
           </Text>
         </View>
 
@@ -181,40 +196,16 @@ const Login = ({ navigation }) => {
           <Text>Remenber Me</Text>
         </View>
 
-        {/* <Button
+        <Button
           disabled={authLoading}
           onPress={handleLogin}
-          title="Login"
+          title={` ${slectedMethod} Login`.toUpperCase()}
           filled
           style={{
             marginTop: 18,
             marginBottom: 4,
           }}
-        /> */}
-
-        <TouchableOpacity disabled={authLoading} onPress={handleLogin}>
-          <View
-            style={{
-              width: '100%',
-              height: 48,
-              backgroundColor: authLoading ? COLORS.grey : COLORS.primary,
-              borderRadius: 8,
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginTop: 18,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: 'bold',
-                color: COLORS.white,
-              }}
-            >
-              Login
-            </Text>
-          </View>
-        </TouchableOpacity>
+        />
 
         <View
           style={{
@@ -248,42 +239,44 @@ const Login = ({ navigation }) => {
             justifyContent: 'center',
           }}
         >
-          <TouchableOpacity
-            onPress={() => console.log('Pressed')}
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexDirection: 'row',
-              height: 52,
-              borderWidth: 1,
-              borderColor: COLORS.grey,
-              marginRight: 4,
-              borderRadius: 10,
-              gap: 4,
-            }}
-          >
-            <Ionicons name="people-outline" size={24} />
-
-            <Text>Community</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => console.log('Pressed')}
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexDirection: 'row',
-              height: 52,
-              borderWidth: 1,
-              borderColor: COLORS.grey,
-              marginRight: 4,
-              borderRadius: 10,
-            }}
-          >
-            <Text>NGO</Text>
-          </TouchableOpacity>
+          {methods.map((method) => (
+            <TouchableOpacity
+              key={method}
+              onPress={() => setSelectedMethod(method)}
+              style={{
+                marginHorizontal: 10,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderWidth: 1,
+                borderColor:
+                  slectedMethod == method ? COLORS.primary : COLORS.grey,
+                borderRadius: 8,
+                padding: 12,
+              }}
+            >
+              <SvgView
+                width={40}
+                height={40}
+                svgPath={
+                  method == 'user'
+                    ? svgs.user
+                    : method == 'ngo'
+                    ? svgs.ngo
+                    : svgs.community
+                }
+              />
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: slectedMethod == method ? COLORS.primary : COLORS.grey,
+                  fontWeight: 'bold',
+                  marginTop: 6,
+                }}
+              >
+                {method}
+              </Text>
+            </TouchableOpacity>
+          ))}
         </View>
 
         <View
