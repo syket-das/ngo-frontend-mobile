@@ -10,7 +10,6 @@ import React, { useEffect } from 'react';
 
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { COLORS } from '../../constants';
-import useIssueStore from '../../store/issueStore';
 import usePostStore from '../../store/postStore';
 import PostCard from '../../components/post/PostCard';
 

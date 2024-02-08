@@ -80,7 +80,7 @@ const BottomTabNav = () => {
           tabBarIcon: ({ focused }) => {
             return (
               <MaterialIcons
-                name="sync-problem"
+                name="report-problem"
                 size={24}
                 color={focused ? COLORS.primary : COLORS.black}
               />
