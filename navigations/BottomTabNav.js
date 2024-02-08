@@ -1,5 +1,5 @@
 import { View, Text, Platform } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SimpleLineIcons,
   Fontisto,
@@ -13,6 +13,10 @@ import Messages from '../screens/Messages';
 import Create from '../screens/Create';
 import Settings from '../screens/Settings';
 import { Profile } from '../screens';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import UserProfile from '../screens/profile/user/UserProfile';
+import NgoProfile from '../screens/profile/ngo/NgoProfile';
+import IssueScreen from '../screens/issue/IssueScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -31,6 +35,26 @@ const screenOptions = {
   },
 };
 const BottomTabNav = () => {
+  const [authType, setAuthType] = useState('');
+
+  const getAuthType = async () => {
+    const auth = JSON.parse(await AsyncStorage.getItem('auth'));
+
+    if (!auth) {
+      throw new Error('Please login');
+    }
+
+    if (auth?.userId) {
+      setAuthType('user');
+    } else if (auth?.ngoId) {
+      setAuthType('ngo');
+    }
+  };
+
+  useEffect(() => {
+    getAuthType();
+  }, []);
+
   return (
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen
@@ -51,12 +75,12 @@ const BottomTabNav = () => {
 
       <Tab.Screen
         name="Messages"
-        component={Messages}
+        component={IssueScreen}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
-              <MaterialCommunityIcons
-                name="message-text-outline"
+              <MaterialIcons
+                name="sync-problem"
                 size={24}
                 color={focused ? COLORS.primary : COLORS.black}
               />
@@ -109,7 +133,13 @@ const BottomTabNav = () => {
 
       <Tab.Screen
         name="Profile"
-        component={Profile}
+        component={
+          authType === 'user'
+            ? UserProfile
+            : authType === 'ngo'
+            ? NgoProfile
+            : Profile
+        }
         options={{
           tabBarIcon: ({ focused }) => {
             return (

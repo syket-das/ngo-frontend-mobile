@@ -3,7 +3,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { URL } from '../constants/data';
 
-const usePostStore = create((set, get) => ({
+const useIssueStore = create((set, get) => ({
   issues: [],
   issue: null,
   getIssues: async () => {
@@ -108,4 +108,4 @@ const usePostStore = create((set, get) => ({
   },
 }));
 
-export default usePostStore;
+export default useIssueStore;
