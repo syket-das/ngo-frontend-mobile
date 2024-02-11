@@ -17,6 +17,8 @@ import {
 import PostCard from '../components/post/PostCard';
 import usePostStore from '../store/postStore';
 import { COLORS } from '../constants';
+import ScreenWrapper from '../components/common/layout/ScreenWrapper';
+import Header from '../components/common/layout/Header';
 const Home = () => {
   const { posts, getPosts } = usePostStore((state) => state);
 
@@ -33,20 +35,10 @@ const Home = () => {
   }, []);
 
   return (
-    <View className="px-4">
+    <ScreenWrapper>
       <StatusBar backgroundColor={COLORS.primary} />
+      <Header />
 
-      <View className="flex-row justify-between mt-8">
-        <View>
-          <View className="flex-row items-center">
-            <Image
-              source={require('../assets/transparent_logo.png')}
-              className="h-8 w-[150px]"
-            />
-          </View>
-        </View>
-        <MaterialCommunityIcons name="bell-outline" size={30} />
-      </View>
       <ScrollView className="mt-4" showsVerticalScrollIndicator={false}>
         <RefreshControl
           title="Pull to refresh"
@@ -107,7 +99,7 @@ const Home = () => {
           posts.map((post) => <PostCard key={post.id} post={post} />)}
         <View className="h-[200px]"></View>
       </ScrollView>
-    </View>
+    </ScreenWrapper>
   );
 };
 

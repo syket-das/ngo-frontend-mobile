@@ -13,8 +13,6 @@ import CommentElement from './CommentElement';
 const CommentContainer = () => {
   return (
     <View className="relative">
-      <Text className="text-center">Comments</Text>
-
       <View className=" items-center mt-2 mx-4">
         <View className="flex-row items-center gap-2">
           <Image
@@ -22,8 +20,9 @@ const CommentContainer = () => {
             source={require('../../assets/images/cover.jpg')}
           />
           <TextInput
-            className="flex-1 h-8  px-2 rounded-full border border-gray-300"
+            className="flex-1 max-h-[200px] py-1  px-2  border border-gray-300"
             placeholder="Write a comment..."
+            multiline
           />
 
           <Ionicons name="send" size={18} />
@@ -39,7 +38,7 @@ const CommentContainer = () => {
         <CommentElement />
         <CommentElement />
 
-        <View className="h-[200px]"></View>
+        <View className="h-[100px]"></View>
       </ScrollView>
     </View>
   );

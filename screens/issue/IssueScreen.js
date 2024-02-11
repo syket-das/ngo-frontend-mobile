@@ -5,39 +5,39 @@ import {
   Image,
   StatusBar,
   TouchableOpacity,
+  TextInput,
 } from 'react-native';
 import React, { useEffect } from 'react';
 
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { COLORS } from '../../constants';
-import usePostStore from '../../store/postStore';
-import PostCard from '../../components/post/PostCard';
+import IssueCard from '../../components/issue/IssueCard';
+import useIssueStore from '../../store/issueStore';
+import Header from '../../components/common/layout/Header';
+import ScreenWrapper from '../../components/common/layout/ScreenWrapper';
 
 const IssueScreen = () => {
-  const { posts, getPosts } = usePostStore((state) => state);
-
-  const [selected, setSelected] = React.useState('Nearby');
+  const { issues, getIssues } = useIssueStore((state) => state);
+  const [searchQuery, setSearchQuery] = React.useState('');
 
   useEffect(() => {
-    getPosts();
+    getIssues();
   }, []);
 
   return (
-    <View className="px-4">
+    <ScreenWrapper>
       <StatusBar backgroundColor={COLORS.primary} />
-
-      <View className="flex-row justify-between mt-8">
+      <Header />
+      <View className="mt-4 flex-row justify-between items-center">
         <View>
-          <View className="flex-row items-center">
-            <Image
-              source={require('../../assets/transparent_logo.png')}
-              className="h-8 w-[150px]"
-            />
-          </View>
+          <Text className="text-2xl font-bold">Issues</Text>
+          <Text className="text-gray-500">
+            {issues.length} issues found in total
+          </Text>
         </View>
-        <MaterialCommunityIcons name="bell-outline" size={30} />
       </View>
-      <ScrollView
+
+      {/* <ScrollView
         className="mb-8 mt-8"
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -75,14 +75,31 @@ const IssueScreen = () => {
           <MaterialIcons name="campaign" size={24} />
           <Text className="ml-2">Alarming </Text>
         </TouchableOpacity>
-      </ScrollView>
+      </ScrollView> */}
 
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {posts.reverse().map((post) => (
-          <PostCard key={post.id} post={post} />
+      <View className="flex-row justify-between items-center my-4 ">
+        <TextInput
+          placeholder="Search for issues"
+          value={searchQuery}
+          onChangeText={(text) => setSearchQuery(text)}
+          className="border-2 border-gray-300 rounded-lg  px-4 py-1 flex-1"
+        />
+
+        <TouchableOpacity
+          className="bg-primary rounded-lg px-4 py-2 ml-2"
+          style={{ backgroundColor: COLORS.secondaryGray }}
+          onPress={() => {}}
+        >
+          <MaterialCommunityIcons name="filter-variant" size={24} />
+        </TouchableOpacity>
+      </View>
+
+      <ScrollView className="mb-8 mt-2">
+        {issues.map((issue) => (
+          <IssueCard key={issue.id} issue={issue} />
         ))}
       </ScrollView>
-    </View>
+    </ScreenWrapper>
   );
 };
 

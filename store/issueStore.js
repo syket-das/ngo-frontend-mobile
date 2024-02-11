@@ -26,7 +26,7 @@ const useIssueStore = create((set, get) => ({
     }
   },
 
-  getPost: async (issueId) => {
+  getIssue: async (issueId) => {
     try {
       const { data } = await axios({
         method: 'GET',
@@ -47,7 +47,7 @@ const useIssueStore = create((set, get) => ({
     }
   },
 
-  voteOnPostByUser: async (issueId, voteType) => {
+  voteOnIssueByUser: async (issueId, voteType) => {
     try {
       const { data } = await axios({
         method: 'PATCH',
@@ -67,11 +67,11 @@ const useIssueStore = create((set, get) => ({
     }
   },
 
-  voteOnPostCommentByUser: async (commentId, voteType) => {
+  voteOnIssueCommentByUser: async (commentId, voteType) => {
     try {
       const { data } = await axios({
         method: 'PATCH',
-        url: `${URL}/api/v1/post/comment/vote/mutate/user`,
+        url: `${URL}/api/v1/issue/comment/vote/mutate/user`,
         headers: {
           Authorization: `Bearer ${
             JSON.parse(await AsyncStorage.getItem('auth')).token
@@ -87,7 +87,7 @@ const useIssueStore = create((set, get) => ({
     }
   },
 
-  commentOnPostByUser: async (postId, comment) => {
+  commentOnIssueByUser: async (issueId, comment) => {
     try {
       const { data } = await axios({
         method: 'POST',
@@ -98,7 +98,7 @@ const useIssueStore = create((set, get) => ({
           }`,
         },
         data: {
-          postId,
+          issueId,
           comment,
         },
       });

@@ -8,7 +8,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { Login, Signup, Welcome } from './screens';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import BottomSheetComponent from './components/BottomSheetComponent';
-
+import { PaperProvider } from 'react-native-paper';
 import Toast from 'react-native-toast-message';
 import useBottomSheetStore from './store/bottomSheetStore';
 import SignupStack from './navigations/SignupStack';
@@ -38,56 +38,58 @@ export default function App() {
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <NavigationContainer
-        onStateChange={() => {
-          if (bottomSheetRef?.current) {
-            bottomSheetRef?.current.close();
-          }
-        }}
-      >
-        <Stack.Navigator initialRouteName="Welcome">
-          <Stack.Screen
-            name="Welcome"
-            component={Welcome}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="Signup"
-            component={SignupStack}
-            options={{
-              headerShown: false,
-            }}
-          />
+    <PaperProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <NavigationContainer
+          onStateChange={() => {
+            if (bottomSheetRef?.current) {
+              bottomSheetRef?.current.close();
+            }
+          }}
+        >
+          <Stack.Navigator initialRouteName="Welcome">
+            <Stack.Screen
+              name="Welcome"
+              component={Welcome}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="Signup"
+              component={SignupStack}
+              options={{
+                headerShown: false,
+              }}
+            />
 
-          <Stack.Screen
-            name="BottomTabNavigation"
-            component={BottomTabNav}
-            options={{
-              headerShown: false,
-            }}
-          />
+            <Stack.Screen
+              name="BottomTabNavigation"
+              component={BottomTabNav}
+              options={{
+                headerShown: false,
+              }}
+            />
 
-          <Stack.Screen
-            name="EditProfile"
-            component={EditProfile}
-            options={{
-              headerShown: false,
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-      <BottomSheetComponent />
-      <Toast position="top" bottomOffset={20} visibilityTime={1000} />
-    </GestureHandlerRootView>
+            <Stack.Screen
+              name="EditProfile"
+              component={EditProfile}
+              options={{
+                headerShown: false,
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+        <BottomSheetComponent />
+        <Toast position="top" bottomOffset={20} visibilityTime={1000} />
+      </GestureHandlerRootView>
+    </PaperProvider>
   );
 }
