@@ -24,12 +24,6 @@ const Home = () => {
 
   const [refreshing, setRefreshing] = React.useState(false);
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    getPosts();
-    setRefreshing(false);
-  }, []);
-
   useEffect(() => {
     getPosts();
   }, []);
@@ -40,11 +34,7 @@ const Home = () => {
       <Header />
 
       <ScrollView className="mt-4" showsVerticalScrollIndicator={false}>
-        <RefreshControl
-          title="Pull to refresh"
-          refreshing={refreshing}
-          onRefresh={onRefresh}
-        />
+        <RefreshControl title="Pull to refresh" refreshing={refreshing} />
         <ScrollView
           className="mb-4 mt-2 gap-4"
           horizontal

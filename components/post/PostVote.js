@@ -31,16 +31,16 @@ const PostVote = ({ post }) => {
 
   useEffect(() => {
     getSinglePost(post.id);
-  }, [singlePost]);
+  }, []);
 
   return (
     <View className="flex-row justify-between ">
       <View className="flex-row  items-center bg-slate-200 px-2 py-1 rounded-lg">
         <TouchableOpacity
           className="flex-row  items-center gap-1"
-          onPress={() => {
-            voteOnPostByUser(post.id, 'UPVOTE');
-            getSinglePost(post.id);
+          onPress={async () => {
+            await voteOnPostByUser(post.id, 'UPVOTE');
+            await getSinglePost(post.id);
           }}
         >
           <Ionicons
@@ -72,9 +72,9 @@ const PostVote = ({ post }) => {
         <View className="w-[1px] h-full bg-slate-400 mx-2"></View>
         <TouchableOpacity
           className="flex-row  items-center gap-1"
-          onPress={() => {
-            voteOnPostByUser(singlePost.id, 'DOWNVOTE');
-            getSinglePost(post.id);
+          onPress={async () => {
+            await voteOnPostByUser(singlePost.id, 'DOWNVOTE');
+            await getSinglePost(post.id);
           }}
         >
           <Ionicons

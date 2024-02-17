@@ -22,13 +22,13 @@ const PostCommentContainer = ({ post }) => {
   const { commentOnPostByUser } = usePostStore((state) => state);
   const [commentInput, setCommentInput] = React.useState('');
 
-  const handleCommentSubmit = () => {
+  const handleCommentSubmit = async () => {
     if (!commentInput) return;
 
-    commentOnPostByUser(post.id, commentInput);
+    await commentOnPostByUser(post.id, commentInput);
     setCommentInput('');
 
-    getSinglePost();
+    await getSinglePost();
   };
 
   const getSinglePost = async () => {
@@ -51,7 +51,7 @@ const PostCommentContainer = ({ post }) => {
 
   useEffect(() => {
     getSinglePost();
-  }, [singlePost]);
+  }, [post]);
 
   return (
     <View className="relative">

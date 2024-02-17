@@ -100,8 +100,8 @@ const Welcome = ({ navigation }) => {
           <Image
             source={require('../assets/hero2.jpg')}
             style={{
-              height: 200,
-              width: 200,
+              height: 150,
+              width: 150,
               borderRadius: 20,
               position: 'absolute',
               top: 110,
@@ -121,7 +121,7 @@ const Welcome = ({ navigation }) => {
           style={{
             paddingHorizontal: 22,
             position: 'absolute',
-            top: 400,
+            top: 300,
             width: '100%',
           }}
         >
@@ -152,15 +152,16 @@ const Welcome = ({ navigation }) => {
                 marginVertical: 4,
               }}
             >
-              Connect with each other with chatting
+              Join the community of contributors
             </Text>
+
             <Text
               style={{
                 fontSize: 16,
                 color: COLORS.white,
               }}
             >
-              Calling, Enjoy Safe and private texting
+              Together we can do more
             </Text>
           </View>
 

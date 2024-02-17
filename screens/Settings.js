@@ -241,6 +241,7 @@ const Settings = ({ navigation }) => {
             ))}
           </View>
         </View>
+        <View style={{ marginBottom: 50 }} />
       </ScrollView>
       <StatusBar backgroundColor={COLORS.primary} />
     </SafeAreaView>

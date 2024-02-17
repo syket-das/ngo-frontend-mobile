@@ -31,7 +31,7 @@ const PostCommentVote = ({ comment }) => {
 
   useEffect(() => {
     getSinglePost();
-  }, [singlePost]);
+  }, []);
 
   const isLoggedInUserVotedOnComment = () => {
     if (singlePost.loggedInUserOrNgoDetailsForPost) {
@@ -49,9 +49,9 @@ const PostCommentVote = ({ comment }) => {
         <View className="flex-col  items-center bg-slate-200 px-2 py-1 rounded-lg">
           <View className="flex-col  items-center gap-1">
             <TouchableOpacity
-              onPress={() => {
-                voteOnPostCommentByUser(comment.id, 'UPVOTE');
-                getSinglePost();
+              onPress={async () => {
+                await voteOnPostCommentByUser(comment.id, 'UPVOTE');
+                await getSinglePost();
               }}
             >
               <Ionicons
@@ -81,9 +81,9 @@ const PostCommentVote = ({ comment }) => {
 
           <View className="h-[1px] w-full bg-slate-400 my-2"></View>
           <TouchableOpacity
-            onPress={() => {
-              voteOnPostCommentByUser(comment.id, 'DOWNVOTE');
-              getSinglePost();
+            onPress={async () => {
+              await voteOnPostCommentByUser(comment.id, 'DOWNVOTE');
+              await getSinglePost();
             }}
           >
             <Ionicons
