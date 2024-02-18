@@ -43,7 +43,7 @@ const useIssueStore = create((set, get) => ({
       }));
       return data.data;
     } catch (error) {
-      console.log(JSON.stringify(error));
+      console.log(error.message);
     }
   },
 

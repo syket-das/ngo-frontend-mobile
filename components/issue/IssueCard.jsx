@@ -135,7 +135,7 @@ const IssueCard = ({ issue }) => {
           onDismiss={hideModal}
           contentContainerStyle={containerStyle}
         >
-          <IssueDetailsCard issue={issue} />
+          <IssueDetailsCard issue={issue} hideModal={hideModal} />
         </Modal>
       </Portal>
     </>

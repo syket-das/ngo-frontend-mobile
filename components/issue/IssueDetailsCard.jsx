@@ -11,8 +11,9 @@ import React from 'react';
 import Carousel from 'react-native-reanimated-carousel';
 import { Ionicons } from '@expo/vector-icons';
 import CommentContainer from '../comment/CommentContainer';
+import IssueVote from './IssueVote';
 
-const IssueDetailsCard = ({ issue }) => {
+const IssueDetailsCard = ({ issue, hideModal }) => {
   return (
     <View className="w-full h-full">
       <View className="flex-row justify-start items-start">
@@ -26,7 +27,7 @@ const IssueDetailsCard = ({ issue }) => {
           <Text className="text-gray-500 text-xs">Lagos, Nigeria</Text>
         </View>
         <View className="w-8 ">
-          <Button title="X" color="red" />
+          <Button onPress={hideModal} title="X" color="red" />
         </View>
       </View>
       <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
@@ -68,6 +69,9 @@ const IssueDetailsCard = ({ issue }) => {
             />
           )}
         </View>
+        <View className="flex-row justify-start items-start">
+          <IssueVote issue={issue} />
+        </View>
 
         <View className="flex-row justify-start items-start">
           <View className="flex-1">
@@ -79,7 +83,9 @@ const IssueDetailsCard = ({ issue }) => {
         </View>
 
         <View className="flex-row justify-between items-center my-4">
-          <Text className="text-md font-bold">4 Answers</Text>
+          <Text className="text-md font-bold">
+            {issue.loggedInUserOrNgoDetailsForIssue.commentsCount} Answers
+          </Text>
         </View>
 
         <View className="">
