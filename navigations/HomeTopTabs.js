@@ -36,6 +36,7 @@ const HomeTopTabs = () => {
 
         tabBarIndicatorStyle: {
           backgroundColor: COLORS.primary,
+          display: 'flex',
         },
         tabBarItemStyle: {
           display: 'flex',

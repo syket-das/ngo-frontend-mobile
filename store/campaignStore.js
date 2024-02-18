@@ -3,7 +3,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { URL } from '../constants/data';
 
-const useCampaignStore = create((set, get) => ({
+export const useCampaignStore = create((set, get) => ({
   campaigns: [],
   campaign: null,
   getCampaigns: async () => {

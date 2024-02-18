@@ -1,31 +1,20 @@
-import {
-  View,
-  Text,
-  StatusBar,
-  TextInput,
-  ScrollView,
-  Image,
-  RefreshControl,
-} from 'react-native';
+import { View, Text, StatusBar, ScrollView, Image } from 'react-native';
 import React, { useEffect } from 'react';
-import {
-  Ionicons,
-  MaterialCommunityIcons,
-  MaterialIcons,
-  Entypo,
-} from '@expo/vector-icons';
-import PostCard from '../components/post/PostCard';
-import usePostStore from '../store/postStore';
+
 import { COLORS } from '../constants';
 import ScreenWrapper from '../components/common/layout/ScreenWrapper';
 import Header from '../components/common/layout/Header';
 import HomeTopTabs from '../navigations/HomeTopTabs';
 import { useControlStore } from '../store/useControlStore';
 const Home = () => {
-  const [refreshing, setRefreshing] = React.useState(false);
   const { homePostsScrolled, setHomePostsScrolled } = useControlStore(
     (state) => state
   );
+
+  useEffect(() => {
+    setHomePostsScrolled(false);
+  }, []);
+
   return (
     <ScreenWrapper>
       <StatusBar backgroundColor={COLORS.primary} />

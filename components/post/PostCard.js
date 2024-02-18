@@ -15,7 +15,7 @@ const PostCard = ({ post }) => {
   );
 
   return (
-    <View className="mb-4">
+    <View className="my-4">
       <View className="flex-row justify-between items-center">
         <View className="flex-row items-center gap-2">
           <Image

@@ -20,9 +20,6 @@ const PostScreen = ({ navigation }) => {
     <ScrollView
       showsVerticalScrollIndicator={false}
       className="flex-1 px-2 bg-white"
-      onScrollToTop={() => {
-        console.log('scrolled to top');
-      }}
       refreshControl={
         <RefreshControl
           title="Pull to refresh"
@@ -35,7 +32,6 @@ const PostScreen = ({ navigation }) => {
         />
       }
       onScroll={(e) => {
-        console.log(e.nativeEvent.contentOffset.y);
         if (e.nativeEvent.contentOffset.y > 100) {
           setHomePostsScrolled(true);
         } else {
