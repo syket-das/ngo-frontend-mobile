@@ -27,9 +27,11 @@ const IssueCard = ({ issue }) => {
     <>
       <View className="w-full flex-row border-b border-b-gray-300 my-2 pb-4 ">
         <View className="w-1/4 flex-col gap-1 justify-start items-end pr-3  gap-y-2">
-          <Text className="text-gray-500 text-xs  px-1">23 Votes</Text>
+          <Text className="text-gray-500 text-xs  px-1">
+            {issue.votes.length} Votes
+          </Text>
           <Text className="text-gray-500 text-xs  px-1 border border-gray-400 rounded-sm">
-            3 Answers
+            {issue.comments.length} Answers
           </Text>
           <Text className="text-primary-500 text-xs  px-1">2k Views</Text>
         </View>
@@ -112,7 +114,7 @@ const IssueCard = ({ issue }) => {
                   }}
                   className="text-gray-500 text-xs ml-1"
                 >
-                  John Doe
+                  {issue.ownUser.fullName || issue.ownNgo.name}
                 </Text>
               </View>
 
@@ -122,7 +124,7 @@ const IssueCard = ({ issue }) => {
                   fontSize: 10,
                 }}
               >
-                2 days ago
+                {new Date(issue.createdAt).toLocaleDateString()}
               </Text>
             </View>
           </View>

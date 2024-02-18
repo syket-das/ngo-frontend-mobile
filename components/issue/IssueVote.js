@@ -66,9 +66,7 @@ const IssueVote = ({ issue }) => {
             }}
           />
         </TouchableOpacity>
-        <Text className="text-xs ml-1">
-          {singleIssue.loggedInUserOrNgoDetailsForIssue.upVoteCount}
-        </Text>
+        <Text className="text-xs ml-1">{singleIssue.upVoteCount}</Text>
         <View className="w-[1px] h-full bg-slate-400 mx-2"></View>
         <TouchableOpacity
           className="flex-row  items-center gap-1"

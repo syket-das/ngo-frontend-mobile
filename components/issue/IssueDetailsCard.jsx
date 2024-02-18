@@ -9,11 +9,11 @@ import {
 } from 'react-native';
 import React from 'react';
 import Carousel from 'react-native-reanimated-carousel';
-import { Ionicons } from '@expo/vector-icons';
-import CommentContainer from '../comment/CommentContainer';
 import IssueVote from './IssueVote';
+import IssueCommentsContainer from './IssueCommentsContainer';
 
 const IssueDetailsCard = ({ issue, hideModal }) => {
+  console.log('issue', issue.comments.length);
   return (
     <View className="w-full h-full">
       <View className="flex-row justify-start items-start">
@@ -84,12 +84,12 @@ const IssueDetailsCard = ({ issue, hideModal }) => {
 
         <View className="flex-row justify-between items-center my-4">
           <Text className="text-md font-bold">
-            {issue.loggedInUserOrNgoDetailsForIssue.commentsCount} Answers
+            {issue.commentsCount} Answers
           </Text>
         </View>
 
         <View className="">
-          <CommentContainer />
+          <IssueCommentsContainer issue={issue} />
         </View>
       </ScrollView>
     </View>
