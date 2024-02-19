@@ -13,7 +13,6 @@ import IssueVote from './IssueVote';
 import IssueCommentsContainer from './IssueCommentsContainer';
 
 const IssueDetailsCard = ({ issue, hideModal }) => {
-  console.log('issue', issue.comments.length);
   return (
     <View className="w-full h-full">
       <View className="flex-row justify-start items-start">

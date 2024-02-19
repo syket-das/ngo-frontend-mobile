@@ -17,7 +17,7 @@ const IssueCommentElement = ({ comment }) => {
           {commentBy === 'USER'
             ? comment.user.fullName
             : commentBy === 'NGO'
-            ? comment.ngo.fullName
+            ? comment.ngo.name
             : ''}
         </Text>
 

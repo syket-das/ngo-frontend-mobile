@@ -22,7 +22,6 @@ const IssueCommentVote = ({ comment }) => {
           }`,
         },
       });
-
       setSingleIssue(data.data);
     } catch (error) {
       console.log('error', error);
@@ -34,7 +33,7 @@ const IssueCommentVote = ({ comment }) => {
   }, []);
 
   const isLoggedInUserVotedOnComment = () => {
-    if (singleIssue.loggedInUserOrNgoDetailsForIssue) {
+    if (singleIssue.loggedInUserOrNgoDetailsForIssue !== undefined) {
       return singleIssue.loggedInUserOrNgoDetailsForIssue.voteTypeWithCommentIfVoted.find(
         (v) => comment.id === v.commentId
       );

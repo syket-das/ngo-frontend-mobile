@@ -5,10 +5,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const ScreenWrapper = ({ children }) => {
   return (
     <SafeAreaView
-      className="px-2 "
+      className="px-2 h-full"
       style={{
-        flex: 1,
+        // flex: 1,
         backgroundColor: '#fff',
+        position: 'relative',
       }}
     >
       {children}

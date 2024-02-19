@@ -121,7 +121,7 @@ const Welcome = ({ navigation }) => {
           style={{
             paddingHorizontal: 22,
             position: 'absolute',
-            top: 300,
+            bottom: 30,
             width: '100%',
           }}
         >

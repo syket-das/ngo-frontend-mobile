@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { View, Text, Dimensions, ScrollView } from 'react-native';
 import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import PostScreen from '../screens/post/PostScreen';
@@ -19,13 +19,15 @@ const HomeTopTabs = () => {
     (state) => state
   );
 
+  const height = Dimensions.get('window').height;
+
   return (
     <Tab.Navigator
       style={{
         backgroundColor: COLORS.white,
         color: COLORS.primary,
         fontSize: 12,
-        height: 500,
+        height: height - 200,
       }}
       screenOptions={{
         tabBarLabelStyle: { fontSize: 12, display: 'flex' },

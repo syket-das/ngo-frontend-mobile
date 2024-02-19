@@ -41,6 +41,12 @@ const PostScreen = ({ navigation }) => {
     >
       {posts.length > 0 &&
         posts.map((post) => <PostCard key={post.id} post={post} />)}
+
+      <View
+        style={{
+          height: 100,
+        }}
+      ></View>
     </ScrollView>
   );
 };

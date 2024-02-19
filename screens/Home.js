@@ -20,14 +20,16 @@ const Home = () => {
       <StatusBar backgroundColor={COLORS.primary} />
       <Header />
 
-      <ScrollView className="mt-4" showsVerticalScrollIndicator={false}>
+      <View
+        style={{
+          display: !homePostsScrolled ? 'flex' : 'none',
+          transition: 'all 1s ease-in',
+        }}
+      >
         <ScrollView
           className="mb-4 mt-2 gap-4"
           horizontal
           showsHorizontalScrollIndicator={false}
-          style={{
-            display: !homePostsScrolled ? 'flex' : 'none',
-          }}
         >
           <View className="items-center ">
             <Image
@@ -51,11 +53,9 @@ const Home = () => {
             <Text className="ml-2">John Doe</Text>
           </View>
         </ScrollView>
+      </View>
 
-        <HomeTopTabs />
-
-        {/* <View className="h-[200px] bg-slate-400"></View> */}
-      </ScrollView>
+      <HomeTopTabs />
     </ScreenWrapper>
   );
 };

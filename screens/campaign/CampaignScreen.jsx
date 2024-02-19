@@ -17,24 +17,33 @@ const CampaignScreen = () => {
     setHomePostsScrolled(false);
   }, []);
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      onScroll={(e) => {
-        if (e.nativeEvent.contentOffset.y > 100) {
-          setHomePostsScrolled(true);
-        } else {
-          setHomePostsScrolled(false);
-        }
-      }}
+    <View
       style={{
         flex: 1,
         backgroundColor: '#fff',
       }}
     >
-      {campaigns.map((campaign) => (
-        <CampaignCard key={campaign.id} campaign={campaign} />
-      ))}
-    </ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        onScroll={(e) => {
+          if (e.nativeEvent.contentOffset.y > 100) {
+            setHomePostsScrolled(true);
+          } else {
+            setHomePostsScrolled(false);
+          }
+        }}
+      >
+        {campaigns.map((campaign) => (
+          <CampaignCard key={campaign.id} campaign={campaign} />
+        ))}
+
+        <View
+          style={{
+            height: 100,
+          }}
+        ></View>
+      </ScrollView>
+    </View>
   );
 };
 
