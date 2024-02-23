@@ -10,13 +10,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { COLORS } from '../constants';
 import Home from '../screens/Home';
 import Messages from '../screens/Messages';
-import Create from '../screens/Create';
+import Create from '../screens/create/Create';
 import Settings from '../screens/Settings';
 import { Profile } from '../screens';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import UserProfile from '../screens/profile/user/UserProfile';
 import NgoProfile from '../screens/profile/ngo/NgoProfile';
 import IssueScreen from '../screens/issue/IssueScreen';
+import CreateStack from './CreateStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -74,7 +75,7 @@ const BottomTabNav = () => {
       />
 
       <Tab.Screen
-        name="Messages"
+        name="Issue"
         component={IssueScreen}
         options={{
           tabBarIcon: ({ focused }) => {
@@ -91,7 +92,7 @@ const BottomTabNav = () => {
 
       <Tab.Screen
         name="Create"
-        component={Create}
+        component={CreateStack}
         options={{
           tabBarIcon: ({ focused }) => {
             return (

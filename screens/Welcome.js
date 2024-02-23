@@ -132,7 +132,7 @@ const Welcome = ({ navigation }) => {
               color: COLORS.white,
             }}
           >
-            Let's Get
+            Society your
           </Text>
           <Text
             style={{
@@ -141,7 +141,7 @@ const Welcome = ({ navigation }) => {
               color: COLORS.white,
             }}
           >
-            Started
+            Planet
           </Text>
 
           <View style={{ marginVertical: 22 }}>

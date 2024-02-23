@@ -56,7 +56,7 @@ const SignUpOptions = ({ navigation }) => {
               color: COLORS.black,
             }}
           >
-            Connect with your friend today!
+            Connect with social workers and help the community
           </Text>
         </View>
         <TouchableOpacity

@@ -6,6 +6,26 @@ import { URL } from '../constants/data';
 const useIssueStore = create((set, get) => ({
   issues: [],
   issue: null,
+
+  createIssueByUser: async (body) => {
+    try {
+      const { data } = await axios({
+        method: 'POST',
+        url: `${URL}/api/v1/issue/create/user`,
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(await AsyncStorage.getItem('auth')).token
+          }`,
+        },
+        data: body,
+      });
+    } catch (error) {
+      throw new Error(
+        error.response ? error.response.data.message : error.message
+      );
+    }
+  },
+
   getIssues: async () => {
     try {
       const { data } = await axios({

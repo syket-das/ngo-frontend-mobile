@@ -6,6 +6,26 @@ import { URL } from '../constants/data';
 const usePostStore = create((set, get) => ({
   posts: [],
   post: null,
+
+  createPostByUser: async (body) => {
+    try {
+      const { data } = await axios({
+        method: 'POST',
+        url: `${URL}/api/v1/post/create/user`,
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(await AsyncStorage.getItem('auth')).token
+          }`,
+        },
+        data: body,
+      });
+    } catch (error) {
+      throw new Error(
+        error.response ? error.response.data.message : error.message
+      );
+    }
+  },
+
   getPosts: async () => {
     try {
       const { data } = await axios({

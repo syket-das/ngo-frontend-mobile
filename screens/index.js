@@ -1,4 +1,4 @@
-import Create from './Create';
+import Create from './create/Create';
 import Messages from './Messages';
 import Profile from './Profile';
 import EditProfile from './EditProfile';
