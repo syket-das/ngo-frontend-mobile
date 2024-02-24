@@ -86,6 +86,25 @@ const useIssueStore = create((set, get) => ({
       console.log(JSON.stringify(error));
     }
   },
+  voteOnIssueByNgo: async (issueId, voteType) => {
+    try {
+      const { data } = await axios({
+        method: 'PATCH',
+        url: `${URL}/api/v1/issue/vote/mutate/ngo`,
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(await AsyncStorage.getItem('auth')).token
+          }`,
+        },
+        data: {
+          issueId,
+          voteType,
+        },
+      });
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+  },
 
   voteOnIssueCommentByUser: async (commentId, voteType) => {
     try {
@@ -106,12 +125,50 @@ const useIssueStore = create((set, get) => ({
       console.log(JSON.stringify(error));
     }
   },
+  voteOnIssueCommentByNgo: async (commentId, voteType) => {
+    try {
+      const { data } = await axios({
+        method: 'PATCH',
+        url: `${URL}/api/v1/issue/comment/vote/mutate/ngo`,
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(await AsyncStorage.getItem('auth')).token
+          }`,
+        },
+        data: {
+          commentId,
+          voteType,
+        },
+      });
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+  },
 
   commentOnIssueByUser: async (issueId, comment) => {
     try {
       const { data } = await axios({
         method: 'POST',
         url: `${URL}/api/v1/issue/comment/create/user`,
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(await AsyncStorage.getItem('auth')).token
+          }`,
+        },
+        data: {
+          issueId,
+          comment,
+        },
+      });
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+  },
+  commentOnIssueByNgo: async (issueId, comment) => {
+    try {
+      const { data } = await axios({
+        method: 'POST',
+        url: `${URL}/api/v1/issue/comment/create/ngo`,
         headers: {
           Authorization: `Bearer ${
             JSON.parse(await AsyncStorage.getItem('auth')).token

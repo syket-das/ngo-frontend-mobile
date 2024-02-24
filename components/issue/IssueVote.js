@@ -5,9 +5,25 @@ import { URL } from '../../constants/data';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useIssueStore from '../../store/issueStore';
+import useAuthStore from '../../store/authStore';
 const IssueVote = ({ issue }) => {
   const [singleIssue, setSingleIssue] = React.useState(issue);
-  const { voteOnIssueByUser } = useIssueStore((state) => state);
+  const { voteOnIssueByUser, voteOnIssueByNgo } = useIssueStore(
+    (state) => state
+  );
+
+  const { authType, setAuthType } = useAuthStore((state) => state);
+
+  useEffect(() => {
+    const fetchAuthType = async () => {
+      try {
+        await setAuthType();
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+    fetchAuthType();
+  }, []);
 
   const getSingleIssue = async (issueId) => {
     try {
@@ -31,15 +47,32 @@ const IssueVote = ({ issue }) => {
     getSingleIssue(issue.id);
   }, []);
 
+  const handleUpVote = async () => {
+    if (authType.role === 'USER') {
+      await voteOnIssueByUser(issue.id, 'UPVOTE');
+      await getSingleIssue(issue.id);
+    } else if (authType.role === 'NGO') {
+      await voteOnIssueByNgo(issue.id, 'UPVOTE');
+      await getSingleIssue(issue.id);
+    }
+  };
+
+  const handleDownVote = async () => {
+    if (authType.role === 'USER') {
+      await voteOnIssueByUser(issue.id, 'DOWNVOTE');
+      await getSingleIssue(issue.id);
+    } else if (authType.role === 'NGO') {
+      await voteOnIssueByNgo(issue.id, 'DOWNVOTE');
+      await getSingleIssue(issue.id);
+    }
+  };
+
   return (
     <View className="flex-row justify-between ">
       <View className="flex-row  items-center bg-slate-200 px-2 py-1 rounded-lg">
         <TouchableOpacity
           className="flex-row  items-center gap-1"
-          onPress={async () => {
-            await voteOnIssueByUser(issue.id, 'UPVOTE');
-            await getSingleIssue(issue.id);
-          }}
+          onPress={handleUpVote}
         >
           <Ionicons
             name={
@@ -70,10 +103,7 @@ const IssueVote = ({ issue }) => {
         <View className="w-[1px] h-full bg-slate-400 mx-2"></View>
         <TouchableOpacity
           className="flex-row  items-center gap-1"
-          onPress={async () => {
-            await voteOnIssueByUser(singleIssue.id, 'DOWNVOTE');
-            await getSingleIssue(issue.id);
-          }}
+          onPress={handleDownVote}
         >
           <Ionicons
             name={

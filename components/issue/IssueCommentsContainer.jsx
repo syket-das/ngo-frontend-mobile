@@ -14,16 +14,39 @@ import axios from 'axios';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useIssueStore from '../../store/issueStore';
+import useAuthStore from '../../store/authStore';
 
 const IssueCommentsContainer = ({ issue }) => {
   const [singleIssue, setSingleIssue] = React.useState(issue);
-  const { commentOnIssueByUser } = useIssueStore((state) => state);
+  const { commentOnIssueByUser, commentOnIssueByNgo } = useIssueStore(
+    (state) => state
+  );
   const [commentInput, setCommentInput] = React.useState('');
+
+  const { authType, setAuthType } = useAuthStore((state) => state);
+
+  useEffect(() => {
+    const fetchAuthType = async () => {
+      try {
+        await setAuthType();
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+    fetchAuthType();
+  }, []);
 
   const handleCommentSubmit = async () => {
     if (!commentInput) return;
 
-    await commentOnIssueByUser(singleIssue.id, commentInput);
+    if (authType.role === 'USER') {
+      await commentOnIssueByUser(issue.id, commentInput);
+    }
+
+    if (authType.role === 'NGO') {
+      await commentOnIssueByNgo(issue.id, commentInput);
+    }
+
     setCommentInput('');
 
     await getSingleIssue();
