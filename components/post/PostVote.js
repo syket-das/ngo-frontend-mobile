@@ -6,11 +6,24 @@ import { URL } from '../../constants/data';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import useAuthStore from '../../store/authStore';
 const PostVote = ({ post }) => {
   const navigation = useNavigation();
   const [singlePost, setSinglePost] = React.useState(post);
-  const { voteOnPostByUser } = usePostStore((state) => state);
+  const { voteOnPostByUser, voteOnPostByNgo } = usePostStore((state) => state);
 
+  const { authType, setAuthType } = useAuthStore((state) => state);
+
+  useEffect(() => {
+    const fetchAuthType = async () => {
+      try {
+        await setAuthType();
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+    fetchAuthType();
+  }, []);
   const getSinglePost = async (postId) => {
     try {
       const { data } = await axios({
@@ -33,15 +46,31 @@ const PostVote = ({ post }) => {
     getSinglePost(post.id);
   }, []);
 
+  const handleUpVote = async () => {
+    if (authType.role === 'USER') {
+      await voteOnPostByUser(post.id, 'UPVOTE');
+      await getSinglePost(post.id);
+    } else if (authType.role === 'NGO') {
+      await voteOnPostByNgo(post.id, 'UPVOTE');
+      await getSinglePost(post.id);
+    }
+  };
+  const handleDownVote = async () => {
+    if (authType.role === 'USER') {
+      await voteOnPostByUser(post.id, 'DOWNVOTE');
+      await getSinglePost(post.id);
+    } else if (authType.role === 'NGO') {
+      await voteOnPostByNgo(post.id, 'DOWNVOTE');
+      await getSinglePost(post.id);
+    }
+  };
+
   return (
     <View className="flex-row justify-between ">
       <View className="flex-row  items-center bg-slate-200 px-2 py-1 rounded-lg">
         <TouchableOpacity
           className="flex-row  items-center gap-1"
-          onPress={async () => {
-            await voteOnPostByUser(post.id, 'UPVOTE');
-            await getSinglePost(post.id);
-          }}
+          onPress={handleUpVote}
         >
           <Ionicons
             name={
@@ -72,10 +101,7 @@ const PostVote = ({ post }) => {
         <View className="w-[1px] h-full bg-slate-400 mx-2"></View>
         <TouchableOpacity
           className="flex-row  items-center gap-1"
-          onPress={async () => {
-            await voteOnPostByUser(singlePost.id, 'DOWNVOTE');
-            await getSinglePost(post.id);
-          }}
+          onPress={handleDownVote}
         >
           <Ionicons
             name={

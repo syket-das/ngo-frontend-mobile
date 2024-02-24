@@ -15,17 +15,40 @@ import { URL } from '../../constants/data';
 import axios from 'axios';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import useAuthStore from '../../store/authStore';
 
 const PostCommentContainer = ({ post }) => {
   const [singlePost, setSinglePost] = React.useState(post);
 
-  const { commentOnPostByUser } = usePostStore((state) => state);
+  const { commentOnPostByUser, commentOnPostByNgo } = usePostStore(
+    (state) => state
+  );
   const [commentInput, setCommentInput] = React.useState('');
+
+  const { authType, setAuthType } = useAuthStore((state) => state);
+
+  useEffect(() => {
+    const fetchAuthType = async () => {
+      try {
+        await setAuthType();
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+    fetchAuthType();
+  }, []);
 
   const handleCommentSubmit = async () => {
     if (!commentInput) return;
 
-    await commentOnPostByUser(post.id, commentInput);
+    if (authType.role === 'USER') {
+      await commentOnPostByUser(post.id, commentInput);
+    }
+
+    if (authType.role === 'NGO') {
+      await commentOnPostByNgo(post.id, commentInput);
+    }
+
     setCommentInput('');
 
     await getSinglePost();

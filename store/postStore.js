@@ -87,6 +87,26 @@ const usePostStore = create((set, get) => ({
     }
   },
 
+  voteOnPostByNgo: async (postId, voteType) => {
+    try {
+      const { data } = await axios({
+        method: 'PATCH',
+        url: `${URL}/api/v1/post/vote/mutate/ngo`,
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(await AsyncStorage.getItem('auth')).token
+          }`,
+        },
+        data: {
+          postId,
+          voteType,
+        },
+      });
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+  },
+
   voteOnPostCommentByUser: async (commentId, voteType) => {
     try {
       const { data } = await axios({
@@ -107,11 +127,50 @@ const usePostStore = create((set, get) => ({
     }
   },
 
+  voteOnPostCommentByNgo: async (commentId, voteType) => {
+    try {
+      const { data } = await axios({
+        method: 'PATCH',
+        url: `${URL}/api/v1/post/comment/vote/mutate/ngo`,
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(await AsyncStorage.getItem('auth')).token
+          }`,
+        },
+        data: {
+          commentId,
+          voteType,
+        },
+      });
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+  },
+
   commentOnPostByUser: async (postId, comment) => {
     try {
       const { data } = await axios({
         method: 'POST',
         url: `${URL}/api/v1/post/comment/create/user`,
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(await AsyncStorage.getItem('auth')).token
+          }`,
+        },
+        data: {
+          postId,
+          comment,
+        },
+      });
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+  },
+  commentOnPostByNgo: async (postId, comment) => {
+    try {
+      const { data } = await axios({
+        method: 'POST',
+        url: `${URL}/api/v1/post/comment/create/ngo`,
         headers: {
           Authorization: `Bearer ${
             JSON.parse(await AsyncStorage.getItem('auth')).token

@@ -6,10 +6,26 @@ import { URL } from '../../constants/data';
 import axios from 'axios';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import useAuthStore from '../../store/authStore';
 
 const PostCommentVote = ({ comment }) => {
   const [singlePost, setSinglePost] = React.useState({});
-  const { voteOnPostCommentByUser } = usePostStore((state) => state);
+  const { voteOnPostCommentByUser, voteOnPostCommentByNgo } = usePostStore(
+    (state) => state
+  );
+
+  const { authType, setAuthType } = useAuthStore((state) => state);
+
+  useEffect(() => {
+    const fetchAuthType = async () => {
+      try {
+        await setAuthType();
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+    fetchAuthType();
+  }, []);
 
   const getSinglePost = async () => {
     try {
@@ -33,6 +49,25 @@ const PostCommentVote = ({ comment }) => {
     getSinglePost();
   }, []);
 
+  const handleUpVote = async () => {
+    if (authType.role === 'USER') {
+      await voteOnPostCommentByUser(comment.id, 'UPVOTE');
+      await getSinglePost();
+    } else if (authType.role === 'NGO') {
+      await voteOnPostCommentByNgo(comment.id, 'UPVOTE');
+      await getSinglePost();
+    }
+  };
+  const handleDownVote = async () => {
+    if (authType.role === 'USER') {
+      await voteOnPostCommentByUser(comment.id, 'DOWNVOTE');
+      await getSinglePost();
+    } else if (authType.role === 'NGO') {
+      await voteOnPostCommentByNgo(comment.id, 'DOWNVOTE');
+      await getSinglePost();
+    }
+  };
+
   const isLoggedInUserVotedOnComment = () => {
     if (singlePost.loggedInUserOrNgoDetailsForPost) {
       return singlePost.loggedInUserOrNgoDetailsForPost.voteTypeWithCommentIfVoted.find(
@@ -48,12 +83,7 @@ const PostCommentVote = ({ comment }) => {
       <View className="flex-col justify-between mt-2">
         <View className="flex-col  items-center bg-slate-200 px-2 py-1 rounded-lg">
           <View className="flex-col  items-center gap-1">
-            <TouchableOpacity
-              onPress={async () => {
-                await voteOnPostCommentByUser(comment.id, 'UPVOTE');
-                await getSinglePost();
-              }}
-            >
+            <TouchableOpacity onPress={handleUpVote}>
               <Ionicons
                 name={
                   isLoggedInUserVotedOnComment()?.voteType === 'UPVOTE'
@@ -80,12 +110,7 @@ const PostCommentVote = ({ comment }) => {
           </View>
 
           <View className="h-[1px] w-full bg-slate-400 my-2"></View>
-          <TouchableOpacity
-            onPress={async () => {
-              await voteOnPostCommentByUser(comment.id, 'DOWNVOTE');
-              await getSinglePost();
-            }}
-          >
+          <TouchableOpacity onPress={handleDownVote}>
             <Ionicons
               name={
                 isLoggedInUserVotedOnComment()?.voteType === 'DOWNVOTE'
