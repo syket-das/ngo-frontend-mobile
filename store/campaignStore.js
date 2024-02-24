@@ -3,19 +3,19 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { URL } from '../constants/data';
 
-function convertToStringDate(isoDate) {
-  // Create a new Date object from the ISO date string
-  var date = new Date(isoDate);
+function dateToIsoString(dateStr) {
+  // Parse the date string into a Date object
+  const dateObj = new Date(dateStr);
 
-  // Extract the components of the date
-  var year = date.getFullYear();
-  var month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-  var day = String(date.getDate()).padStart(2, '0');
+  // Check if the date is valid
+  if (isNaN(dateObj.getTime())) {
+    throw new Error(`Invalid date format: ${dateStr}`);
+  }
 
-  // Construct the stringDate in the desired format
-  var stringDate = year + '-' + month + '-' + day;
+  // Convert the Date object to ISO datetime format
+  const isoDatetimeStr = dateObj.toISOString();
 
-  return stringDate;
+  return isoDatetimeStr;
 }
 
 export const useCampaignStore = create((set, get) => ({
@@ -44,8 +44,8 @@ export const useCampaignStore = create((set, get) => ({
     }
   },
   createCampaignByNgo: async (body) => {
-    body.startDate = convertToStringDate(body.startDate);
-    body.endDate = convertToStringDate(body.endDate);
+    body.startDate = dateToIsoString(body.startDate);
+    body.endDate = dateToIsoString(body.endDate);
 
     try {
       const { data } = await axios({
