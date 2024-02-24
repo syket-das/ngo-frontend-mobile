@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { URL } from '../../constants/data';
 import { Modal, Portal } from 'react-native-paper';
 import CampaignDetailsCard from './CampaignDetailsCard';
+import useAuthStore from '../../store/authStore';
 
 const CampaignCard = ({ campaign }) => {
   const [visible, setVisible] = React.useState(false);
@@ -27,9 +28,21 @@ const CampaignCard = ({ campaign }) => {
   };
 
   const [singleCampaign, setSingleCampaign] = useState(campaign);
-  const { getCampaign, joinOrLeaveCampaignByUser } = useCampaignStore(
-    (state) => state
-  );
+  const { getCampaign, joinOrLeaveCampaignByUser, joinOrLeaveCampaignByNgo } =
+    useCampaignStore((state) => state);
+
+  const { authType, setAuthType } = useAuthStore((state) => state);
+
+  useEffect(() => {
+    const fetchAuthType = async () => {
+      try {
+        await setAuthType();
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+    fetchAuthType();
+  }, []);
 
   const getSingleCampaign = async (campaignId) => {
     try {
@@ -52,6 +65,16 @@ const CampaignCard = ({ campaign }) => {
   useEffect(() => {
     getSingleCampaign(campaign.id);
   }, []);
+
+  const handleJoinOrLeaveCampaign = async () => {
+    if (authType.role === 'USER') {
+      await joinOrLeaveCampaignByUser(singleCampaign.id);
+      await getSingleCampaign(singleCampaign.id);
+    } else if (authType.role === 'NGO') {
+      await joinOrLeaveCampaignByNgo(singleCampaign.id);
+      await getSingleCampaign(singleCampaign.id);
+    }
+  };
 
   return (
     <>
@@ -149,21 +172,15 @@ const CampaignCard = ({ campaign }) => {
             {singleCampaign.loggedInUserOrNgoDetailsForCampaign.isJoined ? (
               <TouchableOpacity
                 className="flex-row items-center gap-x-1 mt-2 p-1 "
-                onPress={async () => {
-                  await joinOrLeaveCampaignByUser(singleCampaign.id);
-                  await getSingleCampaign(singleCampaign.id);
-                }}
+                onPress={handleJoinOrLeaveCampaign}
               >
                 <Text className="text-xs text-red-500">Leave</Text>
                 <AntDesign name="logout" color={'red'} size={18} />
               </TouchableOpacity>
             ) : (
               <TouchableOpacity
-                className="flex-row items-center gap-x-1 mt-2 p-1 border-dashed border"
-                onPress={async () => {
-                  await joinOrLeaveCampaignByUser(singleCampaign.id);
-                  await getSingleCampaign(singleCampaign.id);
-                }}
+                className="flex-row items-center gap-x-1 mt-2 p-1 "
+                onPress={handleJoinOrLeaveCampaign}
               >
                 <Text className="text-xs text-green-600">Join</Text>
                 <AntDesign name="login" color={COLORS.primary} size={18} />

@@ -10,18 +10,24 @@ const useAuthStore = create((set) => ({
   authType: null,
   setAuthType: async () => {
     try {
-      const { data } = await axios({
-        method: 'GET',
-        url: `${URL}/api/v1/auth/check-token`,
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(await AsyncStorage.getItem('auth')).token
-          }`,
-        },
-      });
+      const auth = JSON.parse(await AsyncStorage.getItem('auth'));
 
-      if (data.success) {
-        set((state) => ({ authType: data }));
+      if (!auth) {
+        throw new Error('Please login');
+      }
+
+      if (auth?.userId) {
+        set((state) => ({
+          authType: {
+            role: 'USER',
+          },
+        }));
+      } else if (auth?.ngoId) {
+        set((state) => ({
+          authType: {
+            role: 'NGO',
+          },
+        }));
       }
     } catch (error) {
       throw new Error(

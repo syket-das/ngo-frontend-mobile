@@ -103,4 +103,22 @@ export const useCampaignStore = create((set, get) => ({
       console.log(error.message);
     }
   },
+  joinOrLeaveCampaignByNgo: async (campaignId) => {
+    try {
+      const { data } = await axios({
+        method: 'PATCH',
+        url: `${URL}/api/v1/campaign/member/mutate/ngo/${campaignId}`,
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(await AsyncStorage.getItem('auth')).token
+          }`,
+        },
+        data: {},
+      });
+
+      return data.data;
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
 }));

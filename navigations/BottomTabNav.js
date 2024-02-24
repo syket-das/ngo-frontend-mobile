@@ -130,9 +130,9 @@ const BottomTabNav = () => {
       <Tab.Screen
         name="Profile"
         component={
-          authType.role === 'USER'
+          authType && authType?.role === 'USER'
             ? UserProfile
-            : authType.role === 'NGO'
+            : authType?.role === 'NGO'
             ? NgoProfile
             : Profile
         }
