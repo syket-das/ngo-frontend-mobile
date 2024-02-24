@@ -18,6 +18,7 @@ import UserProfile from '../screens/profile/user/UserProfile';
 import NgoProfile from '../screens/profile/ngo/NgoProfile';
 import IssueScreen from '../screens/issue/IssueScreen';
 import CreateStack from './CreateStack';
+import useAuthStore from '../store/authStore';
 
 const Tab = createBottomTabNavigator();
 
@@ -36,23 +37,17 @@ const screenOptions = {
   },
 };
 const BottomTabNav = () => {
-  const [authType, setAuthType] = useState('');
-
-  const getAuthType = async () => {
-    const auth = JSON.parse(await AsyncStorage.getItem('auth'));
-
-    if (!auth) {
-      throw new Error('Please login');
-    }
-
-    if (auth?.userId) {
-      setAuthType('user');
-    } else if (auth?.ngoId) {
-      setAuthType('ngo');
-    }
-  };
+  const { authType, setAuthType } = useAuthStore((state) => state);
 
   useEffect(() => {
+    async function getAuthType() {
+      try {
+        await setAuthType();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
     getAuthType();
   }, []);
 
@@ -135,9 +130,9 @@ const BottomTabNav = () => {
       <Tab.Screen
         name="Profile"
         component={
-          authType === 'user'
+          authType.role === 'USER'
             ? UserProfile
-            : authType === 'ngo'
+            : authType.role === 'NGO'
             ? NgoProfile
             : Profile
         }

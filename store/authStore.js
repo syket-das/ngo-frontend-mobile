@@ -7,6 +7,28 @@ import Toast from 'react-native-toast-message';
 
 const useAuthStore = create((set) => ({
   auth: null,
+  authType: null,
+  setAuthType: async () => {
+    try {
+      const { data } = await axios({
+        method: 'GET',
+        url: `${URL}/api/v1/auth/check-token`,
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(await AsyncStorage.getItem('auth')).token
+          }`,
+        },
+      });
+
+      if (data.success) {
+        set((state) => ({ authType: data }));
+      }
+    } catch (error) {
+      throw new Error(
+        error.response.data.message || error.message || 'Please try again'
+      );
+    }
+  },
   authLoading: false,
   setAuthLoading: (d) => set((state) => ({ authLoading: d })),
 
