@@ -6,6 +6,7 @@ import {
   StatusBar,
   TouchableOpacity,
   TextInput,
+  RefreshControl,
 } from 'react-native';
 import React, { useEffect } from 'react';
 
@@ -17,6 +18,7 @@ import Header from '../../components/common/layout/Header';
 import ScreenWrapper from '../../components/common/layout/ScreenWrapper';
 
 const IssueScreen = () => {
+  const [refreshing, setRefreshing] = React.useState(false);
   const { issues, getIssues } = useIssueStore((state) => state);
   const [searchQuery, setSearchQuery] = React.useState('');
 
@@ -54,7 +56,21 @@ const IssueScreen = () => {
         </TouchableOpacity>
       </View>
 
-      <ScrollView className="mb-8 mt-2">
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            title="Pull to refresh"
+            refreshing={refreshing}
+            onRefresh={() => {
+              setRefreshing(true);
+              getIssues();
+              setRefreshing(false);
+            }}
+          />
+        }
+        showsVerticalScrollIndicator={false}
+        className="mb-8 mt-2"
+      >
         {issues.map((issue) => (
           <IssueCard key={issue.id} issue={issue} />
         ))}

@@ -26,6 +26,25 @@ const useIssueStore = create((set, get) => ({
     }
   },
 
+  createIssueByNgo: async (body) => {
+    try {
+      const { data } = await axios({
+        method: 'POST',
+        url: `${URL}/api/v1/issue/create/ngo`,
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(await AsyncStorage.getItem('auth')).token
+          }`,
+        },
+        data: body,
+      });
+    } catch (error) {
+      throw new Error(
+        error.response ? error.response.data.message : error.message
+      );
+    }
+  },
+
   getIssues: async () => {
     try {
       const { data } = await axios({

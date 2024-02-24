@@ -10,6 +10,8 @@ import {
 import IssueDetailsCard from './IssueDetailsCard';
 
 const IssueCard = ({ issue }) => {
+  const issueBy = issue.ownUserId ? 'USER' : issue.ownNgoId ? 'NGO' : '';
+
   const [visible, setVisible] = React.useState(false);
 
   const showModal = () => setVisible(true);
@@ -114,7 +116,9 @@ const IssueCard = ({ issue }) => {
                   }}
                   className="text-gray-500 text-xs ml-1"
                 >
-                  {issue.ownUser.fullName || issue.ownNgo.name}
+                  {issueBy === 'USER'
+                    ? issue.ownUser.fullName
+                    : issue.ownNgo.name}
                 </Text>
               </View>
 

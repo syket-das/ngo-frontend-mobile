@@ -25,7 +25,24 @@ const usePostStore = create((set, get) => ({
       );
     }
   },
-
+  createPostByNgo: async (body) => {
+    try {
+      const { data } = await axios({
+        method: 'POST',
+        url: `${URL}/api/v1/post/create/ngo`,
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(await AsyncStorage.getItem('auth')).token
+          }`,
+        },
+        data: body,
+      });
+    } catch (error) {
+      throw new Error(
+        error.response ? error.response.data.message : error.message
+      );
+    }
+  },
   getPosts: async () => {
     try {
       const { data } = await axios({

@@ -6,17 +6,30 @@ import {
   ScrollView,
   Button,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../../constants';
 import { MultipleSelectList } from 'react-native-dropdown-select-list';
 import Toast from 'react-native-toast-message';
 import usePostStore from '../../store/postStore';
 import { useNavigation } from '@react-navigation/native';
+import useAuthStore from '../../store/authStore';
 
 const CreatePost = () => {
   const navigation = useNavigation();
-  const { createPostByUser } = usePostStore((state) => state);
+  const { createPostByUser, createPostByNgo } = usePostStore((state) => state);
+  const { authType, setAuthType } = useAuthStore((state) => state);
+
+  useEffect(() => {
+    const fetchAuthType = async () => {
+      try {
+        await setAuthType();
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+    fetchAuthType();
+  }, []);
 
   const [selected, setSelected] = React.useState([]);
 
@@ -34,7 +47,11 @@ const CreatePost = () => {
 
   const handleSubmit = async () => {
     try {
-      await createPostByUser(post);
+      if (authType.role === 'USER') {
+        await createPostByUser(post);
+      } else if (authType.role === 'NGO') {
+        await createPostByNgo(post);
+      }
 
       Toast.show({
         type: 'success',

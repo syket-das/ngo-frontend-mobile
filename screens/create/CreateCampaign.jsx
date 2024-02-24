@@ -7,11 +7,13 @@ import {
   Button,
   Modal,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, FONTS } from '../../constants';
 import { useCampaignStore } from '../../store/campaignStore';
 import Toast from 'react-native-toast-message';
+import useAuthStore from '../../store/authStore';
+import Checkbox from 'expo-checkbox';
 
 const data = [
   { key: '1', value: 'Mobiles', disabled: true },
@@ -23,7 +25,9 @@ const data = [
   { key: '7', value: 'Drinks' },
 ];
 const CreateCampaign = ({ navigation }) => {
-  const { createCampaignByUser } = useCampaignStore((state) => state);
+  const { createCampaignByUser, createCampaignByNgo } = useCampaignStore(
+    (state) => state
+  );
   const [campaign, setCampaign] = React.useState({
     title: '',
     motto: '',
@@ -31,6 +35,7 @@ const CreateCampaign = ({ navigation }) => {
     endDate: '',
     fundsRequired: 0,
     description: '',
+    virtual: false,
     address: {
       street: '',
       city: '',
@@ -40,9 +45,26 @@ const CreateCampaign = ({ navigation }) => {
     },
   });
 
+  const { authType, setAuthType } = useAuthStore((state) => state);
+
+  useEffect(() => {
+    const fetchAuthType = async () => {
+      try {
+        await setAuthType();
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+    fetchAuthType();
+  }, []);
+
   const handleSubmit = async () => {
     try {
-      await createCampaignByUser(campaign);
+      if (authType.role === 'USER') {
+        await createCampaignByUser(campaign);
+      } else if (authType.role === 'NGO') {
+        await createCampaignByNgo(campaign);
+      }
 
       Toast.show({
         type: 'success',
@@ -343,7 +365,42 @@ const CreateCampaign = ({ navigation }) => {
               />
             </View>
           </View>
+
           <View style={{ marginBottom: 12 }}>
+            <View
+              style={{
+                width: '100%',
+                alignItems: 'center',
+                paddingLeft: 22,
+                flexDirection: 'row',
+                marginTop: 12,
+              }}
+            >
+              <Checkbox
+                value={campaign.virtual}
+                onValueChange={(val) =>
+                  setCampaign({ ...campaign, virtual: val })
+                }
+              />
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: 400,
+                  // marginVertical: 8,
+                  marginLeft: 8,
+                }}
+              >
+                Virtual Campaign
+              </Text>
+            </View>
+          </View>
+
+          <View
+            style={{
+              marginBottom: 12,
+              display: campaign.virtual ? 'none' : 'flex',
+            }}
+          >
             <Text
               style={{
                 fontSize: 16,

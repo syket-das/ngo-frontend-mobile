@@ -43,6 +43,27 @@ export const useCampaignStore = create((set, get) => ({
       );
     }
   },
+  createCampaignByNgo: async (body) => {
+    body.startDate = convertToStringDate(body.startDate);
+    body.endDate = convertToStringDate(body.endDate);
+
+    try {
+      const { data } = await axios({
+        method: 'POST',
+        url: `${URL}/api/v1/campaign/create/ngo`,
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(await AsyncStorage.getItem('auth')).token
+          }`,
+        },
+        data: body,
+      });
+    } catch (error) {
+      throw new Error(
+        error.response ? error.response.data.message : error.message
+      );
+    }
+  },
 
   getCampaigns: async () => {
     try {

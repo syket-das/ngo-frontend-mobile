@@ -6,17 +6,33 @@ import {
   ScrollView,
   Button,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../../constants';
 import { MultipleSelectList } from 'react-native-dropdown-select-list';
 import useIssueStore from '../../store/issueStore';
 import Toast from 'react-native-toast-message';
+import useAuthStore from '../../store/authStore';
 
 const CreateIssue = ({ navigation }) => {
-  const { createIssueByUser } = useIssueStore((state) => state);
+  const { createIssueByUser, createIssueByNgo } = useIssueStore(
+    (state) => state
+  );
 
   const [selected, setSelected] = React.useState([]);
+
+  const { authType, setAuthType } = useAuthStore((state) => state);
+
+  useEffect(() => {
+    const fetchAuthType = async () => {
+      try {
+        await setAuthType();
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+    fetchAuthType();
+  }, []);
 
   const [issue, setIssue] = React.useState({
     title: '',
@@ -32,7 +48,11 @@ const CreateIssue = ({ navigation }) => {
 
   const handleSubmit = async () => {
     try {
-      await createIssueByUser(issue);
+      if (authType === 'USER') {
+        await createIssueByUser(issue);
+      } else {
+        await createIssueByNgo(issue);
+      }
 
       Toast.show({
         type: 'success',

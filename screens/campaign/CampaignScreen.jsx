@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, RefreshControl } from 'react-native';
 import React, { useEffect } from 'react';
 import { useControlStore } from '../../store/useControlStore';
 import { useCampaignStore } from '../../store/campaignStore';
@@ -8,6 +8,7 @@ const CampaignScreen = () => {
   const { homePostsScrolled, setHomePostsScrolled } = useControlStore(
     (state) => state
   );
+  const [refreshing, setRefreshing] = React.useState(false);
 
   const { campaigns, getCampaigns, joinOrLeaveCampaignByUser } =
     useCampaignStore((state) => state);
@@ -24,6 +25,17 @@ const CampaignScreen = () => {
       }}
     >
       <ScrollView
+        refreshControl={
+          <RefreshControl
+            title="Pull to refresh"
+            refreshing={refreshing}
+            onRefresh={() => {
+              setRefreshing(true);
+              getCampaigns();
+              setRefreshing(false);
+            }}
+          />
+        }
         showsVerticalScrollIndicator={false}
         onScroll={(e) => {
           if (e.nativeEvent.contentOffset.y > 100) {
