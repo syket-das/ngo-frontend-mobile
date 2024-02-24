@@ -13,6 +13,7 @@ import { MultipleSelectList } from 'react-native-dropdown-select-list';
 import useIssueStore from '../../store/issueStore';
 import Toast from 'react-native-toast-message';
 import useAuthStore from '../../store/authStore';
+import { TAGS } from '../../constants/data';
 
 const CreateIssue = ({ navigation }) => {
   const { createIssueByUser, createIssueByNgo } = useIssueStore(
@@ -37,6 +38,7 @@ const CreateIssue = ({ navigation }) => {
   const [issue, setIssue] = React.useState({
     title: '',
     description: '',
+    tags: [],
     address: {
       street: '',
       city: '',
@@ -44,6 +46,14 @@ const CreateIssue = ({ navigation }) => {
       country: '',
       zipCode: '',
     },
+  });
+
+  useEffect(() => {
+    setIssue({ ...issue, tags: selected });
+  }, [selected]);
+
+  const tags = TAGS.filter((tag) => tag.issue).map((tag) => {
+    return { key: tag.value, value: tag.value };
   });
 
   const handleSubmit = async () => {
@@ -75,16 +85,6 @@ const CreateIssue = ({ navigation }) => {
       });
     }
   };
-
-  const data = [
-    { key: '1', value: 'Mobiles', disabled: true },
-    { key: '2', value: 'Appliances' },
-    { key: '3', value: 'Cameras' },
-    { key: '4', value: 'Computers', disabled: true },
-    { key: '5', value: 'Vegetables' },
-    { key: '6', value: 'Diary Products' },
-    { key: '7', value: 'Drinks' },
-  ];
 
   return (
     <View>
@@ -339,15 +339,15 @@ const CreateIssue = ({ navigation }) => {
                 marginVertical: 8,
               }}
             >
-              Description
+              Tags *
             </Text>
 
             <MultipleSelectList
               setSelected={(val) => setSelected(val)}
-              data={data}
+              data={tags}
               save="value"
-              onSelect={() => alert(selected)}
-              label="Categories"
+              label="Tags"
+              selected={selected}
             />
           </View>
         </View>

@@ -10,8 +10,7 @@ const CampaignScreen = () => {
   );
   const [refreshing, setRefreshing] = React.useState(false);
 
-  const { campaigns, getCampaigns, joinOrLeaveCampaignByUser } =
-    useCampaignStore((state) => state);
+  const { campaigns, getCampaigns } = useCampaignStore((state) => state);
 
   useEffect(() => {
     getCampaigns();

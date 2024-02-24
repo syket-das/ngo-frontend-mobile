@@ -53,55 +53,19 @@ const IssueCard = ({ issue }) => {
           </View>
 
           <View className="flex-row w-full mt-2">
-            <View className="w-3/4 flex-row justify-start gap-1 flex-wrap">
-              <Text
-                className="text-gray-500 text-xs"
-                style={{
-                  fontSize: 10,
-                }}
-              >
-                #Cloud
-              </Text>
-              <Text
-                className="text-gray-500 text-xs"
-                style={{
-                  fontSize: 10,
-                }}
-              >
-                #Cloud
-              </Text>
-              <Text
-                className="text-gray-500 text-xs"
-                style={{
-                  fontSize: 10,
-                }}
-              >
-                #Cloud
-              </Text>
-              <Text
-                className="text-gray-500 text-xs"
-                style={{
-                  fontSize: 10,
-                }}
-              >
-                #Cloud
-              </Text>
-              <Text
-                className="text-gray-500 text-xs"
-                style={{
-                  fontSize: 10,
-                }}
-              >
-                #Cloud
-              </Text>
-              <Text
-                className="text-gray-500 text-xs"
-                style={{
-                  fontSize: 10,
-                }}
-              >
-                #Cloud
-              </Text>
+            <View className="w-3/4 flex-row items-center gap-x-1 mt-2">
+              {issue?.tags?.map((tag, index) => (
+                <View key={index} className="rounded-md">
+                  <Text
+                    style={{
+                      fontSize: 10,
+                    }}
+                    className="text-xs text-black p-1 "
+                  >
+                    # {tag}
+                  </Text>
+                </View>
+              ))}
             </View>
 
             <View className="w-1/4 flex-col ">

@@ -62,17 +62,14 @@ const UserProfile = () => {
       <View className="flex-row  items-center  mx-4">
         <Ionicons name="location" size={16} color="gray" />
         <Text className="text-xs font-semibold text-gray-500">
-          32, New York, USA
+          {profile?.address?.city || ''}, {profile?.address?.country || ''}
         </Text>
       </View>
 
       <ScrollView>
         <View className="mx-4 mt-2">
           <Text className="text-xs font-semibold text-gray-500">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur
-            ducimus voluptate blanditiis quod in eius, possimus maiores facere
-            ad perferendis aliquid sit labore. Repudiandae delectus voluptatibus
-            culpa dicta assumenda. Voluptatum.
+            {profile?.bio || ''}
           </Text>
         </View>
 

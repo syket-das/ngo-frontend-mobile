@@ -14,6 +14,7 @@ import Toast from 'react-native-toast-message';
 import usePostStore from '../../store/postStore';
 import { useNavigation } from '@react-navigation/native';
 import useAuthStore from '../../store/authStore';
+import { TAGS } from '../../constants/data';
 
 const CreatePost = () => {
   const navigation = useNavigation();
@@ -36,6 +37,7 @@ const CreatePost = () => {
   const [post, setPost] = React.useState({
     title: '',
     description: '',
+    tags: [],
     address: {
       street: '',
       city: '',
@@ -75,15 +77,13 @@ const CreatePost = () => {
     }
   };
 
-  const data = [
-    { key: '1', value: 'Mobiles', disabled: true },
-    { key: '2', value: 'Appliances' },
-    { key: '3', value: 'Cameras' },
-    { key: '4', value: 'Computers', disabled: true },
-    { key: '5', value: 'Vegetables' },
-    { key: '6', value: 'Diary Products' },
-    { key: '7', value: 'Drinks' },
-  ];
+  useEffect(() => {
+    setPost({ ...post, tags: selected });
+  }, [selected]);
+
+  const tags = TAGS.filter((tag) => tag.post).map((tag) => {
+    return { key: tag.value, value: tag.value };
+  });
 
   return (
     <View>
@@ -336,15 +336,15 @@ const CreatePost = () => {
                 marginVertical: 8,
               }}
             >
-              Description
+              Tags *
             </Text>
 
             <MultipleSelectList
               setSelected={(val) => setSelected(val)}
-              data={data}
+              data={tags}
               save="value"
-              onSelect={() => alert(selected)}
-              label="Categories"
+              label="Tags"
+              selected={selected}
             />
           </View>
         </View>

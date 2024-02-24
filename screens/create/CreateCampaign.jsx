@@ -14,6 +14,8 @@ import { useCampaignStore } from '../../store/campaignStore';
 import Toast from 'react-native-toast-message';
 import useAuthStore from '../../store/authStore';
 import Checkbox from 'expo-checkbox';
+import { TAGS } from '../../constants/data';
+import { MultipleSelectList } from 'react-native-dropdown-select-list';
 
 const data = [
   { key: '1', value: 'Mobiles', disabled: true },
@@ -28,6 +30,8 @@ const CreateCampaign = ({ navigation }) => {
   const { createCampaignByUser, createCampaignByNgo } = useCampaignStore(
     (state) => state
   );
+  const [selected, setSelected] = React.useState([]);
+
   const [campaign, setCampaign] = React.useState({
     title: '',
     motto: '',
@@ -36,6 +40,7 @@ const CreateCampaign = ({ navigation }) => {
     fundsRequired: 0,
     description: '',
     virtual: false,
+    tags: [],
     address: {
       street: '',
       city: '',
@@ -43,6 +48,14 @@ const CreateCampaign = ({ navigation }) => {
       country: '',
       zipCode: '',
     },
+  });
+
+  useEffect(() => {
+    setCampaign({ ...campaign, tags: selected });
+  }, [selected]);
+
+  const tags = TAGS.filter((tag) => tag.campaign).map((tag) => {
+    return { key: tag.value, value: tag.value };
   });
 
   const { authType, setAuthType } = useAuthStore((state) => state);
@@ -562,7 +575,7 @@ const CreateCampaign = ({ navigation }) => {
             </View>
           </View>
 
-          {/* <View style={{ marginBottom: 12 }}>
+          <View style={{ marginBottom: 12 }}>
             <Text
               style={{
                 fontSize: 16,
@@ -570,17 +583,17 @@ const CreateCampaign = ({ navigation }) => {
                 marginVertical: 8,
               }}
             >
-              Description
+              Tags *
             </Text>
 
             <MultipleSelectList
               setSelected={(val) => setSelected(val)}
-              data={data}
+              data={tags}
               save="value"
-              onSelect={() => alert(selected)}
-              label="Categories"
+              label="Tags"
+              selected={selected}
             />
-          </View> */}
+          </View>
         </View>
 
         <Button

@@ -93,12 +93,12 @@ const PostCard = ({ post }) => {
         </TouchableOpacity>
       </View>
 
-      <View className="flex-row justify-start gap-2 items-center mt-2">
-        <Text className="font-semibold text-xs text-gray-500 ">#FreeLife</Text>
-        <Text className="font-semibold text-xs text-gray-500 ">
-          #SocialAwareness
-        </Text>
-        <Text className="font-semibold text-xs text-gray-500 ">#Trend</Text>
+      <View className="flex-row items-center gap-x-2 mt-2">
+        {post?.tags?.map((tag, index) => (
+          <View key={index} className="rounded-md">
+            <Text className="text-xs text-black p-1 "># {tag}</Text>
+          </View>
+        ))}
       </View>
 
       <Text className="mt-2 font-semibold">{post.title}</Text>

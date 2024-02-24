@@ -12,10 +12,27 @@ import { PaperProvider } from 'react-native-paper';
 import Toast from 'react-native-toast-message';
 import useBottomSheetStore from './store/bottomSheetStore';
 import SignupStack from './navigations/SignupStack';
+import EditUserProfile from './screens/profile/user/EditUserProfile';
+import EditNgoProfile from './screens/profile/ngo/EditNgoProfile';
+import useAuthStore from './store/authStore';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const { authType, setAuthType } = useAuthStore((state) => state);
+
+  useEffect(() => {
+    async function getAuthType() {
+      try {
+        await setAuthType();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    getAuthType();
+  }, []);
+
   const { bottomSheetRef, setBottomSheetRef } = useBottomSheetStore(
     (state) => state
   );
@@ -80,7 +97,13 @@ export default function App() {
 
             <Stack.Screen
               name="EditProfile"
-              component={EditProfile}
+              component={
+                authType && authType?.role === 'USER'
+                  ? EditUserProfile
+                  : authType?.role === 'NGO'
+                  ? EditNgoProfile
+                  : EditProfile
+              }
               options={{
                 headerShown: false,
               }}
