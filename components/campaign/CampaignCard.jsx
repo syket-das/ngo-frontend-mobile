@@ -195,7 +195,7 @@ const CampaignCard = ({ campaign }) => {
         >
           <Text className="font-semibold text-lg">{singleCampaign.title}</Text>
         </TouchableOpacity>
-        <View className="flex-row items-center gap-x-2 mt-2">
+        <View className="flex-row items-center  mt-2 flex-wrap">
           {singleCampaign?.tags?.map((tag, index) => (
             <View key={index} className="rounded-md">
               <Text className="text-xs text-black p-1 "># {tag}</Text>

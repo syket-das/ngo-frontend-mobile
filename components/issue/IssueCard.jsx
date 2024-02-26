@@ -53,7 +53,7 @@ const IssueCard = ({ issue }) => {
           </View>
 
           <View className="flex-row w-full mt-2">
-            <View className="w-3/4 flex-row items-center gap-x-1 mt-2">
+            <View className="w-3/4 flex-row items-center mt-2 flex-wrap">
               {issue?.tags?.map((tag, index) => (
                 <View key={index} className="rounded-md">
                   <Text

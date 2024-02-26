@@ -93,7 +93,7 @@ const PostCard = ({ post }) => {
         </TouchableOpacity>
       </View>
 
-      <View className="flex-row items-center gap-x-2 mt-2">
+      <View className="flex-row items-center  mt-2 flex-wrap">
         {post?.tags?.map((tag, index) => (
           <View key={index} className="rounded-md">
             <Text className="text-xs text-black p-1 "># {tag}</Text>

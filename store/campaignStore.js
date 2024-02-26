@@ -23,8 +23,8 @@ export const useCampaignStore = create((set, get) => ({
   campaign: null,
 
   createCampaignByUser: async (body) => {
-    body.startDate = convertToStringDate(body.startDate);
-    body.endDate = convertToStringDate(body.endDate);
+    body.startDate = dateToIsoString(body.startDate);
+    body.endDate = dateToIsoString(body.endDate);
 
     try {
       const { data } = await axios({
@@ -140,6 +140,52 @@ export const useCampaignStore = create((set, get) => ({
       return data.data;
     } catch (error) {
       console.log(error.message);
+    }
+  },
+
+  // broadcast campaign
+
+  broadcastCampaign: async (campaignId, message) => {
+    try {
+      const { data } = await axios({
+        method: 'POST',
+        url: `${URL}/api/v1/campaign/broadcast`,
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(await AsyncStorage.getItem('auth')).token
+          }`,
+        },
+        data: {
+          message,
+          campaignId,
+        },
+      });
+
+      return data.data;
+    } catch (error) {
+      throw new Error(
+        error.response ? error.response.data.message : error.message
+      );
+    }
+  },
+
+  deleteBroadcast: async (broadcastId) => {
+    try {
+      const { data } = await axios({
+        method: 'DELETE',
+        url: `${URL}/api/v1/campaign/broadcast/${broadcastId}`,
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(await AsyncStorage.getItem('auth')).token
+          }`,
+        },
+      });
+
+      return data.data;
+    } catch (error) {
+      throw new Error(
+        error.response ? error.response.data.message : error.message
+      );
     }
   },
 }));

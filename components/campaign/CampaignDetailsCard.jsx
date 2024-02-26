@@ -1,7 +1,80 @@
-import { View, Text, Button, ScrollView, Image } from 'react-native';
-import React from 'react';
+import {
+  View,
+  Text,
+  Button,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
+import React, { useState } from 'react';
+import CampaignAttendesTable from './CampaignAttendesTable';
+
+import { Ionicons } from '@expo/vector-icons';
+import { COLORS } from '../../constants';
+import { useCampaignStore } from '../../store/campaignStore';
+import Toast from 'react-native-toast-message';
 
 const CampaignDetailsCard = ({ campaign, hideModal }) => {
+  const {
+    broadcastCampaign,
+    deleteBroadcast,
+    getCampaigns,
+    campaign: campaignFromSt,
+  } = useCampaignStore((state) => state);
+
+  const [visible, setVisible] = useState(false);
+
+  const [message, setMessage] = useState('');
+
+  const handleBroadcast = async () => {
+    try {
+      await broadcastCampaign(campaign.id, message);
+      setVisible(false);
+
+      Toast.show({
+        type: 'success',
+        position: 'top',
+        text1: 'Broadcast sent',
+        visibilityTime: 3000,
+        autoHide: true,
+      });
+
+      await getCampaigns();
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: error.message,
+        visibilityTime: 3000,
+        autoHide: true,
+      });
+    }
+  };
+
+  const handleDeleteBroadcast = async (broadcastId) => {
+    try {
+      await deleteBroadcast(broadcastId);
+      Toast.show({
+        type: 'success',
+        position: 'top',
+        text1: 'Broadcast deleted',
+        visibilityTime: 3000,
+        autoHide: true,
+      });
+
+      await getCampaigns();
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Broadcast not deleted',
+        visibilityTime: 3000,
+        autoHide: true,
+      });
+    }
+  };
+
   return (
     <View className="w-full h-full">
       <View className="flex-row justify-start items-start">
@@ -88,9 +161,9 @@ const CampaignDetailsCard = ({ campaign, hideModal }) => {
 
         <View className="gap-y-2 mt-8">
           <View className="flex-row justify-between items-center">
-            <Text className="text-lg font-bold">Created By</Text>
+            <Text className=" font-bold">Created By</Text>
             <View className="flex-row items-center gap-2">
-              <Text className="font-bold">
+              <Text className="">
                 {campaign?.ownUserId
                   ? campaign?.ownUser?.fullName
                   : campaign?.ownNgo?.name || 'Anonymous'}
@@ -98,8 +171,8 @@ const CampaignDetailsCard = ({ campaign, hideModal }) => {
             </View>
           </View>
           <View className="flex-row justify-between items-center">
-            <Text className="text-lg font-bold">Location</Text>
-            <Text className="font-bold">
+            <Text className=" font-bold">Location</Text>
+            <Text className="">
               {`${
                 campaign.virtual
                   ? 'Virtual'
@@ -110,27 +183,117 @@ const CampaignDetailsCard = ({ campaign, hideModal }) => {
             </Text>
           </View>
           <View className="flex-row justify-between items-center">
-            <Text className="text-lg font-bold">Funds Needed</Text>
-            <Text className="font-bold">{`$${campaign.fundsNeeded || 0}`}</Text>
-          </View>
-          <View className="flex-row justify-between items-center">
-            <Text className="text-lg font-bold">Users</Text>
-            <Text className="font-bold">{campaign.joinedUsers.length}</Text>
-          </View>
-
-          <View className="flex-row justify-between items-center">
-            <Text className="text-lg font-bold">Ngo's</Text>
-            <Text className="font-bold">{campaign.joinedNgos.length}</Text>
+            <Text className=" font-bold">Funds Needed</Text>
+            <Text className="">{`$${campaign.fundsRequired || 0}`}</Text>
           </View>
         </View>
 
-        <View className="flex-col  my-8">
-          <Text className="text-md font-bold">Campaign Broadcasts</Text>
+        <View className="my-8">
+          <Text className="text-md font-bold">Campaign Attendees</Text>
+          <View className="w-full border border-gray-400 mt-2" />
+          <CampaignAttendesTable campaign={campaign} />
+        </View>
 
-          <View className="flex-row items-center gap-2 mt-2">
-            {campaign.campaignBroadcasts.map((broadcast, index) => (
-              <View key={index} className="flex-row items-center gap-2">
-                <Text className="font-bold">{broadcast.message}</Text>
+        <View className="flex-col  my-8">
+          <View className="flex-row justify-between items-center">
+            <Text className="text-md font-bold">Campaign Broadcasts</Text>
+
+            <TouchableOpacity
+              style={{
+                display: campaign.loggedInUserOrNgoDetailsForCampaign.isOwner
+                  ? 'flex'
+                  : 'none',
+              }}
+              onPress={() => {
+                setVisible(!visible);
+              }}
+              className="flex-row items-center gap-2"
+            >
+              <Ionicons name="add-circle" size={24} color="blue" />
+              <Text className="text-blue-500">Add Message</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View className="flex-col  gap-2 mt-2">
+            <View
+              style={{
+                marginBottom: 12,
+                display: visible ? 'flex' : 'none',
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: 400,
+                  marginVertical: 8,
+                }}
+              >
+                Broadcast
+              </Text>
+
+              <View
+                style={{
+                  width: '100%',
+                  borderColor: COLORS.black,
+                  borderWidth: 1,
+                  borderRadius: 8,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  paddingLeft: 22,
+                }}
+              >
+                <TextInput
+                  placeholder="Enter the broadcast message"
+                  placeholderTextColor={COLORS.black}
+                  keyboardType="default"
+                  style={{
+                    width: '100%',
+                    minHeight: 200,
+                    maxHeight: 250,
+                    textAlignVertical: 'top',
+                    paddingTop: 12,
+                  }}
+                  multiline
+                  value={message}
+                  onChangeText={(val) => {
+                    setMessage(val);
+                  }}
+                />
+              </View>
+              <View className="mt-2">
+                <Button
+                  onPress={handleBroadcast}
+                  color={COLORS.primary}
+                  title="Save Message"
+                />
+              </View>
+            </View>
+
+            {campaign.campaignBroadcasts.reverse().map((broadcast, index) => (
+              <View key={index} className=" gap-2 bg-slate-100">
+                <View className="flex-row justify-between items-center">
+                  <Text className="text-xs text-gray-500">
+                    {new Date(broadcast.createdAt).toDateString()} at{' '}
+                    {new Date(broadcast.createdAt).toLocaleTimeString()}
+                  </Text>
+                  <TouchableOpacity
+                    style={{
+                      display: campaign.loggedInUserOrNgoDetailsForCampaign
+                        .isOwner
+                        ? 'flex'
+                        : 'none',
+                      marginRight: 8,
+                    }}
+                    onPress={() => {
+                      handleDeleteBroadcast(broadcast.id);
+                    }}
+                  >
+                    <Ionicons name="close-circle-sharp" size={20} color="red" />
+                  </TouchableOpacity>
+                </View>
+                <View className="border border-gray-300" />
+
+                <Text className="font-bold my-2">{broadcast.message}</Text>
               </View>
             ))}
 
