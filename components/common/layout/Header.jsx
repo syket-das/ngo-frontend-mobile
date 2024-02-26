@@ -1,8 +1,14 @@
-import { View, Text, Image } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableHighlight,
+  TouchableOpacity,
+} from 'react-native';
 import React from 'react';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-
-const Header = () => {
+import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+const Header = ({ navigation }) => {
   return (
     <View className="flex-row justify-between mt-4">
       <View>
@@ -13,7 +19,9 @@ const Header = () => {
           />
         </View>
       </View>
-      <MaterialCommunityIcons name="bell-outline" size={30} />
+      <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
+        <Ionicons name="search" size={26} />
+      </TouchableOpacity>
     </View>
   );
 };

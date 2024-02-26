@@ -1,10 +1,11 @@
 import { create } from 'zustand';
-import axios from 'axios';
+import axios, { all } from 'axios';
 import { URL } from '../constants/data';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const useUserStore = create((set, get) => ({
   profile: null,
+
   getProfile: async () => {
     const auth = JSON.parse(await AsyncStorage.getItem('auth'));
     let authType;
@@ -30,7 +31,7 @@ const useUserStore = create((set, get) => ({
         },
       });
 
-      set((state) => ({ profile: data }));
+      set((state) => ({ profile: data.user }));
     } catch (error) {
       console.log(error.response.data);
       throw new Error(

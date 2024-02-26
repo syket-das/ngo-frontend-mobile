@@ -15,6 +15,10 @@ import SignupStack from './navigations/SignupStack';
 import EditUserProfile from './screens/profile/user/EditUserProfile';
 import EditNgoProfile from './screens/profile/ngo/EditNgoProfile';
 import useAuthStore from './store/authStore';
+import SearchScreen from './screens/search/SearchScreen';
+import SearchProfile from './screens/search/SearchProfile';
+import NgoPublicProfile from './screens/profile/ngo/NgoPublicProfile';
+import UserPublicProfile from './screens/profile/user/UserPublicProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -104,6 +108,21 @@ export default function App() {
                   ? EditNgoProfile
                   : EditProfile
               }
+              options={{
+                headerShown: false,
+              }}
+            />
+
+            <Stack.Screen
+              name="Search"
+              component={SearchScreen}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="SearchProfile"
+              component={SearchProfile}
               options={{
                 headerShown: false,
               }}

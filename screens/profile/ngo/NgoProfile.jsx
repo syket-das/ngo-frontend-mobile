@@ -12,14 +12,20 @@ import useNgoStore from '../../../store/ngoStore';
 const UserProfile = () => {
   const { profile, getProfile } = useNgoStore((state) => state);
 
-  useEffect(() => {
-    getProfile().catch((error) => {
+  const fetchProfile = async () => {
+    try {
+      await getProfile();
+    } catch (error) {
       Toast.show({
         type: 'error',
         text1: 'Error',
-        text2: error.message,
+        text2: 'An error occurred while fetching profile',
       });
-    });
+    }
+  };
+
+  useEffect(() => {
+    fetchProfile();
   }, []);
 
   return (
@@ -35,7 +41,7 @@ const UserProfile = () => {
         <View>
           <Image source={images.profile} className="h-14 w-14 rounded-full" />
           <Text className="text-sm font-semibold mt-2">
-            {profile?.name || 'Name'}
+            {profile?.name || 'Name'} {profile?.type && `(${profile?.type})`}
           </Text>
         </View>
 
@@ -69,7 +75,7 @@ const UserProfile = () => {
       <ScrollView>
         <View className="mx-4 mt-2">
           <Text className="text-xs font-semibold text-gray-500">
-            {profile?.bio || ''}
+            {profile?.bio}
           </Text>
         </View>
 
@@ -87,26 +93,30 @@ const UserProfile = () => {
             showsHorizontalScrollIndicator={false}
             className="mt-2"
           >
-            {photos.map((photo, index) => (
-              <View className="items-center relative">
-                <Image
-                  key={index}
-                  source={photo}
-                  className="h-28 w-28 rounded-lg mr-2"
-                />
-                <View className="flex-row items-center absolute gap-1 top-0 right-2 border border-gray-400 rounded-tr-md p-1 bg-slate-300">
-                  <Ionicons color={COLORS.black} name="analytics" size={10} />
-                  <Text
-                    style={{
-                      fontSize: 10,
+            {profile &&
+              profile?.createdPosts?.map((post) => (
+                <View key={post.id} className="items-center relative">
+                  <Image
+                    source={{
+                      uri:
+                        post?.media[0]?.url ||
+                        'https://i.ibb.co/W29btXp/profile.jpg',
                     }}
-                    className=" font-semibold text-green-800"
-                  >
-                    23
-                  </Text>
+                    className="h-28 w-28 rounded-lg mr-2"
+                  />
+                  <View className="flex-row items-center absolute gap-1 top-0 right-2 border border-gray-400 rounded-tr-md p-1 bg-slate-300">
+                    <Ionicons color={COLORS.black} name="analytics" size={10} />
+                    <Text
+                      style={{
+                        fontSize: 10,
+                      }}
+                      className=" font-semibold text-green-800"
+                    >
+                      {post.votes.length}
+                    </Text>
+                  </View>
                 </View>
-              </View>
-            ))}
+              ))}
           </ScrollView>
         </View>
         <View className="border mx-4 mt-8 mb-4 border-dashed" />
@@ -120,34 +130,38 @@ const UserProfile = () => {
             </TouchableOpacity>
           </View>
           <ScrollView showsHorizontalScrollIndicator={false} className="mt-2">
-            {photos
-              .map((photo, index) => (
-                <View className="">
-                  <Image
-                    key={index}
-                    source={photo}
-                    className="h-40 w-full rounded-lg mt-4 relative"
-                  />
-                  <View className="absolute top-4 right-4">
-                    <View className="flex-row items-center mt-2 bg-slate-500 px-2 py-1 rounded-md opacity-80">
-                      <FontAwesome
-                        name="group"
-                        size={16}
-                        color={COLORS.black}
-                      />
-                      <Text className="text-xs font-semibold text-white ml-2">
-                        23
-                      </Text>
+            {profile &&
+              profile?.createdCampaigns
+                ?.map((campaign) => (
+                  <View key={campaign.id} className="">
+                    <Image
+                      source={{
+                        uri:
+                          campaign?.media[0]?.url ||
+                          'https://i.ibb.co/W29btXp/profile.jpg',
+                      }}
+                      className="h-40 w-full rounded-lg mt-4 relative"
+                    />
+                    <View className="absolute top-4 right-4">
+                      <View className="flex-row items-center mt-2 bg-slate-500 px-2 py-1 rounded-md opacity-80">
+                        <FontAwesome
+                          name="group"
+                          size={16}
+                          color={COLORS.black}
+                        />
+                        <Text className="text-xs font-semibold text-white ml-2">
+                          {campaign?.joinedUsers?.length +
+                            campaign?.joinedNgos?.length}
+                        </Text>
+                      </View>
                     </View>
-                  </View>
 
-                  <Text className="text-xs mt-1 text-gray-500">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Pariatur ducimus voluptate
-                  </Text>
-                </View>
-              ))
-              .slice(0, 3)}
+                    <Text className="text-xs mt-1 text-gray-500">
+                      {campaign?.title}
+                    </Text>
+                  </View>
+                ))
+                .slice(0, 3)}
           </ScrollView>
         </View>
 
@@ -223,6 +237,19 @@ const UserProfile = () => {
                 See All
               </Text>
             </TouchableOpacity>
+          </View>
+          <View className="my-2">
+            {profile?.createdIssues?.map((issue) => (
+              <TouchableOpacity
+                key={issue.id}
+                className="mt-1 border p-2 rounded-lg border-gray-500"
+              >
+                <Text className="font-bold">{issue.title}</Text>
+                <Text className="text-xs font-semibold text-gray-500 mt-2">
+                  {issue.description}
+                </Text>
+              </TouchableOpacity>
+            ))}
           </View>
         </View>
         <View className="h-40" />

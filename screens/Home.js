@@ -1,4 +1,11 @@
-import { View, Text, StatusBar, ScrollView, Image } from 'react-native';
+import {
+  View,
+  Text,
+  StatusBar,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import React, { useEffect } from 'react';
 
 import { COLORS } from '../constants';
@@ -6,7 +13,8 @@ import ScreenWrapper from '../components/common/layout/ScreenWrapper';
 import Header from '../components/common/layout/Header';
 import HomeTopTabs from '../navigations/HomeTopTabs';
 import { useControlStore } from '../store/useControlStore';
-const Home = () => {
+import { Ionicons } from '@expo/vector-icons';
+const Home = ({ navigation }) => {
   const { homePostsScrolled, setHomePostsScrolled } = useControlStore(
     (state) => state
   );
@@ -18,7 +26,19 @@ const Home = () => {
   return (
     <ScreenWrapper>
       <StatusBar backgroundColor={COLORS.primary} />
-      <Header />
+      <View className="flex-row justify-between mt-4">
+        <View>
+          <View className="flex-row items-center">
+            <Image
+              source={require('../assets/transparent_logo.png')}
+              className="h-8 w-[150px]"
+            />
+          </View>
+        </View>
+        <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+          <Ionicons name="search" size={26} />
+        </TouchableOpacity>
+      </View>
 
       <View
         style={{

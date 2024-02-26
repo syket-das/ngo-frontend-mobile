@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import axios from 'axios';
+import axios, { all } from 'axios';
 import { URL } from '../constants/data';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 

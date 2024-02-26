@@ -4,7 +4,7 @@ import { useControlStore } from '../../store/useControlStore';
 import { useCampaignStore } from '../../store/campaignStore';
 import CampaignCard from '../../components/campaign/CampaignCard';
 
-const CampaignScreen = () => {
+const CampaignScreen = ({ defaultCampaigns }) => {
   const { homePostsScrolled, setHomePostsScrolled } = useControlStore(
     (state) => state
   );
@@ -44,9 +44,17 @@ const CampaignScreen = () => {
           }
         }}
       >
-        {campaigns.map((campaign) => (
+        {/* {campaigns.map((campaign) => (
           <CampaignCard key={campaign.id} campaign={campaign} />
-        ))}
+        ))} */}
+
+        {defaultCampaigns
+          ? defaultCampaigns.map((campaign) => (
+              <CampaignCard key={campaign.id} campaign={campaign} />
+            ))
+          : campaigns.map((campaign) => (
+              <CampaignCard key={campaign.id} campaign={campaign} />
+            ))}
 
         <View
           style={{
