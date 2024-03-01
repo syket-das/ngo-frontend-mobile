@@ -19,9 +19,6 @@ const Header = ({ navigation }) => {
           />
         </View>
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
-        <Ionicons name="search" size={26} />
-      </TouchableOpacity>
     </View>
   );
 };

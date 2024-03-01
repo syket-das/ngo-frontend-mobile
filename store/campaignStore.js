@@ -188,4 +188,28 @@ export const useCampaignStore = create((set, get) => ({
       );
     }
   },
+
+  createPaymentIntentForDonation: async (amount, campaignId) => {
+    try {
+      const { data } = await axios({
+        method: 'POST',
+        url: `${URL}/api/v1/payment/create-payment-intent/campaign`,
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(await AsyncStorage.getItem('auth')).token
+          }`,
+        },
+        data: {
+          amount,
+          campaignId,
+        },
+      });
+
+      return data.data;
+    } catch (error) {
+      throw new Error(
+        error.response ? error.response.data.message : error.message
+      );
+    }
+  },
 }));

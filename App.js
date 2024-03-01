@@ -19,6 +19,7 @@ import SearchScreen from './screens/search/SearchScreen';
 import SearchProfile from './screens/search/SearchProfile';
 import NgoPublicProfile from './screens/profile/ngo/NgoPublicProfile';
 import UserPublicProfile from './screens/profile/user/UserPublicProfile';
+import Providers from './components/Providers';
 
 const Stack = createNativeStackNavigator();
 
@@ -60,78 +61,80 @@ export default function App() {
 
   return (
     <PaperProvider>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <NavigationContainer
-          onStateChange={() => {
-            if (bottomSheetRef?.current) {
-              bottomSheetRef?.current.close();
-            }
-          }}
-        >
-          <Stack.Navigator initialRouteName="Welcome">
-            <Stack.Screen
-              name="Welcome"
-              component={Welcome}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="Login"
-              component={Login}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="Signup"
-              component={SignupStack}
-              options={{
-                headerShown: false,
-              }}
-            />
-
-            <Stack.Screen
-              name="BottomTabNavigation"
-              component={BottomTabNav}
-              options={{
-                headerShown: false,
-              }}
-            />
-
-            <Stack.Screen
-              name="EditProfile"
-              component={
-                authType && authType?.role === 'USER'
-                  ? EditUserProfile
-                  : authType?.role === 'NGO'
-                  ? EditNgoProfile
-                  : EditProfile
+      <Providers>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <NavigationContainer
+            onStateChange={() => {
+              if (bottomSheetRef?.current) {
+                bottomSheetRef?.current.close();
               }
-              options={{
-                headerShown: false,
-              }}
-            />
+            }}
+          >
+            <Stack.Navigator initialRouteName="Welcome">
+              <Stack.Screen
+                name="Welcome"
+                component={Welcome}
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="Login"
+                component={Login}
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="Signup"
+                component={SignupStack}
+                options={{
+                  headerShown: false,
+                }}
+              />
 
-            <Stack.Screen
-              name="Search"
-              component={SearchScreen}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="SearchProfile"
-              component={SearchProfile}
-              options={{
-                headerShown: false,
-              }}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-        <BottomSheetComponent />
-        <Toast position="top" bottomOffset={20} visibilityTime={1000} />
-      </GestureHandlerRootView>
+              <Stack.Screen
+                name="BottomTabNavigation"
+                component={BottomTabNav}
+                options={{
+                  headerShown: false,
+                }}
+              />
+
+              <Stack.Screen
+                name="EditProfile"
+                component={
+                  authType && authType?.role === 'USER'
+                    ? EditUserProfile
+                    : authType?.role === 'NGO'
+                    ? EditNgoProfile
+                    : EditProfile
+                }
+                options={{
+                  headerShown: false,
+                }}
+              />
+
+              <Stack.Screen
+                name="Search"
+                component={SearchScreen}
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="SearchProfile"
+                component={SearchProfile}
+                options={{
+                  headerShown: false,
+                }}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+          <BottomSheetComponent />
+          <Toast position="top" bottomOffset={20} visibilityTime={1000} />
+        </GestureHandlerRootView>
+      </Providers>
     </PaperProvider>
   );
 }
