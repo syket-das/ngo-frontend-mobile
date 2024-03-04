@@ -6,6 +6,7 @@ import {
   ScrollView,
   Button,
   Modal,
+  Image,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
@@ -16,6 +17,7 @@ import useAuthStore from '../../store/authStore';
 import Checkbox from 'expo-checkbox';
 import { TAGS } from '../../constants/data';
 import { MultipleSelectList } from 'react-native-dropdown-select-list';
+import * as ImagePicker from 'expo-image-picker';
 
 const data = [
   { key: '1', value: 'Mobiles', disabled: true },
@@ -48,6 +50,7 @@ const CreateCampaign = ({ navigation }) => {
       country: '',
       zipCode: '',
     },
+    media: [],
   });
 
   useEffect(() => {
@@ -101,40 +104,51 @@ const CreateCampaign = ({ navigation }) => {
     }
   };
 
-  function convertToISODate(dateString) {
-    // Create a new Date object using the input string
-    var date = new Date(dateString);
+  const handleImageSelection = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsMultipleSelection: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
 
-    // Check if the date is valid
-    if (isNaN(date.getTime())) {
-      return 'Invalid Date';
-    } else {
-      // Use the toISOString method to convert the date to ISO format
-      return date.toISOString();
+    if (!result.cancelled) {
+      setCampaign({ ...campaign, media: result.assets });
     }
-  }
-
-  function convertToStringDate(isoDate) {
-    // Create a new Date object from the ISO date string
-    var date = new Date(isoDate);
-
-    // Extract the components of the date
-    var year = date.getFullYear();
-    var month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-    var day = String(date.getDate()).padStart(2, '0');
-
-    // Construct the stringDate in the desired format
-    var stringDate = year + '-' + month + '-' + day;
-
-    return stringDate;
-  }
+  };
 
   return (
     <View>
       <ScrollView className="mx-4 my-2" showsVerticalScrollIndicator={false}>
-        <TouchableOpacity className="mt-4 border h-56 w-full border-dashed border-gray-600 items-center justify-center">
+        <TouchableOpacity
+          onPress={handleImageSelection}
+          className="mt-4 border h-56 w-full border-dashed border-gray-600 items-center justify-center"
+        >
           <Ionicons name="image-outline" size={48} color="black" />
         </TouchableOpacity>
+        <ScrollView horizontal className=" gap-2 mt-2">
+          {campaign.media.map((image, index) => (
+            <View
+              key={index}
+              style={{
+                width: 100,
+                height: 100,
+                borderRadius: 8,
+                overflow: 'hidden',
+              }}
+            >
+              <Image
+                style={{
+                  width: '100%',
+                  height: '100%',
+                }}
+                source={{
+                  uri: image.uri,
+                }}
+              />
+            </View>
+          ))}
+        </ScrollView>
 
         <View className="my-4">
           <View style={{ marginBottom: 12 }}>

@@ -9,6 +9,20 @@ const useIssueStore = create((set, get) => ({
 
   createIssueByUser: async (body) => {
     try {
+      const formData = new FormData();
+      formData.append('title', body.title);
+      formData.append('description', body.description);
+      formData.append('address', JSON.stringify(body.address));
+      formData.append('tags', JSON.stringify(body.tags));
+
+      body.media.forEach((media) => {
+        formData.append('media', {
+          uri: media.uri,
+          type: 'image/jpeg',
+          name: 'image.jpg',
+        });
+      });
+
       const { data } = await axios({
         method: 'POST',
         url: `${URL}/api/v1/issue/create/user`,
@@ -16,8 +30,10 @@ const useIssueStore = create((set, get) => ({
           Authorization: `Bearer ${
             JSON.parse(await AsyncStorage.getItem('auth')).token
           }`,
+          'Content-Type': 'multipart/form-data',
         },
-        data: body,
+
+        data: formData,
       });
     } catch (error) {
       throw new Error(
@@ -28,6 +44,20 @@ const useIssueStore = create((set, get) => ({
 
   createIssueByNgo: async (body) => {
     try {
+      const formData = new FormData();
+      formData.append('title', body.title);
+      formData.append('description', body.description);
+      formData.append('address', JSON.stringify(body.address));
+      formData.append('tags', JSON.stringify(body.tags));
+
+      body.media.forEach((media) => {
+        formData.append('media', {
+          uri: media.uri,
+          type: 'image/jpeg',
+          name: 'image.jpg',
+        });
+      });
+
       const { data } = await axios({
         method: 'POST',
         url: `${URL}/api/v1/issue/create/ngo`,
@@ -35,8 +65,9 @@ const useIssueStore = create((set, get) => ({
           Authorization: `Bearer ${
             JSON.parse(await AsyncStorage.getItem('auth')).token
           }`,
+          'Content-Type': 'multipart/form-data',
         },
-        data: body,
+        data: formData,
       });
     } catch (error) {
       throw new Error(

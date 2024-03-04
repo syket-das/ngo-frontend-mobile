@@ -23,7 +23,10 @@ const PostCard = ({ post }) => {
           <Image
             className="w-8 h-8 rounded-full"
             source={{
-              uri: 'https://picsum.photos/200/300',
+              uri:
+                postBy === 'USER'
+                  ? post.ownUser.profileImage?.url
+                  : post.ownNgo.profileImage?.url,
             }}
           />
           <Text className="font-bold">

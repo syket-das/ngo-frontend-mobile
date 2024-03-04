@@ -16,6 +16,8 @@ import { useCampaignStore } from '../../store/campaignStore';
 import Toast from 'react-native-toast-message';
 import Button from '../Button';
 import { useStripe } from '@stripe/stripe-react-native';
+import Carousel from 'react-native-reanimated-carousel';
+import { Dimensions } from 'react-native';
 
 const CampaignDetailsCard = ({ campaign, hideModal }) => {
   const { initPaymentSheet, presentPaymentSheet } = useStripe();

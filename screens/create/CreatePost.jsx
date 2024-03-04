@@ -5,6 +5,7 @@ import {
   TextInput,
   ScrollView,
   Button,
+  Image,
 } from 'react-native';
 import React, { useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
@@ -15,6 +16,7 @@ import usePostStore from '../../store/postStore';
 import { useNavigation } from '@react-navigation/native';
 import useAuthStore from '../../store/authStore';
 import { TAGS } from '../../constants/data';
+import * as ImagePicker from 'expo-image-picker';
 
 const CreatePost = () => {
   const navigation = useNavigation();
@@ -45,6 +47,7 @@ const CreatePost = () => {
       country: '',
       zipCode: '',
     },
+    media: [],
   });
 
   const handleSubmit = async () => {
@@ -85,12 +88,52 @@ const CreatePost = () => {
     return { key: tag.value, value: tag.value };
   });
 
+  const handleImageSelection = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsMultipleSelection: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setPost({ ...post, media: result.assets });
+    }
+  };
+
   return (
     <View>
       <ScrollView className="mx-4 my-2" showsVerticalScrollIndicator={false}>
-        <TouchableOpacity className="mt-4 border h-56 w-full border-dashed border-gray-600 items-center justify-center">
+        <TouchableOpacity
+          onPress={handleImageSelection}
+          className="mt-4 border h-56 w-full border-dashed border-gray-600 items-center justify-center"
+        >
           <Ionicons name="image-outline" size={48} color="black" />
         </TouchableOpacity>
+
+        <ScrollView horizontal className=" gap-2 mt-2">
+          {post.media.map((image, index) => (
+            <View
+              key={index}
+              style={{
+                width: 100,
+                height: 100,
+                borderRadius: 8,
+                overflow: 'hidden',
+              }}
+            >
+              <Image
+                style={{
+                  width: '100%',
+                  height: '100%',
+                }}
+                source={{
+                  uri: image.uri,
+                }}
+              />
+            </View>
+          ))}
+        </ScrollView>
 
         <View className="my-4">
           <View style={{ marginBottom: 12 }}>
