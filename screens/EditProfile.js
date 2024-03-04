@@ -14,7 +14,6 @@ import * as ImagePicker from 'expo-image-picker';
 import { COLORS, FONTS } from '../constants';
 import { MaterialIcons } from '@expo/vector-icons';
 import { imagesDataURL } from '../constants/data';
-import DatePicker, { getFormatedDate } from 'react-native-modern-datepicker';
 
 const EditProfile = ({ navigation }) => {
   const [selectedImage, setSelectedImage] = useState(imagesDataURL[0]);
@@ -22,23 +21,6 @@ const EditProfile = ({ navigation }) => {
   const [email, setEmail] = useState('metperters@gmail.com');
   const [password, setPassword] = useState('randompassword');
   const [country, setCountry] = useState('Nigeria');
-
-  const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
-  const today = new Date();
-  const startDate = getFormatedDate(
-    today.setDate(today.getDate() + 1),
-    'YYYY/MM/DD'
-  );
-  const [selectedStartDate, setSelectedStartDate] = useState('01/01/1990');
-  const [startedDate, setStartedDate] = useState('12/12/2023');
-
-  const handleChangeStartDate = (propDate) => {
-    setStartedDate(propDate);
-  };
-
-  const handleOnPressStartDate = () => {
-    setOpenStartDatePicker(!openStartDatePicker);
-  };
 
   const handleImageSelection = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -54,65 +36,6 @@ const EditProfile = ({ navigation }) => {
       setSelectedImage(result.assets[0].uri);
     }
   };
-
-  function renderDatePicker() {
-    return (
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={openStartDatePicker}
-      >
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <View
-            style={{
-              margin: 20,
-              backgroundColor: COLORS.primary,
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 20,
-              padding: 35,
-              width: '90%',
-              shadowColor: '#000',
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 4,
-              elevation: 5,
-            }}
-          >
-            <DatePicker
-              mode="calendar"
-              minimumDate={startDate}
-              selected={startedDate}
-              onDateChanged={handleChangeStartDate}
-              onSelectedChange={(date) => setSelectedStartDate(date)}
-              options={{
-                backgroundColor: COLORS.primary,
-                textHeaderColor: '#469ab6',
-                textDefaultColor: COLORS.white,
-                selectedTextColor: COLORS.white,
-                mainColor: '#469ab6',
-                textSecondaryColor: COLORS.white,
-                borderColor: 'rgba(122,146,165,0.1)',
-              }}
-            />
-
-            <TouchableOpacity onPress={handleOnPressStartDate}>
-              <Text style={{ ...FONTS.body3, color: COLORS.white }}>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-    );
-  }
 
   return (
     <SafeAreaView
@@ -264,30 +187,6 @@ const EditProfile = ({ navigation }) => {
               />
             </View>
           </View>
-
-          <View
-            style={{
-              flexDirection: 'column',
-              marginBottom: 6,
-            }}
-          >
-            <Text style={{ ...FONTS.h4 }}>Date or Birth</Text>
-            <TouchableOpacity
-              onPress={handleOnPressStartDate}
-              style={{
-                height: 44,
-                width: '100%',
-                borderColor: COLORS.secondaryGray,
-                borderWidth: 1,
-                borderRadius: 4,
-                marginVertical: 6,
-                justifyContent: 'center',
-                paddingLeft: 8,
-              }}
-            >
-              <Text>{selectedStartDate}</Text>
-            </TouchableOpacity>
-          </View>
         </View>
 
         <View
@@ -335,8 +234,6 @@ const EditProfile = ({ navigation }) => {
             Save Change
           </Text>
         </TouchableOpacity>
-
-        {renderDatePicker()}
       </ScrollView>
       <StatusBar backgroundColor={COLORS.primary} />
     </SafeAreaView>
