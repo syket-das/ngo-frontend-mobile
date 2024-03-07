@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, RefreshControl } from 'react-native';
+import { View, Text, ScrollView, RefreshControl, FlatList } from 'react-native';
 import React, { useEffect } from 'react';
 import PostCard from '../../components/post/PostCard';
 import usePostStore from '../../store/postStore';
@@ -17,9 +17,15 @@ const PostScreen = ({ navigation }) => {
     getPosts();
   }, []);
   return (
-    <ScrollView
+    <FlatList
       showsVerticalScrollIndicator={false}
-      className="flex-1 px-2 bg-white"
+      data={posts}
+      style={{
+        flex: 1,
+        backgroundColor: '#fff',
+      }}
+      renderItem={({ item }) => <PostCard post={item} />}
+      keyExtractor={(item) => item.id}
       refreshControl={
         <RefreshControl
           title="Pull to refresh"
@@ -38,16 +44,16 @@ const PostScreen = ({ navigation }) => {
           setHomePostsScrolled(false);
         }
       }}
-    >
-      {posts.length > 0 &&
-        posts.map((post) => <PostCard key={post.id} post={post} />)}
-
-      <View
-        style={{
-          height: 100,
-        }}
-      ></View>
-    </ScrollView>
+      ListFooterComponent={() => (
+        <View
+          style={{
+            height: 100,
+          }}
+        >
+          <Text style={{ textAlign: 'center' }}>No more posts</Text>
+        </View>
+      )}
+    />
   );
 };
 

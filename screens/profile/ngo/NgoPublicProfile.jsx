@@ -22,33 +22,37 @@ const NgoPublicProfile = ({ ngo }) => {
         backgroundColor: 'white',
       }}
     >
-      <View className="flex-row justify-between items-center mt-4 mx-4">
-        <View>
-          <Image source={images.profile} className="h-14 w-14 rounded-full" />
-          <Text className="text-sm font-semibold mt-2">
-            {ngo?.name || ' Name'} {ngo?.type && `(${ngo?.type})`}
-          </Text>
-        </View>
+      <View className=" mt-4">
+        <View className="flex-row mx-4 justify-between">
+          <Image
+            source={{ uri: ngo?.profileImage?.url }}
+            className="h-14 w-14 rounded-full"
+          />
+          <View className="flex-row items-center gap-4">
+            <TouchableOpacity className="justify-center items-center">
+              <Text className="text-sm font-semibold text-green-800">300</Text>
 
-        <View className="flex-row items-center flex-0.5 gap-4">
-          <TouchableOpacity className="justify-center items-center">
-            <Text className="text-sm font-semibold text-green-800">300</Text>
-
-            <Text className="text-xs font-semibold text-gray-500">
-              Followers
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity className="justify-center items-center">
-            <Text className="text-sm font-semibold text-blue-800">300</Text>
-            <Text className="text-xs font-semibold text-gray-500">
-              Following
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity className="justify-center items-center">
-            <Text className="text-sm font-semibold text-red-800">300</Text>
-            <Text className="text-xs font-semibold text-gray-500">Points</Text>
-          </TouchableOpacity>
+              <Text className="text-xs font-semibold text-gray-500">
+                Followers
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity className="justify-center items-center">
+              <Text className="text-sm font-semibold text-blue-800">300</Text>
+              <Text className="text-xs font-semibold text-gray-500">
+                Following
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity className="justify-center items-center">
+              <Text className="text-sm font-semibold text-red-800">300</Text>
+              <Text className="text-xs font-semibold text-gray-500">
+                Points
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
+        <Text className="text-sm font-semibold mt-2 ml-4">
+          {ngo?.name || ' Name'} {ngo?.type && `(${ngo?.type})`}
+        </Text>
       </View>
       <View className="flex-row  items-center  mx-4">
         <Ionicons name="location" size={16} color="gray" />

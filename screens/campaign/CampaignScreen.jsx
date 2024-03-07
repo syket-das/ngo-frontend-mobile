@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, RefreshControl } from 'react-native';
+import { View, Text, ScrollView, RefreshControl, FlatList } from 'react-native';
 import React, { useEffect } from 'react';
 import { useControlStore } from '../../store/useControlStore';
 import { useCampaignStore } from '../../store/campaignStore';
@@ -23,7 +23,7 @@ const CampaignScreen = ({ defaultCampaigns }) => {
         backgroundColor: '#fff',
       }}
     >
-      <ScrollView
+      <FlatList
         refreshControl={
           <RefreshControl
             title="Pull to refresh"
@@ -43,25 +43,19 @@ const CampaignScreen = ({ defaultCampaigns }) => {
             setHomePostsScrolled(false);
           }
         }}
-      >
-        {/* {campaigns.map((campaign) => (
-          <CampaignCard key={campaign.id} campaign={campaign} />
-        ))} */}
-
-        {defaultCampaigns
-          ? defaultCampaigns.map((campaign) => (
-              <CampaignCard key={campaign.id} campaign={campaign} />
-            ))
-          : campaigns.map((campaign) => (
-              <CampaignCard key={campaign.id} campaign={campaign} />
-            ))}
-
-        <View
-          style={{
-            height: 100,
-          }}
-        ></View>
-      </ScrollView>
+        data={defaultCampaigns ? defaultCampaigns : campaigns}
+        renderItem={({ item }) => <CampaignCard campaign={item} />}
+        keyExtractor={(item) => item.id}
+        ListFooterComponent={() => (
+          <View
+            style={{
+              height: 100,
+            }}
+          >
+            <Text style={{ textAlign: 'center' }}>No more campaigns</Text>
+          </View>
+        )}
+      ></FlatList>
     </View>
   );
 };

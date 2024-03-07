@@ -5,8 +5,10 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import React, { useEffect } from 'react';
+import { Modal, Portal } from 'react-native-paper';
 
 import { COLORS } from '../constants';
 import ScreenWrapper from '../components/common/layout/ScreenWrapper';
@@ -22,6 +24,16 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     setHomePostsScrolled(false);
   }, []);
+
+  const [visible, setVisible] = React.useState(false);
+
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
+  const containerStyle = {
+    backgroundColor: 'white',
+    padding: 20,
+    height: Dimensions.get('window').height,
+  };
 
   return (
     <ScreenWrapper>
@@ -47,35 +59,103 @@ const Home = ({ navigation }) => {
         }}
       >
         <ScrollView
-          className="mb-4 mt-2 gap-4"
+          className="mb-4 mt-2 gap-4 ml-2"
           horizontal
           showsHorizontalScrollIndicator={false}
         >
-          <View className="items-center ">
+          <TouchableOpacity
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            className="items-center h-14 w-20 rounded-md bg-gray-200"
+          >
+            <Ionicons name="add-circle" size={40} color={COLORS.primary} />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              setVisible(true);
+            }}
+            className="items-center"
+          >
             <Image
               source={require('../assets/images/cover.jpg')}
-              className="w-10 h-10 rounded-full"
+              className="w-20 h-14 rounded-md"
             />
-            <Text className="ml-2">John Doe</Text>
-          </View>
-          <View className="items-center ">
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setVisible(true);
+            }}
+            className="items-center"
+          >
             <Image
               source={require('../assets/images/cover.jpg')}
-              className="w-10 h-10 rounded-full"
+              className="w-20 h-14 rounded-md"
             />
-            <Text className="ml-2">John Doe</Text>
-          </View>
-          <View className="items-center ">
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setVisible(true);
+            }}
+            className="items-center"
+          >
             <Image
               source={require('../assets/images/cover.jpg')}
-              className="w-10 h-10 rounded-full"
+              className="w-20 h-14 rounded-md"
             />
-            <Text className="ml-2">John Doe</Text>
-          </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setVisible(true);
+            }}
+            className="items-center"
+          >
+            <Image
+              source={require('../assets/images/cover.jpg')}
+              className="w-20 h-14 rounded-md"
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setVisible(true);
+            }}
+            className="items-center"
+          >
+            <Image
+              source={require('../assets/images/cover.jpg')}
+              className="w-20 h-14 rounded-md"
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setVisible(true);
+            }}
+            className="items-center"
+          >
+            <Image
+              source={require('../assets/images/cover.jpg')}
+              className="w-20 h-14 rounded-md"
+            />
+          </TouchableOpacity>
         </ScrollView>
       </View>
 
       <HomeTopTabs />
+
+      <Portal>
+        <Modal
+          visible={visible}
+          onDismiss={hideModal}
+          contentContainerStyle={containerStyle}
+        >
+          <Image
+            source={require('../assets/images/cover.jpg')}
+            className="w-full h-96 rounded-md"
+          />
+        </Modal>
+      </Portal>
     </ScreenWrapper>
   );
 };
