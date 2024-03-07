@@ -2,7 +2,7 @@ import { View, Text, Image, TouchableOpacity, Dimensions } from 'react-native';
 import React, { useEffect } from 'react';
 import Carousel from 'react-native-reanimated-carousel';
 
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import useBottomSheetStore from '../../store/bottomSheetStore';
 
 import PostVote from './PostVote';
@@ -84,16 +84,27 @@ const PostCard = ({ post }) => {
 
       <View className="flex-row items-center justify-between mt-2">
         <PostVote post={post} />
-        <TouchableOpacity
-          className="flex-row items-center gap-2"
-          onPress={() => {
-            setBottomSheet(true);
-            setBottomSheetContent(<PostCommentContainer post={post} />);
-          }}
-        >
-          <Text className="text-xs">{post.commentsCount}</Text>
-          <Ionicons name="chatbubble-outline" size={18} />
-        </TouchableOpacity>
+        <View className="flex-row gap-x-2">
+          <TouchableOpacity
+            className="flex-row items-center gap-2"
+            onPress={() => {
+              setBottomSheet(true);
+              setBottomSheetContent(<PostCommentContainer post={post} />);
+            }}
+          >
+            <Text className="text-xs">{post.commentsCount}</Text>
+            <Ionicons name="chatbubble-outline" size={18} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            className="flex-row items-center gap-2"
+            onPress={() => {
+              setBottomSheet(true);
+              setBottomSheetContent(<PostCommentContainer post={post} />);
+            }}
+          >
+            <MaterialCommunityIcons name="share" size={20} />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View className="flex-row items-center  mt-2 flex-wrap">

@@ -1,7 +1,13 @@
 import { View, Text, Dimensions, Image, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Carousel from 'react-native-reanimated-carousel';
-import { AntDesign, Entypo, Ionicons, FontAwesome6 } from '@expo/vector-icons';
+import {
+  AntDesign,
+  Entypo,
+  Ionicons,
+  FontAwesome6,
+  MaterialCommunityIcons,
+} from '@expo/vector-icons';
 import { COLORS } from '../../constants';
 import { useCampaignStore } from '../../store/campaignStore';
 import SvgView from '../SvgView';
@@ -193,7 +199,14 @@ const CampaignCard = ({ campaign }) => {
           className="flex-row items-center justify-between mt-2"
           onPress={showModal}
         >
-          <Text className="font-semibold text-lg">{singleCampaign.title}</Text>
+          <Text
+            className="font-semibold text-lg "
+            style={{
+              color: COLORS.primary,
+            }}
+          >
+            {singleCampaign.title}
+          </Text>
         </TouchableOpacity>
         <View className="flex-row items-center  mt-2 flex-wrap">
           {singleCampaign?.tags?.map((tag, index) => (
