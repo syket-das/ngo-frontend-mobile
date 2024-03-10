@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { images } from '../../../constants';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,12 +7,27 @@ import ProfileTopTabs from '../../../navigations/ProfileTopTabs';
 import { useSearchStore } from '../../../store/searchStore';
 
 const UserPublicProfile = ({ user }) => {
+  const [points, setPoints] = useState(0);
+
   const { searchedUser, setSearchedUser, setRole } = useSearchStore(
     (state) => state
   );
 
   useEffect(() => {
     setSearchedUser(user);
+
+    let point = 0;
+
+    if (user?.userPoints) {
+      user?.userPoints?.map((p) => {
+        const total = p.donation + p.intellectual + p.intellectual;
+
+        point += total;
+      });
+
+      setPoints(point);
+    }
+
     setRole('USER');
   }, [user]);
 
@@ -26,7 +41,7 @@ const UserPublicProfile = ({ user }) => {
       <View className="mt-4">
         <View className="flex-row mx-4 justify-between">
           <Image
-            source={{ uri: user?.profileImage?.url }}
+            source={{ uri: user?.profileImage?.url || '' }}
             className="h-14 w-14 rounded-full"
           />
           <View className="flex-row items-center flex-0.5 gap-4">
@@ -44,7 +59,9 @@ const UserPublicProfile = ({ user }) => {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity className="justify-center items-center">
-              <Text className="text-sm font-semibold text-red-800">300</Text>
+              <Text className="text-sm font-semibold text-red-800">
+                {points}
+              </Text>
               <Text className="text-xs font-semibold text-gray-500">
                 Points
               </Text>

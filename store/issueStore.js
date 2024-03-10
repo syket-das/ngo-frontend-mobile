@@ -76,11 +76,11 @@ const useIssueStore = create((set, get) => ({
     }
   },
 
-  getIssues: async () => {
+  getIssues: async (query) => {
     try {
       const { data } = await axios({
         method: 'GET',
-        url: `${URL}/api/v1/issue/all`,
+        url: `${URL}/api/v1/issue/all?query=${query || ''}`,
         headers: {
           Authorization: `Bearer ${
             JSON.parse(await AsyncStorage.getItem('auth')).token

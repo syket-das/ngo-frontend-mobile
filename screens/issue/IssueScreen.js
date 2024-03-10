@@ -29,6 +29,12 @@ const IssueScreen = () => {
     getIssues();
   }, []);
 
+  useEffect(() => {
+    if (searchQuery.length > 0) {
+      getIssues(searchQuery);
+    }
+  }, [searchQuery]);
+
   return (
     <ScreenWrapper>
       <StatusBar backgroundColor={COLORS.primary} />

@@ -142,7 +142,9 @@ const SearchScreen = ({ navigation }) => {
           >
             <Image
               source={{
-                uri: 'https://i.ibb.co/W29btXp/profile.jpg',
+                uri:
+                  user?.profileImage?.url ||
+                  'https://i.ibb.co/W29btXp/profile.jpg',
               }}
               className="h-12 w-12 rounded-lg mr-2"
             />
@@ -170,7 +172,9 @@ const SearchScreen = ({ navigation }) => {
           >
             <Image
               source={{
-                uri: 'https://i.ibb.co/W29btXp/profile.jpg',
+                uri:
+                  ngo?.profileImage?.url ||
+                  'https://i.ibb.co/W29btXp/profile.jpg',
               }}
               className="h-12 w-12 rounded-lg mr-2"
             />

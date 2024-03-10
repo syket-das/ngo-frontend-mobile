@@ -38,7 +38,7 @@ const Home = ({ navigation }) => {
   return (
     <ScreenWrapper>
       <StatusBar backgroundColor={COLORS.primary} />
-      <View className="flex-row justify-between mt-4">
+      <View className="flex-row justify-between mt-4 mb-2">
         <View>
           <View className="flex-row items-center">
             <Image

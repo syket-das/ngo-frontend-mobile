@@ -11,10 +11,22 @@ import useNgoStore from '../../../store/ngoStore';
 
 const UserProfile = () => {
   const { profile, getProfile } = useNgoStore((state) => state);
+  const [points, setPoints] = useState(0);
 
   const fetchProfile = async () => {
     try {
       await getProfile();
+      let point = 0;
+
+      if (profile?.ngoPoints) {
+        profile?.ngoPoints?.map((p) => {
+          const total = p.donation + p.intellectual + p.intellectual;
+
+          point += total;
+        });
+
+        setPoints(point);
+      }
     } catch (error) {
       Toast.show({
         type: 'error',
@@ -40,7 +52,7 @@ const UserProfile = () => {
       <View className=" mt-4 ">
         <View className="flex-row mx-4 justify-between">
           <Image
-            source={{ uri: profile?.profileImage?.url }}
+            source={{ uri: profile?.profileImage?.url || '' }}
             className="h-14 w-14 rounded-full"
           />
           <View className="flex-row items-center flex-0.5 gap-4">
@@ -58,7 +70,9 @@ const UserProfile = () => {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity className="justify-center items-center">
-              <Text className="text-sm font-semibold text-red-800">300</Text>
+              <Text className="text-sm font-semibold text-red-800">
+                {points}
+              </Text>
               <Text className="text-xs font-semibold text-gray-500">
                 Points
               </Text>

@@ -43,9 +43,7 @@ const CampaignCard = ({ campaign }) => {
     const fetchAuthType = async () => {
       try {
         await setAuthType();
-      } catch (error) {
-        console.log('error', error);
-      }
+      } catch (error) {}
     };
     fetchAuthType();
   }, []);

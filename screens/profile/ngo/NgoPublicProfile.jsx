@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { images } from '../../../constants';
 import { Ionicons } from '@expo/vector-icons';
@@ -10,8 +10,23 @@ const NgoPublicProfile = ({ ngo }) => {
   const { searchedUser, setSearchedUser, setSearchedNgo, setRole } =
     useSearchStore((state) => state);
 
+  const [points, setPoints] = useState(0);
+
   useEffect(() => {
     setSearchedNgo(ngo);
+
+    let point = 0;
+
+    if (ngo?.ngoPoints) {
+      ngo?.ngoPoints?.map((p) => {
+        const total = p.donation + p.intellectual + p.intellectual;
+
+        point += total;
+      });
+
+      setPoints(point);
+    }
+
     setRole('NGO');
   }, [ngo]);
 
@@ -25,7 +40,7 @@ const NgoPublicProfile = ({ ngo }) => {
       <View className=" mt-4">
         <View className="flex-row mx-4 justify-between">
           <Image
-            source={{ uri: ngo?.profileImage?.url }}
+            source={{ uri: ngo?.profileImage?.url || '' }}
             className="h-14 w-14 rounded-full"
           />
           <View className="flex-row items-center gap-4">
@@ -43,7 +58,9 @@ const NgoPublicProfile = ({ ngo }) => {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity className="justify-center items-center">
-              <Text className="text-sm font-semibold text-red-800">300</Text>
+              <Text className="text-sm font-semibold text-red-800">
+                {points}
+              </Text>
               <Text className="text-xs font-semibold text-gray-500">
                 Points
               </Text>
