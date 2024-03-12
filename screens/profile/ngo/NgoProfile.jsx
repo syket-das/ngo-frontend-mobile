@@ -38,7 +38,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     fetchProfile();
-  }, []);
+  }, [profile]);
 
   return (
     <SafeAreaView

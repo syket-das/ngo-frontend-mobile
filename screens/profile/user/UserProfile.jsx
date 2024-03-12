@@ -39,7 +39,7 @@ const UserProfile = () => {
 
       setPoints(point);
     }
-  }, []);
+  }, [profile]);
 
   return (
     <SafeAreaView
