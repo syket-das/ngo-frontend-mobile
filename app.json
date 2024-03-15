@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.syket.cypindia"
@@ -39,6 +41,12 @@
       "eas": {
         "projectId": "5dcb0791-cb26-408d-b480-2936243b767c"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/5dcb0791-cb26-408d-b480-2936243b767c"
     }
   }
 }
