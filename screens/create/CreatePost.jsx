@@ -17,6 +17,8 @@ import { useNavigation } from '@react-navigation/native';
 import useAuthStore from '../../store/authStore';
 import { TAGS } from '../../constants/data';
 import * as ImagePicker from 'expo-image-picker';
+import * as Network from 'expo-network';
+import axios from 'axios';
 
 const CreatePost = () => {
   const navigation = useNavigation();
@@ -211,15 +213,44 @@ const CreatePost = () => {
             </View>
           </View>
           <View style={{ marginBottom: 12 }}>
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: 400,
-                marginVertical: 8,
-              }}
-            >
-              Address
-            </Text>
+            <View className="flex-row gap-x-2 my-2">
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: 400,
+                }}
+              >
+                Address
+              </Text>
+              <TouchableOpacity
+                onPress={async () => {
+                  await Network.getIpAddressAsync()
+                    .then(async (response) => {
+                      const loc = await axios.get(
+                        `http://ip-api.com/json/${response}`
+                      );
+
+                      setPost({
+                        ...post,
+                        address: {
+                          street: loc.data.regionName,
+                          city: loc.data.city,
+                          state: loc.data.region,
+                          country: loc.data.country,
+                          zipCode: loc.data.zip,
+                        },
+                      });
+                    })
+                    .catch((error) => {
+                      console.log('error', error);
+                    });
+                }}
+                className="flex-row items-center gap-x-1"
+              >
+                <Text style={{ color: COLORS.primary }}>Autofill</Text>
+                <Ionicons name="locate" size={24} color={COLORS.primary} />
+              </TouchableOpacity>
+            </View>
 
             <View
               style={{

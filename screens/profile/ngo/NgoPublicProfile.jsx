@@ -28,7 +28,7 @@ const NgoPublicProfile = ({ ngo }) => {
     }
 
     setRole('NGO');
-  }, [ngo]);
+  }, []);
 
   return (
     <SafeAreaView
@@ -75,6 +75,18 @@ const NgoPublicProfile = ({ ngo }) => {
         <Ionicons name="location" size={16} color="gray" />
         <Text className="text-xs font-semibold text-gray-500">
           {ngo?.address?.city}, {ngo?.address?.country}
+        </Text>
+      </View>
+
+      <View className="flex-row items-center gap-x-2 mx-4 mt-2">
+        <Text className="text-[10px] text-green-700 font-semibold border border-dashed border-green-700 px-1">
+          Top Contributor
+        </Text>
+        <Text className="text-[10px] text-blue-700 font-semibold border border-dashed border-blue-700 px-1">
+          Top Donor
+        </Text>
+        <Text className="text-[10px] font-semibold border border-dashed border-red-600 text-red-600 px-1">
+          Top Volunteer
         </Text>
       </View>
 

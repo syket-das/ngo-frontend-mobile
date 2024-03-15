@@ -16,17 +16,6 @@ const UserProfile = () => {
   const fetchProfile = async () => {
     try {
       await getProfile();
-      let point = 0;
-
-      if (profile?.ngoPoints) {
-        profile?.ngoPoints?.map((p) => {
-          const total = p.donation + p.intellectual + p.intellectual;
-
-          point += total;
-        });
-
-        setPoints(point);
-      }
     } catch (error) {
       Toast.show({
         type: 'error',
@@ -38,6 +27,20 @@ const UserProfile = () => {
 
   useEffect(() => {
     fetchProfile();
+  }, []);
+
+  useEffect(() => {
+    let point = 0;
+
+    if (profile?.ngoPoints) {
+      profile?.ngoPoints?.map((p) => {
+        const total = p.donation + p.intellectual + p.intellectual;
+
+        point += total;
+      });
+
+      setPoints(point);
+    }
   }, [profile]);
 
   return (
@@ -87,6 +90,17 @@ const UserProfile = () => {
         <Ionicons name="location" size={16} color="gray" />
         <Text className="text-xs font-semibold text-gray-500">
           {profile?.address?.city || ''}, {profile?.address?.country || ''}
+        </Text>
+      </View>
+      <View className="flex-row items-center gap-x-2 mx-4 mt-2">
+        <Text className="text-[10px] text-green-700 font-semibold border border-dashed border-green-700 px-1">
+          Top Contributor
+        </Text>
+        <Text className="text-[10px] text-blue-700 font-semibold border border-dashed border-blue-700 px-1">
+          Top Donor
+        </Text>
+        <Text className="text-[10px] font-semibold border border-dashed border-red-600 text-red-600 px-1">
+          Top Volunteer
         </Text>
       </View>
 

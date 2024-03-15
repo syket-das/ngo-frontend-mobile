@@ -1,5 +1,7 @@
 import * as React from 'react';
+import { TouchableOpacity } from 'react-native';
 import { DataTable } from 'react-native-paper';
+import { Ionicons } from '@expo/vector-icons';
 
 const CampaignAttendesTable = ({ campaign }) => {
   const [page, setPage] = React.useState(0);
@@ -25,14 +27,29 @@ const CampaignAttendesTable = ({ campaign }) => {
       <DataTable.Header>
         <DataTable.Title>Name</DataTable.Title>
         <DataTable.Title>Email</DataTable.Title>
-        {/* <DataTable.Title>Verified</DataTable.Title> */}
+
+        <DataTable.Title
+          style={{
+            maxWidth: 50,
+          }}
+        >
+          Actions
+        </DataTable.Title>
       </DataTable.Header>
 
       {items.slice(from, to).map((item) => (
         <DataTable.Row key={item.id}>
           <DataTable.Cell>{item.name || item.fullName}</DataTable.Cell>
-          <DataTable.Cell>{item.email}</DataTable.Cell>
-          {/* <DataTable.Cell>{'item.fat'}</DataTable.Cell> */}
+          <DataTable.Cell>{item.email} </DataTable.Cell>
+          <DataTable.Cell
+            style={{
+              maxWidth: 50,
+            }}
+          >
+            <TouchableOpacity>
+              <Ionicons name="remove-circle" size={24} color="red" />
+            </TouchableOpacity>
+          </DataTable.Cell>
         </DataTable.Row>
       ))}
 

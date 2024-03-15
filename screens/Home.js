@@ -59,7 +59,7 @@ const Home = ({ navigation }) => {
         }}
       >
         <ScrollView
-          className="mb-4 mt-2 gap-4 ml-2"
+          className="mb-4 mt-2 gap-4 ml-2 hidden"
           horizontal
           showsHorizontalScrollIndicator={false}
         >

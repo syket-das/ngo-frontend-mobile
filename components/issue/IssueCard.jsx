@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Share } from 'react-native';
 import React from 'react';
 import {
   Modal,
@@ -8,6 +8,7 @@ import {
   PaperProvider,
 } from 'react-native-paper';
 import IssueDetailsCard from './IssueDetailsCard';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const IssueCard = ({ issue }) => {
   const issueBy = issue.ownUserId ? 'USER' : issue.ownNgoId ? 'NGO' : '';
@@ -36,6 +37,33 @@ const IssueCard = ({ issue }) => {
             {issue.comments.length} Answers
           </Text>
           <Text className="text-primary-500 text-xs  px-1">2k Views</Text>
+          <TouchableOpacity
+            className="flex-row items-center gap-2"
+            onPress={async () => {
+              try {
+                const result = await Share.share({
+                  message:
+                    'Cy India | A platform for social work and public welfare. Join us now. https://reactnative.dev/',
+                  title: 'Cyp India',
+                  url: 'https://reactnative.dev/',
+                });
+                if (result.action === Share.sharedAction) {
+                  if (result.activityType) {
+                    // shared with activity type of result.activityType
+                  } else {
+                    // shared
+                  }
+                } else if (result.action === Share.dismissedAction) {
+                  // dismissed
+                }
+              } catch (error) {
+                alert(error.message);
+              }
+            }}
+          >
+            <Text className="text-xs">Share</Text>
+            <MaterialCommunityIcons name="share" size={20} />
+          </TouchableOpacity>
         </View>
         <View className="w-3/4 ">
           <TouchableOpacity

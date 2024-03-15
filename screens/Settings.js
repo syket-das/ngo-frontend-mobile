@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   ScrollView,
   StatusBar,
+  Share,
 } from 'react-native';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -63,6 +64,28 @@ const Settings = ({ navigation }) => {
     navigation.navigate('Welcome');
   };
 
+  const shareApp = async () => {
+    try {
+      const result = await Share.share({
+        message:
+          'Cy India | A platform for social work and public welfare. Join us now. https://reactnative.dev/',
+        title: 'Cyp India',
+        url: 'https://reactnative.dev/',
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   const accountItems = [
     {
       icon: 'person-outline',
@@ -79,6 +102,11 @@ const Settings = ({ navigation }) => {
   ];
 
   const supportItems = [
+    {
+      icon: 'share',
+      text: 'Share  with a friend',
+      action: shareApp,
+    },
     {
       icon: 'credit-card',
       text: 'My Subscription',

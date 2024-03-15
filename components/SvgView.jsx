@@ -3,10 +3,10 @@ import React from 'react';
 
 import { SvgXml } from 'react-native-svg';
 
-const SvgView = ({ svgPath, height = '50', width = '50' }) => {
+const SvgView = ({ svgPath, height = '50', width = '50', style }) => {
   return (
     <View>
-      <SvgXml xml={`${svgPath}`} width={width} height={height} />
+      <SvgXml style={style} xml={`${svgPath}`} width={width} height={height} />
     </View>
   );
 };

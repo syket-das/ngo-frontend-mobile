@@ -1,7 +1,13 @@
-import { View, Text, Image, TouchableOpacity, Dimensions } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Dimensions,
+  Share,
+} from 'react-native';
 import React, { useEffect } from 'react';
 import Carousel from 'react-native-reanimated-carousel';
-
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import useBottomSheetStore from '../../store/bottomSheetStore';
 
@@ -47,6 +53,11 @@ const PostCard = ({ post }) => {
 
       {post?.media && post.media.length > 0 ? (
         <Carousel
+          // it should not scroll when i swipe down the post
+          panGestureHandlerProps={{
+            activeOffsetX: [-10, 10],
+          }}
+          loop={false}
           width={Dimensions.get('window').width - 20}
           height={300}
           data={post.media || []}
@@ -97,9 +108,26 @@ const PostCard = ({ post }) => {
           </TouchableOpacity>
           <TouchableOpacity
             className="flex-row items-center gap-2"
-            onPress={() => {
-              setBottomSheet(true);
-              setBottomSheetContent(<PostCommentContainer post={post} />);
+            onPress={async () => {
+              try {
+                const result = await Share.share({
+                  message:
+                    'Cy India | A platform for social work and public welfare. Join us now. https://reactnative.dev/',
+                  title: 'Cyp India',
+                  url: 'https://reactnative.dev/',
+                });
+                if (result.action === Share.sharedAction) {
+                  if (result.activityType) {
+                    // shared with activity type of result.activityType
+                  } else {
+                    // shared
+                  }
+                } else if (result.action === Share.dismissedAction) {
+                  // dismissed
+                }
+              } catch (error) {
+                alert(error.message);
+              }
             }}
           >
             <MaterialCommunityIcons name="share" size={20} />

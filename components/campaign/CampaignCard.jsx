@@ -104,6 +104,9 @@ const CampaignCard = ({ campaign }) => {
         </View>
         {singleCampaign?.media && singleCampaign.media.length > 0 ? (
           <Carousel
+            panGestureHandlerProps={{
+              activeOffsetX: [-10, 10],
+            }}
             width={Dimensions.get('window').width - 20}
             height={300}
             data={singleCampaign.media || []}

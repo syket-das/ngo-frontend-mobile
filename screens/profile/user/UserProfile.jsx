@@ -12,6 +12,7 @@ import { Ionicons, FontAwesome } from '@expo/vector-icons';
 const UserProfile = () => {
   const { profile, getProfile } = useUserStore((state) => state);
   const [points, setPoints] = useState(0);
+
   const fetchProfile = async () => {
     try {
       await getProfile();
@@ -27,7 +28,9 @@ const UserProfile = () => {
 
   useEffect(() => {
     fetchProfile();
+  }, []);
 
+  useEffect(() => {
     let point = 0;
 
     if (profile?.userPoints) {
@@ -51,11 +54,22 @@ const UserProfile = () => {
       <StatusBar backgroundColor={COLORS.white} />
       <View className=" mt-4">
         <View className="flex-row mx-4 justify-between">
-          <Image
-            source={{ uri: profile?.profileImage?.url || '' }}
-            className="h-14 w-14 rounded-full"
-          />
+          <View>
+            <Image
+              source={{ uri: profile?.profileImage?.url || '' }}
+              className="h-14 w-14 rounded-full"
+            />
+          </View>
+
           <View className="flex-row items-center flex-0.5 gap-4">
+            <TouchableOpacity className="justify-center items-center">
+              <Text className="text-sm font-semibold text-red-800">
+                {points}
+              </Text>
+              <Text className="text-xs font-semibold text-gray-500">
+                Points
+              </Text>
+            </TouchableOpacity>
             <TouchableOpacity className="justify-center items-center">
               <Text className="text-sm font-semibold text-green-800">300</Text>
 
@@ -69,25 +83,29 @@ const UserProfile = () => {
                 Following
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity className="justify-center items-center">
-              <Text className="text-sm font-semibold text-red-800">
-                {points}
-              </Text>
-              <Text className="text-xs font-semibold text-gray-500">
-                Points
-              </Text>
-            </TouchableOpacity>
           </View>
         </View>
-        <Text className="text-sm font-semibold mt-2 mx-4">
+        <Text className="text-sm font-semibold mt-2 mx-4  ">
           {profile?.fullName || 'Full Name'}{' '}
           {profile?.profession && `(${profile?.profession})`}
         </Text>
       </View>
+
       <View className="flex-row  items-center  mx-4">
         <Ionicons name="location" size={16} color="gray" />
         <Text className="text-xs font-semibold text-gray-500">
           {profile?.address?.city}, {profile?.address?.country}
+        </Text>
+      </View>
+      <View className="flex-row items-center gap-x-2 mx-4 mt-2">
+        <Text className="text-[10px] text-green-700 font-semibold border border-dashed border-green-700 px-1">
+          Top Contributor
+        </Text>
+        <Text className="text-[10px] text-blue-700 font-semibold border border-dashed border-blue-700 px-1">
+          Top Donor
+        </Text>
+        <Text className="text-[10px] font-semibold border border-dashed border-red-600 text-red-600 px-1">
+          Top Volunteer
         </Text>
       </View>
       <ScrollView>

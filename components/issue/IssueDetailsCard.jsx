@@ -33,6 +33,9 @@ const IssueDetailsCard = ({ issue, hideModal }) => {
         <View className="my-4">
           {issue?.media && issue.media.length > 0 ? (
             <Carousel
+              panGestureHandlerProps={{
+                activeOffsetX: [-10, 10],
+              }}
               width={Dimensions.get('window').width - 40}
               height={300}
               data={issue.media || []}
