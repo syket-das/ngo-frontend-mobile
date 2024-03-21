@@ -74,7 +74,7 @@ const HomeTopTabs = () => {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Fundraisings"
         component={FundraisingScreen}
         options={{
@@ -83,7 +83,7 @@ const HomeTopTabs = () => {
             <MaterialIcons name="attach-money" color={color} size={24} />
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 };

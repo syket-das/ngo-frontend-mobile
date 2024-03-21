@@ -181,6 +181,43 @@ export const useCampaignStore = create((set, get) => ({
     }
   },
 
+  forceLeaveUserFromCampaign: async (userId, campaignId) => {
+    try {
+      const { data } = await axios({
+        method: 'DELETE',
+        url: `${URL}/api/v1/campaign/member/force-leave/user/${campaignId}/${userId}`,
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(await AsyncStorage.getItem('auth')).token
+          }`,
+        },
+        data: {},
+      });
+
+      return data.data;
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
+  forceLeaveNgoFromCampaign: async (ngoId, campaignId) => {
+    try {
+      const { data } = await axios({
+        method: 'DELETE',
+        url: `${URL}/api/v1/campaign/member/force-leave/ngo/${campaignId}/${ngoId}`,
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(await AsyncStorage.getItem('auth')).token
+          }`,
+        },
+        data: {},
+      });
+
+      return data.data;
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
+
   // broadcast campaign
 
   broadcastCampaign: async (campaignId, message) => {

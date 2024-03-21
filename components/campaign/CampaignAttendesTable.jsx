@@ -2,8 +2,12 @@ import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
+import { useCampaignStore } from '../../store/campaignStore';
 
 const CampaignAttendesTable = ({ campaign }) => {
+  const { forceLeaveUserFromCampaign, forceLeaveNgoFromCampaign } =
+    useCampaignStore((state) => state);
+
   const [page, setPage] = React.useState(0);
   const [numberOfItemsPerPageList] = React.useState([2, 3, 4]);
   const [itemsPerPage, onItemsPerPageChange] = React.useState(
@@ -46,7 +50,16 @@ const CampaignAttendesTable = ({ campaign }) => {
               maxWidth: 50,
             }}
           >
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={async () => {
+                if (item.role === 'NGO') {
+                  await forceLeaveNgoFromCampaign(item.id, campaign.id);
+                }
+                if (item.role === 'USER') {
+                  await forceLeaveUserFromCampaign(item.id, campaign.id);
+                }
+              }}
+            >
               <Ionicons name="remove-circle" size={24} color="red" />
             </TouchableOpacity>
           </DataTable.Cell>
