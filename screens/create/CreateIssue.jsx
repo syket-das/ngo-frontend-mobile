@@ -16,8 +16,11 @@ import Toast from 'react-native-toast-message';
 import useAuthStore from '../../store/authStore';
 import { TAGS } from '../../constants/data';
 import * as ImagePicker from 'expo-image-picker';
+import useLocation from '../../hooks/useLocation';
 
 const CreateIssue = ({ navigation }) => {
+  const { location, errorMsg, fetchLocation } = useLocation();
+
   const { createIssueByUser, createIssueByNgo } = useIssueStore(
     (state) => state
   );
@@ -47,6 +50,8 @@ const CreateIssue = ({ navigation }) => {
       state: '',
       country: '',
       zipCode: '',
+      lat: '',
+      lng: '',
     },
     media: [],
   });
@@ -54,6 +59,30 @@ const CreateIssue = ({ navigation }) => {
   useEffect(() => {
     setIssue({ ...issue, tags: selected });
   }, [selected]);
+
+  useEffect(() => {
+    if (errorMsg) {
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Error',
+        text2: errorMsg,
+        visibilityTime: 2000,
+        autoHide: true,
+      });
+    }
+
+    if (location) {
+      setIssue({
+        ...issue,
+        address: {
+          ...issue.address,
+          lat: location.latitude,
+          lng: location.longitude,
+        },
+      });
+    }
+  }, [errorMsg, location]);
 
   const tags = TAGS.filter((tag) => tag.issue).map((tag) => {
     return { key: tag.value, value: tag.value };
@@ -214,15 +243,44 @@ const CreateIssue = ({ navigation }) => {
             </View>
           </View>
           <View style={{ marginBottom: 12 }}>
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: 400,
-                marginVertical: 8,
-              }}
-            >
-              Address
-            </Text>
+            <View className="flex-row gap-x-2 my-2">
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: 400,
+                }}
+              >
+                Address
+              </Text>
+              <TouchableOpacity
+                onPress={async () => {
+                  await fetchLocation();
+
+                  if (location) {
+                    setIssue({
+                      ...issue,
+                      address: {
+                        ...issue.address,
+                        lat: location.latitude,
+                        lng: location.longitude,
+                      },
+                    });
+                  }
+                }}
+                className="flex-row items-center gap-x-1"
+              >
+                <Text
+                  style={{
+                    color: COLORS.primary,
+                  }}
+                >
+                  {issue.address.lat && issue.address.lng
+                    ? 'Geo Tag Added'
+                    : 'Add Geo Tag'}
+                </Text>
+                <Ionicons name="locate" size={24} color={COLORS.primary} />
+              </TouchableOpacity>
+            </View>
 
             <View
               style={{

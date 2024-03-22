@@ -1,4 +1,11 @@
-import { View, Text, Image, TouchableOpacity, Share } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Share,
+  Platform,
+} from 'react-native';
 import React from 'react';
 import {
   Modal,
@@ -9,6 +16,7 @@ import {
 } from 'react-native-paper';
 import IssueDetailsCard from './IssueDetailsCard';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import * as Linking from 'expo-linking';
 
 const IssueCard = ({ issue }) => {
   const issueBy = issue.ownUserId ? 'USER' : issue.ownNgoId ? 'NGO' : '';
@@ -36,7 +44,24 @@ const IssueCard = ({ issue }) => {
           <Text className="text-gray-500 text-xs  px-1 border border-gray-400 rounded-sm">
             {issue.comments.length} Answers
           </Text>
-          <Text className="text-primary-500 text-xs  px-1">2k Views</Text>
+          <View className="flex-row items-center ml-2">
+            {issue.address?.lat && issue.address?.lng ? (
+              <TouchableOpacity
+                className="flex-row items-center gap-2  p-1 rounded-md"
+                onPress={() => {
+                  const location = `${issue.address?.lat},${issue.address?.lng}`;
+
+                  const url = Platform.select({
+                    ios: `maps:${location}`,
+                    android: `geo:${location}?center=${location}&q=${location}&z=16`,
+                  });
+                  Linking.openURL(url);
+                }}
+              >
+                <Text className="text-xs text-blue-500">Geo Tag</Text>
+              </TouchableOpacity>
+            ) : null}
+          </View>
           <TouchableOpacity
             className="flex-row items-center gap-2"
             onPress={async () => {

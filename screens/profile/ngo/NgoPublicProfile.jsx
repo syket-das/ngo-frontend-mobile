@@ -11,20 +11,36 @@ const NgoPublicProfile = ({ ngo }) => {
     useSearchStore((state) => state);
 
   const [points, setPoints] = useState(0);
+  const [donation, setDonation] = useState(0);
+  const [volunteer, setVolunteer] = useState(0);
+  const [intellectual, setIntellectual] = useState(0);
 
   useEffect(() => {
     setSearchedNgo(ngo);
 
     let point = 0;
+    let donation = 0;
+    let volunteer = 0;
+    let intellectual = 0;
 
     if (ngo?.ngoPoints) {
       ngo?.ngoPoints?.map((p) => {
-        const total = p.donation + p.intellectual + p.intellectual;
+        if (p.donation) {
+          donation += p.donation;
+        }
+        if (p.volunteer) {
+          volunteer += p.volunteer;
+        }
+        if (p.intellectual) {
+          intellectual += p.intellectual;
+        }
 
-        point += total;
+        point = donation + volunteer + intellectual;
       });
 
-      setPoints(point);
+      setDonation(donation);
+      setVolunteer(volunteer);
+      setIntellectual(intellectual);
     }
 
     setRole('NGO');
@@ -43,26 +59,30 @@ const NgoPublicProfile = ({ ngo }) => {
             source={{ uri: ngo?.profileImage?.url || '' }}
             className="h-14 w-14 rounded-full"
           />
-          <View className="flex-row items-center gap-4">
+          <View className="flex-row items-center flex-0.5 gap-4">
+            <TouchableOpacity className="justify-center items-center ">
+              <Text className="text-sm font-semibold text-red-800">
+                {donation}
+              </Text>
+              <Text className="text-xs font-semibold text-gray-500">
+                Donation
+              </Text>
+            </TouchableOpacity>
             <TouchableOpacity className="justify-center items-center">
-              <Text className="text-sm font-semibold text-green-800">300</Text>
+              <Text className="text-sm font-semibold text-green-800">
+                {volunteer}
+              </Text>
 
               <Text className="text-xs font-semibold text-gray-500">
-                Followers
+                Volunteer
               </Text>
             </TouchableOpacity>
             <TouchableOpacity className="justify-center items-center">
-              <Text className="text-sm font-semibold text-blue-800">300</Text>
-              <Text className="text-xs font-semibold text-gray-500">
-                Following
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="justify-center items-center">
-              <Text className="text-sm font-semibold text-red-800">
-                {points}
+              <Text className="text-sm font-semibold text-blue-800">
+                {intellectual}
               </Text>
               <Text className="text-xs font-semibold text-gray-500">
-                Points
+                Intellectual
               </Text>
             </TouchableOpacity>
           </View>
@@ -78,7 +98,7 @@ const NgoPublicProfile = ({ ngo }) => {
         </Text>
       </View>
 
-      <View className="flex-row items-center gap-x-2 mx-4 mt-2">
+      {/* <View className="flex-row items-center gap-x-2 mx-4 mt-2">
         <Text className="text-[10px] text-green-700 font-semibold border border-dashed border-green-700 px-1">
           Top Contributor
         </Text>
@@ -88,7 +108,7 @@ const NgoPublicProfile = ({ ngo }) => {
         <Text className="text-[10px] font-semibold border border-dashed border-red-600 text-red-600 px-1">
           Top Volunteer
         </Text>
-      </View>
+      </View> */}
 
       <ScrollView>
         <View className="mx-4 mt-2">

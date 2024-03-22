@@ -19,7 +19,7 @@ const UserStep1 = ({ navigation }) => {
   const [data, setData] = useState({
     name: '',
     email: '',
-    code: '',
+    code: '91',
     phone: '',
     isChecked: false,
   });
@@ -195,7 +195,6 @@ const UserStep1 = ({ navigation }) => {
                 height: '100%',
               }}
               value={data.code}
-              onChangeText={(text) => setData({ ...data, code: text })}
             />
 
             <TextInput

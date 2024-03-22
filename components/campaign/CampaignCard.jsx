@@ -1,4 +1,11 @@
-import { View, Text, Dimensions, Image, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Carousel from 'react-native-reanimated-carousel';
 import {
@@ -18,6 +25,7 @@ import { URL } from '../../constants/data';
 import { Modal, Portal } from 'react-native-paper';
 import CampaignDetailsCard from './CampaignDetailsCard';
 import useAuthStore from '../../store/authStore';
+import * as Linking from 'expo-linking';
 
 const CampaignCard = ({ campaign }) => {
   const [visible, setVisible] = React.useState(false);
@@ -102,11 +110,33 @@ const CampaignCard = ({ campaign }) => {
           </View>
           <Ionicons name="chevron-down-outline" size={18} />
         </View>
+        <View className="flex-row items-center my-1">
+          {/* <Ionicons name="location-outline" size={18} /> */}
+
+          <View className="flex-row items-center ml-2">
+            {singleCampaign.address?.lat && singleCampaign.address?.lng ? (
+              <TouchableOpacity
+                onPress={() => {
+                  const location = `${singleCampaign.address?.lat},${singleCampaign.address?.lng}`;
+
+                  const url = Platform.select({
+                    ios: `maps:${location}`,
+                    android: `geo:${location}?center=${location}&q=${location}&z=16`,
+                  });
+                  Linking.openURL(url);
+                }}
+              >
+                <Text className="text-xs text-blue-500">Geo Tag</Text>
+              </TouchableOpacity>
+            ) : null}
+          </View>
+        </View>
         {singleCampaign?.media && singleCampaign.media.length > 0 ? (
           <Carousel
             panGestureHandlerProps={{
               activeOffsetX: [-10, 10],
             }}
+            loop={false}
             width={Dimensions.get('window').width - 20}
             height={300}
             data={singleCampaign.media || []}

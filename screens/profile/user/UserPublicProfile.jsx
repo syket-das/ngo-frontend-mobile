@@ -8,6 +8,9 @@ import { useSearchStore } from '../../../store/searchStore';
 
 const UserPublicProfile = ({ user }) => {
   const [points, setPoints] = useState(0);
+  const [donation, setDonation] = useState(0);
+  const [volunteer, setVolunteer] = useState(0);
+  const [intellectual, setIntellectual] = useState(0);
 
   const { searchedUser, setSearchedUser, setRole } = useSearchStore(
     (state) => state
@@ -17,15 +20,28 @@ const UserPublicProfile = ({ user }) => {
     setSearchedUser(user);
 
     let point = 0;
+    let donation = 0;
+    let volunteer = 0;
+    let intellectual = 0;
 
     if (user?.userPoints) {
       user?.userPoints?.map((p) => {
-        const total = p.donation + p.intellectual + p.intellectual;
+        if (p.donation) {
+          donation += p.donation;
+        }
+        if (p.volunteer) {
+          volunteer += p.volunteer;
+        }
+        if (p.intellectual) {
+          intellectual += p.intellectual;
+        }
 
-        point += total;
+        point = donation + volunteer + intellectual;
       });
 
-      setPoints(point);
+      setDonation(donation);
+      setVolunteer(volunteer);
+      setIntellectual(intellectual);
     }
 
     setRole('USER');
@@ -44,26 +60,31 @@ const UserPublicProfile = ({ user }) => {
             source={{ uri: user?.profileImage?.url || '' }}
             className="h-14 w-14 rounded-full"
           />
+
           <View className="flex-row items-center flex-0.5 gap-4">
+            <TouchableOpacity className="justify-center items-center ">
+              <Text className="text-sm font-semibold text-red-800">
+                {donation}
+              </Text>
+              <Text className="text-xs font-semibold text-gray-500">
+                Donation
+              </Text>
+            </TouchableOpacity>
             <TouchableOpacity className="justify-center items-center">
-              <Text className="text-sm font-semibold text-green-800">300</Text>
+              <Text className="text-sm font-semibold text-green-800">
+                {volunteer}
+              </Text>
 
               <Text className="text-xs font-semibold text-gray-500">
-                Followers
+                Volunteer
               </Text>
             </TouchableOpacity>
             <TouchableOpacity className="justify-center items-center">
-              <Text className="text-sm font-semibold text-blue-800">300</Text>
-              <Text className="text-xs font-semibold text-gray-500">
-                Following
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="justify-center items-center">
-              <Text className="text-sm font-semibold text-red-800">
-                {points}
+              <Text className="text-sm font-semibold text-blue-800">
+                {intellectual}
               </Text>
               <Text className="text-xs font-semibold text-gray-500">
-                Points
+                Intellectual
               </Text>
             </TouchableOpacity>
           </View>

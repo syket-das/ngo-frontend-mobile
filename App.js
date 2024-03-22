@@ -17,10 +17,9 @@ import EditNgoProfile from './screens/profile/ngo/EditNgoProfile';
 import useAuthStore from './store/authStore';
 import SearchScreen from './screens/search/SearchScreen';
 import SearchProfile from './screens/search/SearchProfile';
-import NgoPublicProfile from './screens/profile/ngo/NgoPublicProfile';
-import UserPublicProfile from './screens/profile/user/UserPublicProfile';
 import Providers from './components/Providers';
 import * as Updates from 'expo-updates';
+import * as Location from 'expo-location';
 
 const Stack = createNativeStackNavigator();
 async function onFetchUpdateAsync() {

@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Dimensions,
   Share,
+  Platform,
 } from 'react-native';
 import React, { useEffect } from 'react';
 import Carousel from 'react-native-reanimated-carousel';
@@ -13,6 +14,7 @@ import useBottomSheetStore from '../../store/bottomSheetStore';
 
 import PostVote from './PostVote';
 import PostCommentContainer from './PostCommentContainer';
+import * as Linking from 'expo-linking';
 
 const PostCard = ({ post }) => {
   const postBy = post.ownUserId ? 'USER' : post.ownNgoId ? 'NGO' : '';
@@ -49,6 +51,24 @@ const PostCard = ({ post }) => {
         <Text className="text-xs text-gray-500 ml-10">
           {post.address?.city} {post.address?.state} {post.address?.country}
         </Text>
+
+        <View className="flex-row items-center ml-2">
+          {post.address?.lat && post.address?.lng ? (
+            <TouchableOpacity
+              onPress={() => {
+                const location = `${post.address?.lat},${post.address?.lng}`;
+
+                const url = Platform.select({
+                  ios: `maps:${location}`,
+                  android: `geo:${location}?center=${location}&q=${location}&z=16`,
+                });
+                Linking.openURL(url);
+              }}
+            >
+              <Text className="text-xs text-blue-500">Geo Tag</Text>
+            </TouchableOpacity>
+          ) : null}
+        </View>
       </View>
 
       {post?.media && post.media.length > 0 ? (

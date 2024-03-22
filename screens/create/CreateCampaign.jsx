@@ -18,6 +18,7 @@ import Checkbox from 'expo-checkbox';
 import { TAGS } from '../../constants/data';
 import { MultipleSelectList } from 'react-native-dropdown-select-list';
 import * as ImagePicker from 'expo-image-picker';
+import useLocation from '../../hooks/useLocation';
 
 const data = [
   { key: '1', value: 'Mobiles', disabled: true },
@@ -29,6 +30,8 @@ const data = [
   { key: '7', value: 'Drinks' },
 ];
 const CreateCampaign = ({ navigation }) => {
+  const { location, errorMsg, fetchLocation } = useLocation();
+
   const { createCampaignByUser, createCampaignByNgo } = useCampaignStore(
     (state) => state
   );
@@ -49,9 +52,35 @@ const CreateCampaign = ({ navigation }) => {
       state: '',
       country: '',
       zipCode: '',
+      lat: '',
+      lng: '',
     },
     media: [],
   });
+
+  useEffect(() => {
+    if (errorMsg) {
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Error',
+        text2: errorMsg,
+        visibilityTime: 2000,
+        autoHide: true,
+      });
+    }
+
+    if (location) {
+      setCampaign({
+        ...campaign,
+        address: {
+          ...campaign.address,
+          lat: location.latitude,
+          lng: location.longitude,
+        },
+      });
+    }
+  }, [errorMsg, location]);
 
   useEffect(() => {
     setCampaign({ ...campaign, tags: selected });
@@ -428,15 +457,44 @@ const CreateCampaign = ({ navigation }) => {
               display: campaign.virtual ? 'none' : 'flex',
             }}
           >
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: 400,
-                marginVertical: 8,
-              }}
-            >
-              Address
-            </Text>
+            <View className="flex-row gap-x-2 my-2">
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: 400,
+                }}
+              >
+                Address
+              </Text>
+              <TouchableOpacity
+                onPress={async () => {
+                  await fetchLocation();
+
+                  if (location) {
+                    setCampaign({
+                      ...campaign,
+                      address: {
+                        ...campaign.address,
+                        lat: location.latitude,
+                        lng: location.longitude,
+                      },
+                    });
+                  }
+                }}
+                className="flex-row items-center gap-x-1"
+              >
+                <Text
+                  style={{
+                    color: COLORS.primary,
+                  }}
+                >
+                  {campaign.address.lat && campaign.address.lng
+                    ? 'Geo Tag Added'
+                    : 'Add Geo Tag'}
+                </Text>
+                <Ionicons name="locate" size={24} color={COLORS.primary} />
+              </TouchableOpacity>
+            </View>
 
             <View
               style={{

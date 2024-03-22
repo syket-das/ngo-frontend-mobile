@@ -56,7 +56,7 @@ const useAuthStore = create((set) => ({
 
       set((state) => ({ authLoading: false }));
 
-      if (data.success) {
+      if (data?.success) {
         set((state) => ({ auth: data }));
         await AsyncStorage.setItem('auth', JSON.stringify(data));
 
@@ -90,7 +90,7 @@ const useAuthStore = create((set) => ({
 
       set((state) => ({ authLoading: false }));
 
-      if (data.success) {
+      if (data?.success) {
         set((state) => ({ auth: data }));
         await AsyncStorage.setItem('auth', JSON.stringify(data));
 

@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.syket.cypindia"
@@ -35,7 +33,8 @@
         {
           "enableGooglePay": true
         }
-      ]
+      ],
+      ["expo-build-properties", { "android": { "usesCleartextTraffic": true } }]
     ],
     "extra": {
       "eas": {

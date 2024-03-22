@@ -28,18 +28,6 @@ const PostCommentElement = ({ comment }) => {
         <Ionicons name="chevron-down-outline" size={18} />
       </View>
       <PostCommentVote comment={comment} />
-      <View>
-        <TouchableOpacity className="flex-row justify-between  items-center gap-2 mt-2">
-          <Text className="text-xs text-gray-500">Reply </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity className="flex-row   items-center gap-2 mt-0">
-          <View className="-rotate-90">
-            <Ionicons name="pin-outline" size={18} color={'#cccccc'} />
-          </View>
-          <Text className="text-xs text-gray-500">View 8 replies </Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };

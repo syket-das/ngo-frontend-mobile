@@ -3,8 +3,13 @@ import { TouchableOpacity } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { useCampaignStore } from '../../store/campaignStore';
+import useAuthStore from '../../store/authStore';
 
 const CampaignAttendesTable = ({ campaign }) => {
+  const { auth } = useAuthStore((state) => state);
+
+  const [visible, setVisible] = React.useState(false);
+
   const { forceLeaveUserFromCampaign, forceLeaveNgoFromCampaign } =
     useCampaignStore((state) => state);
 

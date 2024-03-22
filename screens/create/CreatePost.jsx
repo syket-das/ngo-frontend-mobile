@@ -19,8 +19,12 @@ import { TAGS } from '../../constants/data';
 import * as ImagePicker from 'expo-image-picker';
 import * as Network from 'expo-network';
 import axios from 'axios';
+import LocationComponent from '../../components/LocationComponent';
+import useLocation from '../../hooks/useLocation';
 
 const CreatePost = () => {
+  const { location, errorMsg, fetchLocation } = useLocation();
+
   const navigation = useNavigation();
   const { createPostByUser, createPostByNgo } = usePostStore((state) => state);
   const { authType, setAuthType } = useAuthStore((state) => state);
@@ -36,6 +40,29 @@ const CreatePost = () => {
     fetchAuthType();
   }, []);
 
+  useEffect(() => {
+    if (errorMsg) {
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Error',
+        text2: errorMsg,
+        visibilityTime: 2000,
+        autoHide: true,
+      });
+    }
+
+    if (location) {
+      setPost({
+        ...post,
+        address: {
+          lat: location.latitude,
+          lng: location.longitude,
+        },
+      });
+    }
+  }, [errorMsg, location]);
+
   const [selected, setSelected] = React.useState([]);
 
   const [post, setPost] = React.useState({
@@ -48,6 +75,8 @@ const CreatePost = () => {
       state: '',
       country: '',
       zipCode: '',
+      lat: '',
+      lng: '',
     },
     media: [],
   });
@@ -212,6 +241,7 @@ const CreatePost = () => {
               />
             </View>
           </View>
+
           <View style={{ marginBottom: 12 }}>
             <View className="flex-row gap-x-2 my-2">
               <Text
@@ -224,30 +254,30 @@ const CreatePost = () => {
               </Text>
               <TouchableOpacity
                 onPress={async () => {
-                  await Network.getIpAddressAsync()
-                    .then(async (response) => {
-                      const loc = await axios.get(
-                        `http://ip-api.com/json/${response}`
-                      );
+                  await fetchLocation();
 
-                      setPost({
-                        ...post,
-                        address: {
-                          street: loc.data.regionName,
-                          city: loc.data.city,
-                          state: loc.data.region,
-                          country: loc.data.country,
-                          zipCode: loc.data.zip,
-                        },
-                      });
-                    })
-                    .catch((error) => {
-                      console.log('error', error);
+                  if (location) {
+                    setPost({
+                      ...post,
+                      address: {
+                        ...post.address,
+                        lat: location.latitude,
+                        lng: location.longitude,
+                      },
                     });
+                  }
                 }}
                 className="flex-row items-center gap-x-1"
               >
-                <Text style={{ color: COLORS.primary }}>Autofill</Text>
+                <Text
+                  style={{
+                    color: COLORS.primary,
+                  }}
+                >
+                  {post.address.lat && post.address.lng
+                    ? 'Geo Tag Added'
+                    : 'Add Geo Tag'}
+                </Text>
                 <Ionicons name="locate" size={24} color={COLORS.primary} />
               </TouchableOpacity>
             </View>

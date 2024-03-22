@@ -23,7 +23,9 @@ const IssueDetailsCard = ({ issue, hideModal }) => {
           <Text className="text-gray-500 text-xs">
             {new Date(issue?.createdAt).toDateString() || 'No date provided'}
           </Text>
-          <Text className="text-gray-500 text-xs">Lagos, Nigeria</Text>
+          <Text className="text-gray-500 text-xs">
+            {issue?.address?.city || 'No address provided'}
+          </Text>
         </View>
         <View className="w-8 ">
           <Button onPress={hideModal} title="X" color="red" />
