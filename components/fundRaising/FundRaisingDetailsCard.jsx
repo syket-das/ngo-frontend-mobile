@@ -20,6 +20,7 @@ import { useFundRaisingStore } from '../../store/fundRaisingStore';
 
 const FundRaisingDetailsCard = ({ fundRaising, hideModal }) => {
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
+
   const {
     getFundRaisings,
     fundRaising: fundRaisingFromSt,
@@ -96,7 +97,12 @@ const FundRaisingDetailsCard = ({ fundRaising, hideModal }) => {
             {new Date(fundRaising?.createdAt).toDateString() ||
               'No date provided'}
           </Text>
-          <Text className="text-gray-500 text-xs">Lagos, Nigeria</Text>
+          <Text className="text-gray-500 text-xs">
+            {fundRaising?.address?.city ||
+              fundRaising?.address?.state ||
+              fundRaising?.address?.country ||
+              'No location provided'}
+          </Text>
         </View>
         <View className="w-8 ">
           <Button onPress={hideModal} title="X" color="red" />
@@ -152,15 +158,6 @@ const FundRaisingDetailsCard = ({ fundRaising, hideModal }) => {
           </Text>
         </View>
 
-        <View className="flex-row justify-start items-start mt-4">
-          <View className="flex-1">
-            <Text className="text-lg font-bold">Mission</Text>
-            <Text className="text-gray-500 text-xs">
-              {fundRaising?.description || 'No description provided'}
-            </Text>
-          </View>
-        </View>
-
         <View className="gap-y-2 mt-8">
           <View className="flex-row justify-between items-center">
             <Text className=" font-bold">Created By</Text>
@@ -200,6 +197,16 @@ const FundRaisingDetailsCard = ({ fundRaising, hideModal }) => {
             }`}</Text>
           </View>
         </View>
+        <View className="flex-row justify-start items-start mt-4">
+          <View className="flex-1">
+            <Text className="text-lg font-bold">Mission</Text>
+            <Text className="text-gray-500 text-xs">
+              {fundRaising?.description || 'No description provided'}
+            </Text>
+          </View>
+        </View>
+
+        <View className="my-28" />
       </ScrollView>
       <FAB
         icon="plus"
