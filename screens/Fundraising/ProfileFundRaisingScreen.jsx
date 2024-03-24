@@ -1,10 +1,22 @@
-import { View, Text, ScrollView, RefreshControl } from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  RefreshControl,
+  FlatList,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import React, { useEffect } from 'react';
 import { useControlStore } from '../../store/useControlStore';
 import { useSearchStore } from '../../store/searchStore';
 import FundRaisingCard from '../../components/fundRaising/FundRaisingCard';
+import useModalStore from '../../store/modalStore';
+import SingleFundRaising from '../../components/fundRaising/SingleFundRaising';
 
 const ProfileFundRaisingScreen = ({ defaultFundRaisings }) => {
+  const { setVisible, setModalContent } = useModalStore((state) => state);
+
   const { homePostsScrolled, setHomePostsScrolled } = useControlStore(
     (state) => state
   );
@@ -19,34 +31,69 @@ const ProfileFundRaisingScreen = ({ defaultFundRaisings }) => {
         backgroundColor: '#fff',
       }}
     >
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        onScroll={(e) => {
-          if (e.nativeEvent.contentOffset.y > 100) {
-            setHomePostsScrolled(true);
-          } else {
-            setHomePostsScrolled(false);
-          }
-        }}
-      >
-        {role === 'USER' &&
-          searchedUser?.fundRaisings?.length > 0 &&
-          searchedUser?.fundRaisings.map((fundRaising) => (
-            <FundRaisingCard key={fundRaising.id} fundRaising={fundRaising} />
-          ))}
-
-        {role === 'NGO' &&
-          searchedNgo?.fundRaisings?.length > 0 &&
-          searchedNgo?.fundRaisings.map((fundRaising) => (
-            <FundRaisingCard key={fundRaising.id} fundRaising={fundRaising} />
-          ))}
-
-        <View
-          style={{
-            height: 100,
-          }}
-        ></View>
-      </ScrollView>
+      <View style={{ flex: 1 }}>
+        {role === 'USER' ? (
+          <FlatList
+            data={searchedUser?.fundRaisings || []}
+            numColumns={3}
+            renderItem={({ item, index }) => (
+              <View
+                style={{
+                  flex: 1,
+                  aspectRatio: 1,
+                  margin: 3,
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() => {
+                    setVisible(true);
+                    setModalContent(<SingleFundRaising id={item.id} />);
+                  }}
+                >
+                  <Image
+                    key={index}
+                    source={{
+                      uri:
+                        item?.media[0]?.url || 'https://picsum.photos/200/300',
+                    }}
+                    style={{ width: '100%', height: '100%', borderRadius: 12 }}
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+        ) : role === 'NGO' ? (
+          <FlatList
+            data={searchedNgo?.fundRaisings || []}
+            numColumns={3}
+            renderItem={({ item, index }) => (
+              <View
+                style={{
+                  flex: 1,
+                  aspectRatio: 1,
+                  margin: 3,
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() => {
+                    setVisible(true);
+                    setModalContent(<SingleFundRaising id={item.id} />);
+                  }}
+                >
+                  <Image
+                    key={index}
+                    source={{
+                      uri:
+                        item?.media[0]?.url || 'https://picsum.photos/200/300',
+                    }}
+                    style={{ width: '100%', height: '100%', borderRadius: 12 }}
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+        ) : null}
+      </View>
     </View>
   );
 };

@@ -110,15 +110,11 @@ const NgoPublicProfile = ({ ngo }) => {
         </Text>
       </View> */}
 
-      <ScrollView>
-        <View className="mx-4 mt-2">
-          <Text className="text-xs font-semibold text-gray-500">
-            {ngo?.bio}
-          </Text>
-        </View>
+      <View className="mx-4 mt-2">
+        <Text className="text-xs font-semibold text-gray-500">{ngo?.bio}</Text>
+      </View>
 
-        <ProfileTopTabs role="NGO" />
-      </ScrollView>
+      <ProfileTopTabs role="NGO" />
     </SafeAreaView>
   );
 };

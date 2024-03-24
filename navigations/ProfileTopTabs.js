@@ -15,6 +15,7 @@ import { useControlStore } from '../store/useControlStore';
 import ProfilePostScreen from '../screens/post/ProfilePostScreen';
 import ProfileCampaignScreen from '../screens/campaign/ProfileCampaignScreen';
 import ProfileIssueScreen from '../screens/issue/ProfileIssueScreen';
+import ProfileScreenFundRaisings from '../screens/Fundraising/ProfileScreenFundRaisings';
 const ProfileTopTabs = ({ role }) => {
   const Tab = createMaterialTopTabNavigator();
 
@@ -61,7 +62,7 @@ const ProfileTopTabs = ({ role }) => {
         name="ProfilePosts"
         component={ProfilePostScreen}
         options={{
-          tabBarLabel: 'Posts',
+          tabBarLabel: '',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="home" color={color} size={24} />
           ),
@@ -71,7 +72,7 @@ const ProfileTopTabs = ({ role }) => {
         name="ProfileCampaigns"
         component={ProfileCampaignScreen}
         options={{
-          tabBarLabel: 'Campaigns',
+          tabBarLabel: '',
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="campaign" color={color} size={24} />
           ),
@@ -81,9 +82,19 @@ const ProfileTopTabs = ({ role }) => {
         name="ProfileIssues"
         component={ProfileIssueScreen}
         options={{
-          tabBarLabel: 'Issues',
+          tabBarLabel: '',
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="add-to-queue" color={color} size={24} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="ProfileFundRaisings"
+        component={ProfileScreenFundRaisings}
+        options={{
+          tabBarLabel: '',
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name="attach-money" color={color} size={24} />
           ),
         }}
       />

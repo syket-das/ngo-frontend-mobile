@@ -33,10 +33,6 @@ const ProfileScreenIssues = ({ navigation }) => {
   );
 
   useEffect(() => {
-    setAuthType();
-  }, []);
-
-  useEffect(() => {
     if (authType.role === 'USER') {
       getProfile();
     }
@@ -51,17 +47,7 @@ const ProfileScreenIssues = ({ navigation }) => {
   }, []);
 
   return (
-    <View
-      showsVerticalScrollIndicator={false}
-      className=" bg-white flex-row flex-wrap"
-      onScroll={(e) => {
-        if (e.nativeEvent.contentOffset.y > 100) {
-          setHomePostsScrolled(true);
-        } else {
-          setHomePostsScrolled(false);
-        }
-      }}
-    >
+    <View className=" bg-white flex-row flex-wrap">
       <View style={{ flex: 1 }}>
         {authType.role === 'USER' ? (
           <FlatList

@@ -1,12 +1,22 @@
-import { View, Text, ScrollView, RefreshControl } from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  RefreshControl,
+  FlatList,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import React, { useEffect } from 'react';
-import PostCard from '../../components/post/PostCard';
 import usePostStore from '../../store/postStore';
-import { useNavigation } from '@react-navigation/native';
 import { useControlStore } from '../../store/useControlStore';
 import { useSearchStore } from '../../store/searchStore';
+import SinglePost from '../../components/post/SinglePost';
+import useModalStore from '../../store/modalStore';
 
-const ProfilePostScreen = ({ navigation }) => {
+const ProfilePostScreen = ({}) => {
+  const { setVisible, setModalContent } = useModalStore((state) => state);
+
   const [refreshing, setRefreshing] = React.useState(false);
   const { homePostsScrolled, setHomePostsScrolled } = useControlStore(
     (state) => state
@@ -16,35 +26,77 @@ const ProfilePostScreen = ({ navigation }) => {
     useSearchStore((state) => state);
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      className="flex-1 px-2 bg-white"
-      onScroll={(e) => {
-        if (e.nativeEvent.contentOffset.y > 100) {
-          setHomePostsScrolled(true);
-        } else {
-          setHomePostsScrolled(false);
-        }
-      }}
-    >
-      {role === 'USER' &&
-        searchedUser?.createdPosts?.length > 0 &&
-        searchedUser?.createdPosts.map((post) => (
-          <PostCard key={post.id} post={post} />
-        ))}
-
-      {role === 'NGO' &&
-        searchedNgo?.createdPosts?.length > 0 &&
-        searchedNgo?.createdPosts.map((post) => (
-          <PostCard key={post.id} post={post} />
-        ))}
+    <View className="flex-1 px-2 bg-white">
+      <View style={{ flex: 1 }}>
+        {role === 'USER' ? (
+          <FlatList
+            data={searchedUser?.createdPosts || []}
+            numColumns={3}
+            renderItem={({ item, index }) => (
+              <View
+                style={{
+                  flex: 1,
+                  aspectRatio: 1,
+                  margin: 3,
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() => {
+                    setVisible(true);
+                    setModalContent(<SinglePost id={item.id} />);
+                  }}
+                >
+                  <Image
+                    key={index}
+                    source={{
+                      uri:
+                        item?.media[0]?.url || 'https://picsum.photos/200/300',
+                    }}
+                    style={{ width: '100%', height: '100%', borderRadius: 12 }}
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+        ) : role === 'NGO' ? (
+          <FlatList
+            data={searchedNgo?.createdPosts || []}
+            numColumns={3}
+            renderItem={({ item, index }) => (
+              <View
+                style={{
+                  flex: 1,
+                  aspectRatio: 1,
+                  margin: 3,
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() => {
+                    setVisible(true);
+                    setModalContent(<SinglePost id={item.id} />);
+                  }}
+                >
+                  <Image
+                    key={index}
+                    source={{
+                      uri:
+                        item?.media[0]?.url || 'https://picsum.photos/200/300',
+                    }}
+                    style={{ width: '100%', height: '100%', borderRadius: 12 }}
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+        ) : null}
+      </View>
 
       <View
         style={{
           height: 100,
         }}
       ></View>
-    </ScrollView>
+    </View>
   );
 };
 
