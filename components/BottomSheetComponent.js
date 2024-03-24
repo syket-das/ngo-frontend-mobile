@@ -41,6 +41,9 @@ const BottomSheetComponent = ({}) => {
 
   return (
     <BottomSheet
+      style={{
+        zIndex: 1000,
+      }}
       enablePanDownToClose={true}
       enableContentPanningGesture={false}
       keyboardBehavior="interactive"

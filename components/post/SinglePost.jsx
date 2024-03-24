@@ -6,6 +6,7 @@ import {
   Dimensions,
   Share,
   Platform,
+  ScrollView,
 } from 'react-native';
 import React, { useEffect } from 'react';
 import Carousel from 'react-native-reanimated-carousel';
@@ -15,17 +16,26 @@ import useBottomSheetStore from '../../store/bottomSheetStore';
 import PostVote from './PostVote';
 import PostCommentContainer from './PostCommentContainer';
 import * as Linking from 'expo-linking';
+import usePostStore from '../../store/postStore';
 
-const PostCard = ({ post }) => {
-  const postBy = post.ownUserId ? 'USER' : post.ownNgoId ? 'NGO' : '';
+const SinglePost = ({ id }) => {
   const { setBottomSheet, setBottomSheetContent } = useBottomSheetStore(
     (state) => state
   );
 
+  const { post, getPost } = usePostStore((state) => state);
+  const postBy = post?.ownUserId ? 'USER' : post?.ownNgoId ? 'NGO' : '';
+
+  useEffect(() => {
+    getPost(id);
+  }, [id]);
+
   const [clicked, setClicked] = React.useState(false);
 
+  if (!post) return null;
+
   return (
-    <View className="my-4">
+    <ScrollView showsVerticalScrollIndicator={false} className="my-4">
       <View className="flex-row justify-between items-center">
         <View className="flex-row items-center gap-2">
           <Image
@@ -78,7 +88,7 @@ const PostCard = ({ post }) => {
             activeOffsetX: [-10, 10],
           }}
           loop={false}
-          width={Dimensions.get('window').width - 20}
+          width={Dimensions.get('window').width - 40}
           height={300}
           data={post.media || []}
           renderItem={({ item, index }) => {
@@ -116,16 +126,6 @@ const PostCard = ({ post }) => {
       <View className="flex-row items-center justify-between mt-2">
         <PostVote post={post} />
         <View className="flex-row gap-x-2">
-          <TouchableOpacity
-            className="flex-row items-center gap-2"
-            onPress={() => {
-              setBottomSheet(true);
-              setBottomSheetContent(<PostCommentContainer post={post} />);
-            }}
-          >
-            <Text className="text-xs">{post.commentsCount}</Text>
-            <Ionicons name="chatbubble-outline" size={18} />
-          </TouchableOpacity>
           <TouchableOpacity
             className="flex-row items-center gap-2"
             onPress={async () => {
@@ -186,8 +186,10 @@ const PostCard = ({ post }) => {
         <Text className="text-gray-500 text-xs">{post.description}</Text>
       )}
       {/* <Text className="mt-2 text-xs  break-all "></Text> */}
-    </View>
+
+      <PostCommentContainer post={post} />
+    </ScrollView>
   );
 };
 
-export default PostCard;
+export default SinglePost;

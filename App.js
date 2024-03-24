@@ -20,6 +20,9 @@ import SearchProfile from './screens/search/SearchProfile';
 import Providers from './components/Providers';
 import * as Updates from 'expo-updates';
 import * as Location from 'expo-location';
+import useModalStore from './store/modalStore';
+import { Modal, Portal } from 'react-native-paper';
+import { View } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 async function onFetchUpdateAsync() {
@@ -35,8 +38,20 @@ async function onFetchUpdateAsync() {
     alert(`Error fetching latest Expo update: ${error}`);
   }
 }
+const containerStyle = {
+  backgroundColor: 'white',
+  padding: 20,
+
+  height: '100%',
+  width: `100%`,
+  alignSelf: 'center',
+};
+
 export default function App() {
   const { authType, setAuthType } = useAuthStore((state) => state);
+  const { visible, hideModal, modalContent, setModalContent } = useModalStore(
+    (state) => state
+  );
 
   useEffect(() => {
     onFetchUpdateAsync();
@@ -148,6 +163,15 @@ export default function App() {
             </Stack.Navigator>
           </NavigationContainer>
           <BottomSheetComponent />
+          <Portal>
+            <Modal
+              visible={visible}
+              onDismiss={hideModal}
+              contentContainerStyle={containerStyle}
+            >
+              <View className="flex-1">{modalContent}</View>
+            </Modal>
+          </Portal>
           <Toast position="top" bottomOffset={20} visibilityTime={1000} />
         </GestureHandlerRootView>
       </Providers>

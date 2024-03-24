@@ -8,7 +8,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import useAuthStore from '../../store/authStore';
 const PostVote = ({ post }) => {
-  const navigation = useNavigation();
   const [singlePost, setSinglePost] = React.useState(post);
   const { voteOnPostByUser, voteOnPostByNgo } = usePostStore((state) => state);
 
