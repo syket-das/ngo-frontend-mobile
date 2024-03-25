@@ -2,7 +2,7 @@
   "expo": {
     "name": "Cyp India",
     "slug": "cyp-india",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -34,7 +34,16 @@
           "enableGooglePay": true
         }
       ],
-      ["expo-build-properties", { "android": { "usesCleartextTraffic": true } }]
+      [
+        "expo-build-properties",
+        { "android": { "usesCleartextTraffic": true } }
+      ],
+      [
+        "expo-updates",
+        {
+          "username": "syket"
+        }
+      ]
     ],
     "extra": {
       "eas": {
