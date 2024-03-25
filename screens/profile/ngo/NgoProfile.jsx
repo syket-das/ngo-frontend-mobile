@@ -11,7 +11,7 @@ import useNgoStore from '../../../store/ngoStore';
 import ProfileTopTabs from '../../../navigations/ProfileScreenTopTabs';
 import useBottomSheetStore from '../../../store/bottomSheetStore';
 
-const UserProfile = () => {
+const NgoProfile = () => {
   const { setBottomSheet, setBottomSheetContent, setInitialSnap } =
     useBottomSheetStore((state) => state);
   const { profile, getProfile } = useNgoStore((state) => state);
@@ -157,4 +157,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default NgoProfile;

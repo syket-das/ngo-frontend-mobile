@@ -6,14 +6,33 @@ import {
   StatusBar,
   Share,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, FONTS } from '../constants';
 import { MaterialIcons } from '@expo/vector-icons';
 import useAuthStore from '../store/authStore';
+import NgoProfile from './profile/ngo/NgoProfile';
+import Profile from './Profile';
 
 const Settings = ({ navigation }) => {
-  const { auth, logout: logOut } = useAuthStore((state) => state);
+  const {
+    auth,
+    logout: logOut,
+    authType,
+    setAuthType,
+  } = useAuthStore((state) => state);
+
+  useEffect(() => {
+    async function getAuthType() {
+      try {
+        await setAuthType();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    getAuthType();
+  }, []);
 
   const navigateToEditProfile = () => {
     navigation.navigate('EditProfile');
@@ -86,9 +105,23 @@ const Settings = ({ navigation }) => {
     }
   };
 
+  const navigateToProfile = () => {
+    if (authType.role === 'NGO') {
+      navigation.navigate('Profile');
+    }
+    if (authType.role === 'USER') {
+      navigation.navigate('Profile');
+    }
+  };
+
   const accountItems = [
     {
-      icon: 'person-outline',
+      icon: 'person',
+      text: 'Profile',
+      action: navigateToProfile,
+    },
+    {
+      icon: 'person-add',
       text: 'Edit Profile',
       action: navigateToEditProfile,
     },

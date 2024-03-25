@@ -47,9 +47,6 @@ const Home = ({ navigation }) => {
             />
           </View>
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-          <Ionicons name="search" size={26} />
-        </TouchableOpacity>
       </View>
 
       <View

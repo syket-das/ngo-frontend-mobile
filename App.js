@@ -5,7 +5,7 @@ import EditProfile from './screens/EditProfile';
 import { useFonts } from 'expo-font';
 import { useCallback, useEffect, useState } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
-import { Login, Signup, Welcome } from './screens';
+import { Login, Profile, Signup, Welcome } from './screens';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import BottomSheetComponent from './components/BottomSheetComponent';
 import { PaperProvider } from 'react-native-paper';
@@ -23,6 +23,8 @@ import * as Location from 'expo-location';
 import useModalStore from './store/modalStore';
 import { Modal, Portal } from 'react-native-paper';
 import { View } from 'react-native';
+import UserProfile from './screens/profile/user/UserProfile';
+import NgoProfile from './screens/profile/ngo/NgoProfile';
 
 const Stack = createNativeStackNavigator();
 async function onFetchUpdateAsync() {
@@ -133,6 +135,20 @@ export default function App() {
               />
 
               <Stack.Screen
+                name="Profile"
+                component={
+                  authType && authType?.role === 'USER'
+                    ? UserProfile
+                    : authType?.role === 'NGO'
+                    ? NgoProfile
+                    : Profile
+                }
+                options={{
+                  headerShown: false,
+                }}
+              />
+
+              <Stack.Screen
                 name="EditProfile"
                 component={
                   authType && authType?.role === 'USER'
@@ -146,13 +162,6 @@ export default function App() {
                 }}
               />
 
-              <Stack.Screen
-                name="Search"
-                component={SearchScreen}
-                options={{
-                  headerShown: false,
-                }}
-              />
               <Stack.Screen
                 name="SearchProfile"
                 component={SearchProfile}

@@ -20,10 +20,6 @@ const Profile = () => {
       }}
     >
       <StatusBar backgroundColor={COLORS.gray} />
-
-      <Text style={{ ...FONTS.h1, textAlign: 'center', marginVertical: 20 }}>
-        Profile
-      </Text>
     </SafeAreaView>
   );
 };

@@ -54,7 +54,7 @@ const BottomSheetComponent = ({}) => {
       keyboardBehavior="interactive"
       keyboardBlurBehavior="restore"
       ref={bottomSheetRef}
-      index={2}
+      index={-1}
       snapPoints={snapPoints}
       onChange={(index) => {
         if (index === -1) {

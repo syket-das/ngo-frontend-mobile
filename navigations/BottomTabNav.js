@@ -19,6 +19,7 @@ import NgoProfile from '../screens/profile/ngo/NgoProfile';
 import IssueScreen from '../screens/issue/IssueScreen';
 import CreateStack from './CreateStack';
 import useAuthStore from '../store/authStore';
+import SearchScreen from '../screens/search/SearchScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -68,15 +69,14 @@ const BottomTabNav = () => {
           },
         }}
       />
-
       <Tab.Screen
-        name="Issue"
-        component={IssueScreen}
+        name="Search"
+        component={SearchScreen}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
-              <MaterialIcons
-                name="report-problem"
+              <MaterialCommunityIcons
+                name="text-box-search-outline"
                 size={24}
                 color={focused ? COLORS.primary : COLORS.black}
               />
@@ -110,15 +110,14 @@ const BottomTabNav = () => {
           },
         }}
       />
-
       <Tab.Screen
-        name="Settings"
-        component={Settings}
+        name="Issue"
+        component={IssueScreen}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
               <MaterialIcons
-                name="settings"
+                name="report-problem"
                 size={24}
                 color={focused ? COLORS.primary : COLORS.black}
               />
@@ -128,14 +127,8 @@ const BottomTabNav = () => {
       />
 
       <Tab.Screen
-        name="Profile"
-        component={
-          authType && authType?.role === 'USER'
-            ? UserProfile
-            : authType?.role === 'NGO'
-            ? NgoProfile
-            : Profile
-        }
+        name="Settings"
+        component={Settings}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
