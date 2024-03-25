@@ -7,6 +7,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { URL } from '../constants/data';
 import { useIsFocused } from '@react-navigation/native';
+import LottieView from 'lottie-react-native';
+
 const Welcome = ({ navigation }) => {
   const isFocused = useIsFocused();
 
@@ -43,75 +45,16 @@ const Welcome = ({ navigation }) => {
       style={{
         flex: 1,
       }}
-      colors={[COLORS.secondary, COLORS.primary]}
+      colors={[COLORS.white, COLORS.secondary, COLORS.primary]}
     >
       <View style={{ flex: 1 }}>
         <View>
-          <Image
-            source={require('../assets/hero1.jpg')}
-            style={{
-              height: 100,
-              width: 100,
-              borderRadius: 20,
-              position: 'absolute',
-              top: 10,
-              transform: [
-                { translateX: 20 },
-                { translateY: 50 },
-                { rotate: '-15deg' },
-              ],
-            }}
-          />
-
-          <Image
-            source={require('../assets/hero3.jpg')}
-            style={{
-              height: 100,
-              width: 100,
-              borderRadius: 20,
-              position: 'absolute',
-              top: -30,
-              left: 100,
-              transform: [
-                { translateX: 50 },
-                { translateY: 50 },
-                { rotate: '-5deg' },
-              ],
-            }}
-          />
-
-          <Image
-            source={require('../assets/hero3.jpg')}
-            style={{
-              width: 100,
-              height: 100,
-              borderRadius: 20,
-              position: 'absolute',
-              top: 130,
-              left: -50,
-              transform: [
-                { translateX: 50 },
-                { translateY: 50 },
-                { rotate: '15deg' },
-              ],
-            }}
-          />
-
-          <Image
-            source={require('../assets/hero2.jpg')}
-            style={{
-              height: 150,
-              width: 150,
-              borderRadius: 20,
-              position: 'absolute',
-              top: 110,
-              left: 100,
-              transform: [
-                { translateX: 50 },
-                { translateY: 50 },
-                { rotate: '-15deg' },
-              ],
-            }}
+          <LottieView
+            className="w-full h-full"
+            autoPlay
+            style={{ width: '100%', height: 350 }}
+            // Find more Lottie files at https://lottiefiles.com/featured
+            source={require('../assets/lottie/welcome.json')}
           />
         </View>
 
@@ -120,9 +63,9 @@ const Welcome = ({ navigation }) => {
         <View
           style={{
             paddingHorizontal: 22,
-            position: 'absolute',
             bottom: 30,
             width: '100%',
+            marginTop: 'auto',
           }}
         >
           <Text
@@ -164,7 +107,8 @@ const Welcome = ({ navigation }) => {
               Together we can do more
             </Text>
           </View>
-
+        </View>
+        <View style={{ marginHorizontal: 22, marginBottom: 15 }}>
           <Button
             onPress={() => navigation.navigate('Signup')}
             title="Join Now"
@@ -204,7 +148,11 @@ const Welcome = ({ navigation }) => {
           </View>
         </View>
       </View>
-      <StatusBar backgroundColor={COLORS.primary} />
+      <StatusBar
+        backgroundColor={COLORS.white}
+        animated
+        barStyle={'dark-content'}
+      />
     </LinearGradient>
   );
 };

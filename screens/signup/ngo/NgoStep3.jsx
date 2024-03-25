@@ -186,7 +186,11 @@ const UserStep3 = ({ route, navigation }) => {
           />
         </View>
       </View>
-      <StatusBar backgroundColor={COLORS.primary} />
+      <StatusBar
+        backgroundColor={COLORS.white}
+        animated
+        barStyle={'dark-content'}
+      />
     </SafeAreaView>
   );
 };

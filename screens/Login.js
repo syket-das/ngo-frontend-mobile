@@ -69,7 +69,7 @@ const Login = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <View style={{ flex: 1, marginHorizontal: 22 }}>
-        <View style={{ marginVertical: 22 }}>
+        <View style={{ marginTop: 'auto' }} className="mb-[10vh] self-center ">
           <Text
             style={{
               fontSize: 22,
@@ -303,7 +303,11 @@ const Login = ({ navigation }) => {
           </Pressable>
         </View>
       </View>
-      <StatusBar backgroundColor={COLORS.primary} />
+      <StatusBar
+        backgroundColor={COLORS.white}
+        animated
+        barStyle={'dark-content'}
+      />
     </SafeAreaView>
   );
 };
