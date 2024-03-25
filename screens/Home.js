@@ -12,7 +12,6 @@ import { Modal, Portal } from 'react-native-paper';
 
 import { COLORS } from '../constants';
 import ScreenWrapper from '../components/common/layout/ScreenWrapper';
-import Header from '../components/common/layout/Header';
 import HomeTopTabs from '../navigations/HomeTopTabs';
 import { useControlStore } from '../store/useControlStore';
 import { Ionicons } from '@expo/vector-icons';
@@ -37,8 +36,7 @@ const Home = ({ navigation }) => {
 
   return (
     <ScreenWrapper>
-      <StatusBar backgroundColor={COLORS.primary} />
-      <View className="flex-row justify-between mt-4 mb-2">
+      <View className="flex-row justify-between mt-0 ">
         <View>
           <View className="flex-row items-center">
             <Image
@@ -153,6 +151,11 @@ const Home = ({ navigation }) => {
           />
         </Modal>
       </Portal>
+      <StatusBar
+        backgroundColor={COLORS.white}
+        animated
+        barStyle={'dark-content'}
+      />
     </ScreenWrapper>
   );
 };

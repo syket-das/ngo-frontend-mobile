@@ -10,7 +10,8 @@ const useNgoStore = create((set, get) => ({
     let authType;
 
     if (!auth) {
-      throw new Error('Please login');
+      // throw new Error('Please login');
+      return;
     }
 
     if (auth?.userId) {
@@ -77,7 +78,8 @@ const useNgoStore = create((set, get) => ({
     let authType;
 
     if (!auth) {
-      throw new Error('Please login');
+      // throw new Error('Please login');
+      return;
     }
 
     if (auth?.userId) {

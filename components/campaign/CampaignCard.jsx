@@ -108,16 +108,11 @@ const CampaignCard = ({ campaign }) => {
               {new Date(singleCampaign.createdAt).toDateString()}
             </Text>
           </View>
-          <Ionicons name="chevron-down-outline" size={18} />
-        </View>
-        <View className="flex-row items-center my-1">
-          {/* <Ionicons name="location-outline" size={18} /> */}
-
-          <View className="flex-row items-center ml-2">
-            {singleCampaign.address?.lat && singleCampaign.address?.lng ? (
+          <View className="flex-row items-center ml-2 ">
+            {campaign.address?.lat && campaign.address?.lng ? (
               <TouchableOpacity
                 onPress={() => {
-                  const location = `${singleCampaign.address?.lat},${singleCampaign.address?.lng}`;
+                  const location = `${campaign.address?.lat},${campaign.address?.lng}`;
 
                   const url = Platform.select({
                     ios: `maps:${location}`,
@@ -126,11 +121,14 @@ const CampaignCard = ({ campaign }) => {
                   Linking.openURL(url);
                 }}
               >
-                <Text className="text-xs text-blue-500">Geo Tag</Text>
+                <Text className=" text-green-800">
+                  View <FontAwesome6 name="map-location-dot" size={18} />
+                </Text>
               </TouchableOpacity>
             ) : null}
           </View>
         </View>
+        <View className="flex-row items-center my-1"></View>
         {singleCampaign?.media && singleCampaign.media.length > 0 ? (
           <Carousel
             panGestureHandlerProps={{

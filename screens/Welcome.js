@@ -21,7 +21,7 @@ const Welcome = ({ navigation }) => {
           method: 'GET',
           url: `${URL}/api/v1/auth/check-token`,
           headers: {
-            Authorization: `Bearer ${JSON.parse(authToken).token}`,
+            Authorization: `Bearer ${JSON.parse(authToken)?.token}`,
           },
         });
 

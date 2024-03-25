@@ -13,7 +13,8 @@ const useAuthStore = create((set) => ({
       const auth = JSON.parse(await AsyncStorage.getItem('auth'));
 
       if (!auth) {
-        throw new Error('Please login');
+        // throw new Error('Please login');
+        return;
       }
 
       if (auth?.userId) {
@@ -31,7 +32,7 @@ const useAuthStore = create((set) => ({
       }
     } catch (error) {
       throw new Error(
-        error.response.data.message || error.message || 'Please try again'
+        error?.response?.data?.message || error?.message || 'Please try again'
       );
     }
   },

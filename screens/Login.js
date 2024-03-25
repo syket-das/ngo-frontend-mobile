@@ -67,9 +67,15 @@ const Login = ({ navigation }) => {
   }, [auth, navigation]);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: COLORS.white,
+        position: 'relative',
+      }}
+    >
       <View style={{ flex: 1, marginHorizontal: 22 }}>
-        <View style={{ marginTop: 'auto' }} className="mb-[10vh] self-center ">
+        <View style={{ marginVertical: 22 }}>
           <Text
             style={{
               fontSize: 22,
@@ -207,100 +213,104 @@ const Login = ({ navigation }) => {
           }}
         />
 
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginVertical: 20,
-          }}
-        >
+        <View className="">
           <View
             style={{
-              flex: 1,
-              height: 1,
-              backgroundColor: COLORS.grey,
-              marginHorizontal: 10,
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginVertical: 20,
+              marginTop: 'auto',
             }}
-          />
-          <Text style={{ fontSize: 14 }}>Or Login As </Text>
-          <View
-            style={{
-              flex: 1,
-              height: 1,
-              backgroundColor: COLORS.grey,
-              marginHorizontal: 10,
-            }}
-          />
-        </View>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-          }}
-        >
-          {methods.map((method) => (
-            <TouchableOpacity
-              key={method}
-              onPress={() => setSelectedMethod(method)}
+          >
+            <View
               style={{
+                flex: 1,
+                height: 1,
+                backgroundColor: COLORS.grey,
                 marginHorizontal: 10,
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderWidth: 1,
-                borderColor:
-                  slectedMethod == method ? COLORS.primary : COLORS.grey,
-                borderRadius: 8,
-                padding: 12,
               }}
-            >
-              <SvgView
-                width={40}
-                height={40}
-                svgPath={
-                  method == 'user'
-                    ? svgs.user
-                    : method == 'ngo'
-                    ? svgs.ngo
-                    : svgs.community
-                }
-              />
-              <Text
+            />
+            <Text style={{ fontSize: 14 }}>Or Login As </Text>
+            <View
+              style={{
+                flex: 1,
+                height: 1,
+                backgroundColor: COLORS.grey,
+                marginHorizontal: 10,
+              }}
+            />
+          </View>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+            }}
+          >
+            {methods.map((method) => (
+              <TouchableOpacity
+                key={method}
+                onPress={() => setSelectedMethod(method)}
                 style={{
-                  fontSize: 14,
-                  color: slectedMethod == method ? COLORS.primary : COLORS.grey,
-                  fontWeight: 'bold',
-                  marginTop: 6,
+                  marginHorizontal: 10,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderWidth: 1,
+                  borderColor:
+                    slectedMethod == method ? COLORS.primary : COLORS.grey,
+                  borderRadius: 8,
+                  padding: 12,
                 }}
               >
-                {method}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+                <SvgView
+                  width={40}
+                  height={40}
+                  svgPath={
+                    method == 'user'
+                      ? svgs.user
+                      : method == 'ngo'
+                      ? svgs.ngo
+                      : svgs.community
+                  }
+                />
+                <Text
+                  style={{
+                    fontSize: 14,
+                    color:
+                      slectedMethod == method ? COLORS.primary : COLORS.grey,
+                    fontWeight: 'bold',
+                    marginTop: 6,
+                  }}
+                >
+                  {method}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
 
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            marginVertical: 22,
-          }}
-        >
-          <Text style={{ fontSize: 16, color: COLORS.black }}>
-            Don't have an account ?{' '}
-          </Text>
-          <Pressable onPress={() => navigation.navigate('Signup')}>
-            <Text
-              style={{
-                fontSize: 16,
-                color: COLORS.primary,
-                fontWeight: 'bold',
-                marginLeft: 6,
-              }}
-            >
-              Register
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              marginVertical: 22,
+            }}
+          >
+            <Text style={{ fontSize: 16, color: COLORS.black }}>
+              Don't have an account ?{' '}
             </Text>
-          </Pressable>
+            <Pressable onPress={() => navigation.navigate('Signup')}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: COLORS.primary,
+                  fontWeight: 'bold',
+                  marginLeft: 6,
+                }}
+              >
+                Register
+              </Text>
+            </Pressable>
+          </View>
         </View>
       </View>
       <StatusBar

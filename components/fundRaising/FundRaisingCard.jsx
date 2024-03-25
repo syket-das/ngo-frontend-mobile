@@ -97,17 +97,11 @@ const FundRaisingCard = ({ fundRaising }) => {
               {new Date(singleFundRaising.createdAt).toDateString()}
             </Text>
           </View>
-          <Ionicons name="chevron-down-outline" size={18} />
-        </View>
-        <View className="flex-row items-center my-1">
-          {/* <Ionicons name="location-outline" size={18} /> */}
-
-          <View className="flex-row items-center ml-2">
-            {singleFundRaising.address?.lat &&
-            singleFundRaising.address?.lng ? (
+          <View className="flex-row items-center ml-2 ">
+            {fundRaising.address?.lat && fundRaising.address?.lng ? (
               <TouchableOpacity
                 onPress={() => {
-                  const location = `${singleFundRaising.address?.lat},${singleFundRaising.address?.lng}`;
+                  const location = `${fundRaising.address?.lat},${fundRaising.address?.lng}`;
 
                   const url = Platform.select({
                     ios: `maps:${location}`,
@@ -116,7 +110,9 @@ const FundRaisingCard = ({ fundRaising }) => {
                   Linking.openURL(url);
                 }}
               >
-                <Text className="text-xs text-blue-500">Geo Tag</Text>
+                <Text className=" text-green-800">
+                  View <FontAwesome6 name="map-location-dot" size={18} />
+                </Text>
               </TouchableOpacity>
             ) : null}
           </View>

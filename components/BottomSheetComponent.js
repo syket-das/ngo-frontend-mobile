@@ -1,7 +1,9 @@
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import useBottomSheetStore from '../store/bottomSheetStore';
+import { MaterialIcons } from '@expo/vector-icons';
+import COLORS from '../constants/colors';
 
 const BottomSheetComponent = ({}) => {
   const {
@@ -68,6 +70,23 @@ const BottomSheetComponent = ({}) => {
           backgroundColor: 'white',
         }}
       >
+        <View className="flex-row justify-between items-center   ">
+          <TouchableOpacity
+            className="bg-primary  p-2 ml-2 rounded-full"
+            style={{ backgroundColor: COLORS.grey }}
+            onPress={() => {
+              setBottomSheet(false);
+            }}
+          >
+            <MaterialIcons
+              style={{
+                color: COLORS.white,
+              }}
+              name="arrow-back"
+              size={24}
+            />
+          </TouchableOpacity>
+        </View>
         {bottomSheetContent}
       </View>
     </BottomSheet>

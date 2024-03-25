@@ -1,14 +1,4 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  RefreshControl,
-  Image,
-  FlatList,
-  VirtualizedList,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Image, FlatList, TouchableOpacity } from 'react-native';
 import React, { useEffect } from 'react';
 import { useControlStore } from '../../store/useControlStore';
 import useAuthStore from '../../store/authStore';

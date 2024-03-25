@@ -169,7 +169,7 @@ const Signup = ({ navigation }) => {
         backgroundColor={COLORS.white}
         animated
         barStyle={'dark-content'}
-      />{' '}
+      />
     </SafeAreaView>
   );
 };

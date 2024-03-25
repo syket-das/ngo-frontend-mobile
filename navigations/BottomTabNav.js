@@ -40,15 +40,14 @@ const screenOptions = {
 const BottomTabNav = () => {
   const { authType, setAuthType } = useAuthStore((state) => state);
 
-  useEffect(() => {
-    async function getAuthType() {
-      try {
-        await setAuthType();
-      } catch (error) {
-        console.log(error);
-      }
+  async function getAuthType() {
+    try {
+      await setAuthType();
+    } catch (error) {
+      console.log(error);
     }
-
+  }
+  useEffect(() => {
     getAuthType();
   }, []);
 

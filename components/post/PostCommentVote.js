@@ -81,7 +81,7 @@ const PostCommentVote = ({ comment }) => {
       <Text className="mt-2 text-xs flex-1 ">{comment.comment}</Text>
 
       <View className="flex-col justify-between mt-2">
-        <View className="flex-col  items-center bg-slate-200 px-2 py-1 rounded-lg">
+        <View className="flex-col  items-center  px-2 py-1 rounded-lg">
           <View className="flex-col  items-center gap-1">
             <TouchableOpacity onPress={handleUpVote}>
               <Ionicons
@@ -92,8 +92,8 @@ const PostCommentVote = ({ comment }) => {
                 }
                 size={
                   isLoggedInUserVotedOnComment()?.voteType === 'UPVOTE'
-                    ? 20
-                    : 16
+                    ? 26
+                    : 22
                 }
                 style={{
                   color: 'red',
@@ -109,8 +109,8 @@ const PostCommentVote = ({ comment }) => {
             </Text>
           </View>
 
-          <View className="h-[1px] w-full bg-slate-400 my-2"></View>
-          <TouchableOpacity onPress={handleDownVote}>
+          {/* <View className="h-[1px] w-full bg-slate-400 my-2"></View> */}
+          {/* <TouchableOpacity onPress={handleDownVote}>
             <Ionicons
               name={
                 isLoggedInUserVotedOnComment()?.voteType === 'DOWNVOTE'
@@ -119,14 +119,14 @@ const PostCommentVote = ({ comment }) => {
               }
               size={
                 isLoggedInUserVotedOnComment()?.voteType === 'DOWNVOTE'
-                  ? 20
-                  : 16
+                  ? 26
+                  : 22
               }
               style={{
                 color: 'black',
               }}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     </View>

@@ -11,7 +11,8 @@ const useUserStore = create((set, get) => ({
     let authType;
 
     if (!auth) {
-      throw new Error('Please login');
+      // throw new Error('Please login');
+      return;
     }
 
     if (auth?.userId) {
@@ -26,16 +27,16 @@ const useUserStore = create((set, get) => ({
         url: `${URL}/api/v1/${authType}/profile`,
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(await AsyncStorage.getItem('auth')).token
+            JSON.parse(await AsyncStorage.getItem('auth'))?.token
           }`,
         },
       });
 
       set((state) => ({ profile: data.user }));
     } catch (error) {
-      console.log(error.response.data);
+      console.log(error?.response?.data?.message || error?.message);
       throw new Error(
-        error.response.data.message || error.message || 'Please try again'
+        error.response.data.message || error?.message || 'Please try again'
       );
     }
   },
@@ -45,7 +46,8 @@ const useUserStore = create((set, get) => ({
     let authType;
 
     if (!auth) {
-      throw new Error('Please login');
+      // throw new Error('Please login');
+      return;
     }
 
     if (auth?.userId) {
@@ -68,7 +70,7 @@ const useUserStore = create((set, get) => ({
 
       set((state) => ({ profile: response.data }));
     } catch (error) {
-      console.log(error.response.data);
+      console.log(error.response.data?.message || error.message);
       throw new Error(
         error.response.data.message || error.message || 'Please try again'
       );
@@ -80,7 +82,8 @@ const useUserStore = create((set, get) => ({
     let authType;
 
     if (!auth) {
-      throw new Error('Please login');
+      // throw new Error('Please login');
+      return;
     }
 
     if (auth?.userId) {

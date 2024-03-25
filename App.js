@@ -22,9 +22,11 @@ import * as Updates from 'expo-updates';
 import * as Location from 'expo-location';
 import useModalStore from './store/modalStore';
 import { Modal, Portal } from 'react-native-paper';
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import UserProfile from './screens/profile/user/UserProfile';
 import NgoProfile from './screens/profile/ngo/NgoProfile';
+import COLORS from './constants/colors';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const Stack = createNativeStackNavigator();
 async function onFetchUpdateAsync() {
@@ -178,10 +180,34 @@ export default function App() {
               onDismiss={hideModal}
               contentContainerStyle={containerStyle}
             >
-              <View className="flex-1">{modalContent}</View>
+              <View className="flex-1">
+                <View className="flex-row justify-between items-center   ">
+                  <TouchableOpacity
+                    className="bg-primary  p-2 rounded-full"
+                    style={{ backgroundColor: COLORS.grey }}
+                    onPress={() => {
+                      hideModal();
+                    }}
+                  >
+                    <MaterialIcons
+                      style={{
+                        color: COLORS.white,
+                      }}
+                      name="arrow-back"
+                      size={24}
+                    />
+                  </TouchableOpacity>
+                </View>
+                {modalContent}
+              </View>
             </Modal>
           </Portal>
-          <Toast position="top" bottomOffset={20} visibilityTime={1000} />
+          <Toast
+            position="top"
+            bottomOffset={20}
+            visibilityTime={1000}
+            autoHide={true}
+          />
         </GestureHandlerRootView>
       </Providers>
     </PaperProvider>

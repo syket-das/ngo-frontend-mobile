@@ -190,30 +190,6 @@ const Settings = ({ navigation }) => {
         backgroundColor: COLORS.white,
       }}
     >
-      <View
-        style={{
-          marginHorizontal: 12,
-          flexDirection: 'row',
-          justifyContent: 'center',
-        }}
-      >
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{
-            position: 'absolute',
-            left: 0,
-          }}
-        >
-          <MaterialIcons
-            name="keyboard-arrow-left"
-            size={24}
-            color={COLORS.black}
-          />
-        </TouchableOpacity>
-
-        <Text style={{ ...FONTS.h3 }}>Settings</Text>
-      </View>
-
       <ScrollView style={{ marginHorizontal: 12 }}>
         {/* Account Settings */}
         <View style={{ marginBottom: 12 }}>
@@ -271,7 +247,11 @@ const Settings = ({ navigation }) => {
         </View>
         <View style={{ marginBottom: 50 }} />
       </ScrollView>
-      <StatusBar backgroundColor={COLORS.primary} />
+      <StatusBar
+        backgroundColor={COLORS.white}
+        animated
+        barStyle={'dark-content'}
+      />
     </SafeAreaView>
   );
 };

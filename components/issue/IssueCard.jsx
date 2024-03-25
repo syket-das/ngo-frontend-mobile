@@ -15,7 +15,7 @@ import {
   PaperProvider,
 } from 'react-native-paper';
 import IssueDetailsCard from './IssueDetailsCard';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, FontAwesome6 } from '@expo/vector-icons';
 import * as Linking from 'expo-linking';
 
 const IssueCard = ({ issue }) => {
@@ -44,23 +44,26 @@ const IssueCard = ({ issue }) => {
           <Text className="text-gray-500 text-xs  px-1 border border-gray-400 rounded-sm">
             {issue.comments.length} Answers
           </Text>
-          <View className="flex-row items-center ml-2">
-            {issue.address?.lat && issue.address?.lng ? (
-              <TouchableOpacity
-                className="flex-row items-center gap-2  p-1 rounded-md"
-                onPress={() => {
-                  const location = `${issue.address?.lat},${issue.address?.lng}`;
+          <View className="flex-row items-center ml-2 ">
+            <View className="flex-row items-center ml-2 ">
+              {issue.address?.lat && issue.address?.lng ? (
+                <TouchableOpacity
+                  onPress={() => {
+                    const location = `${issue.address?.lat},${issue.address?.lng}`;
 
-                  const url = Platform.select({
-                    ios: `maps:${location}`,
-                    android: `geo:${location}?center=${location}&q=${location}&z=16`,
-                  });
-                  Linking.openURL(url);
-                }}
-              >
-                <Text className="text-xs text-blue-500">Geo Tag</Text>
-              </TouchableOpacity>
-            ) : null}
+                    const url = Platform.select({
+                      ios: `maps:${location}`,
+                      android: `geo:${location}?center=${location}&q=${location}&z=16`,
+                    });
+                    Linking.openURL(url);
+                  }}
+                >
+                  <Text className=" text-green-800">
+                    View <FontAwesome6 name="map-location-dot" size={18} />{' '}
+                  </Text>
+                </TouchableOpacity>
+              ) : null}
+            </View>
           </View>
           <TouchableOpacity
             className="flex-row items-center gap-2"
@@ -105,8 +108,8 @@ const IssueCard = ({ issue }) => {
             </Text>
           </View>
 
-          <View className="flex-row w-full mt-2">
-            <View className="w-3/4 flex-row items-center mt-2 flex-wrap">
+          <View className=" w-full mt-2">
+            <View className="flex-row items-center mt-2 flex-wrap">
               {issue?.tags?.map((tag, index) => (
                 <View key={index} className="rounded-md">
                   <Text
@@ -120,8 +123,7 @@ const IssueCard = ({ issue }) => {
                 </View>
               ))}
             </View>
-
-            <View className="w-1/4 flex-col ">
+            <View className=" flex-row justify-end mt-2 ">
               <View className="flex-row justify-end">
                 <Image
                   source={require('../../assets/images/cover.jpg')}

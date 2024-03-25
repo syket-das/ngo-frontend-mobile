@@ -37,7 +37,6 @@ const IssueScreen = () => {
 
   return (
     <ScreenWrapper>
-      <StatusBar backgroundColor={COLORS.primary} />
       <Header />
       <View className="mt-4 flex-row justify-between items-center">
         <View>
@@ -126,6 +125,11 @@ const IssueScreen = () => {
             <Text style={{ textAlign: 'center' }}>No more issues</Text>
           </View>
         )}
+      />
+      <StatusBar
+        backgroundColor={COLORS.white}
+        animated
+        barStyle={'dark-content'}
       />
     </ScreenWrapper>
   );

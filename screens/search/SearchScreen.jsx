@@ -1,4 +1,11 @@
-import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  StatusBar,
+} from 'react-native';
 import React, { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS } from '../../constants';
@@ -109,6 +116,8 @@ const SearchScreen = ({ navigation }) => {
       <View className="  flex-row">
         <View className="justify-center flex-row items-center">
           <RadioButton
+            color={COLORS.primary}
+            uncheckedColor={COLORS.grey}
             value="user"
             status={checked === 'user' ? 'checked' : 'unchecked'}
             onPress={() => setChecked('user')}
@@ -117,6 +126,8 @@ const SearchScreen = ({ navigation }) => {
         </View>
         <View className="justify-center flex-row items-center">
           <RadioButton
+            color={COLORS.primary}
+            uncheckedColor={COLORS.grey}
             value="ngo"
             status={checked === 'ngo' ? 'checked' : 'unchecked'}
             onPress={() => setChecked('ngo')}
@@ -186,6 +197,11 @@ const SearchScreen = ({ navigation }) => {
           </TouchableOpacity>
         ))}
       </ScrollView>
+      <StatusBar
+        backgroundColor={COLORS.white}
+        animated
+        barStyle={'dark-content'}
+      />
     </SafeAreaView>
   );
 };

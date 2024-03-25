@@ -83,8 +83,8 @@ const PostVote = ({ post }) => {
               singlePost.loggedInUserOrNgoDetailsForPost.isVoted &&
               singlePost.loggedInUserOrNgoDetailsForPost.voteTypeIfVoted ===
                 'UPVOTE'
-                ? 22
-                : 18
+                ? 26
+                : 22
             }
             style={{
               color:
@@ -122,8 +122,8 @@ const PostVote = ({ post }) => {
               singlePost.loggedInUserOrNgoDetailsForPost.isVoted &&
               singlePost.loggedInUserOrNgoDetailsForPost.voteTypeIfVoted ===
                 'DOWNVOTE'
-                ? 22
-                : 18
+                ? 26
+                : 22
             }
           />
         </TouchableOpacity>

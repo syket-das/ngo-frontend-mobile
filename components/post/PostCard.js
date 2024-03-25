@@ -9,7 +9,11 @@ import {
 } from 'react-native';
 import React, { useEffect } from 'react';
 import Carousel from 'react-native-reanimated-carousel';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import {
+  Ionicons,
+  MaterialCommunityIcons,
+  FontAwesome6,
+} from '@expo/vector-icons';
 import useBottomSheetStore from '../../store/bottomSheetStore';
 
 import PostVote from './PostVote';
@@ -26,7 +30,7 @@ const PostCard = ({ post }) => {
 
   return (
     <View className="my-4">
-      <View className="flex-row justify-between items-center">
+      <View className="flex-row justify-between items-center ">
         <View className="flex-row items-center gap-2">
           <Image
             className="w-8 h-8 rounded-full"
@@ -44,15 +48,7 @@ const PostCard = ({ post }) => {
             {new Date(post.createdAt).toDateString()}
           </Text>
         </View>
-        <Ionicons name="chevron-down-outline" size={18} />
-      </View>
-      <View className="flex-row items-center my-1">
-        {/* <Ionicons name="location-outline" size={18} /> */}
-        <Text className="text-xs text-gray-500 ml-10">
-          {post.address?.city} {post.address?.state} {post.address?.country}
-        </Text>
-
-        <View className="flex-row items-center ml-2">
+        <View className="flex-row items-center ml-2 ">
           {post.address?.lat && post.address?.lng ? (
             <TouchableOpacity
               onPress={() => {
@@ -65,10 +61,22 @@ const PostCard = ({ post }) => {
                 Linking.openURL(url);
               }}
             >
-              <Text className="text-xs text-blue-500">Geo Tag</Text>
+              <Text className=" text-green-800">
+                View <FontAwesome6 name="map-location-dot" size={18} />{' '}
+              </Text>
             </TouchableOpacity>
           ) : null}
         </View>
+      </View>
+      <View className="flex-row items-center ">
+        <Text
+          className="text-xs text-gray-500 ml-10 "
+          style={{
+            display: post?.address?.city ? 'flex' : 'none',
+          }}
+        >
+          {post.address?.city} {post.address?.state} {post.address?.country}
+        </Text>
       </View>
 
       {post?.media && post.media.length > 0 ? (
@@ -88,6 +96,7 @@ const PostCard = ({ post }) => {
                   flex: 1,
                   justifyContent: 'center',
                   position: 'relative',
+                  marginTop: 10,
                 }}
               >
                 <View className="absolute top-2 right-8 z-10 p-1 bg-slate-200 rounded-md">

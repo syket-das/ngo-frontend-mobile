@@ -26,30 +26,30 @@ const HomeTopTabs = () => {
       style={{
         backgroundColor: COLORS.white,
         color: COLORS.primary,
-        fontSize: 12,
-        height: height - 200,
       }}
       screenOptions={{
-        tabBarLabelStyle: { fontSize: 12, display: 'flex' },
-        tabBarStyle: {},
+        tabBarLabelStyle: {
+          fontSize: 12,
+          textTransform: 'none',
+          fontWeight: 'bold',
+        },
         tabBarActiveTintColor: COLORS.primary,
         tabBarInactiveTintColor: COLORS.grey,
-        tabBarShowIcon: true,
 
         tabBarIndicatorStyle: {
           backgroundColor: COLORS.primary,
-          display: 'flex',
+          // display: 'none',
         },
         tabBarItemStyle: {
-          display: 'flex',
-          flexDirection: 'row',
+          // display: 'flex',
+          // flexDirection: 'row',
         },
 
         swipeEnabled: true,
         tabBarBounces: true,
         tabBarIconStyle: {
-          width: 24,
-          height: 24,
+          width: 20,
+          height: 20,
         },
       }}
       tabBarPosition="top"
