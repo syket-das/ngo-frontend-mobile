@@ -9,8 +9,11 @@ import Toast from 'react-native-toast-message';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import useNgoStore from '../../../store/ngoStore';
 import ProfileTopTabs from '../../../navigations/ProfileScreenTopTabs';
+import useBottomSheetStore from '../../../store/bottomSheetStore';
 
 const UserProfile = () => {
+  const { setBottomSheet, setBottomSheetContent, setInitialSnap } =
+    useBottomSheetStore((state) => state);
   const { profile, getProfile } = useNgoStore((state) => state);
   const [points, setPoints] = useState(0);
   const [donation, setDonation] = useState(0);
@@ -76,29 +79,48 @@ const UserProfile = () => {
             className="h-14 w-14 rounded-full"
           />
           <View className="flex-row items-center flex-0.5 gap-4">
-            <TouchableOpacity className="justify-center items-center ">
-              <Text className="text-sm font-semibold text-red-800">
-                {donation}
-              </Text>
-              <Text className="text-xs font-semibold text-gray-500">
-                Donation
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="justify-center items-center">
-              <Text className="text-sm font-semibold text-green-800">
-                {volunteer}
-              </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setBottomSheet(true);
+                setInitialSnap('50%');
 
-              <Text className="text-xs font-semibold text-gray-500">
-                Volunteer
+                setBottomSheetContent(
+                  <View className="w-full flex-col gap-y-2 px-2 mt-8">
+                    <View className="flex-row items-center  w-full justify-between bg-slate-200 p-4">
+                      <Text className="text-sm font-semibold text-gray-800">
+                        Donation Points
+                      </Text>
+                      <Text className="text-sm font-semibold text-green-800">
+                        {donation}
+                      </Text>
+                    </View>
+                    <View className="flex-row items-center  w-full justify-between bg-slate-200 p-4">
+                      <Text className="text-sm font-semibold text-gray-800">
+                        Volunteer Points
+                      </Text>
+
+                      <Text className="text-sm font-semibold text-blue-800">
+                        {volunteer}
+                      </Text>
+                    </View>
+                    <View className="flex-row items-center  w-full justify-between bg-slate-200 p-4">
+                      <Text className="text-sm font-semibold text-gray-800">
+                        Intellectual Points
+                      </Text>
+                      <Text className="text-sm font-semibold text-red-800">
+                        {intellectual}
+                      </Text>
+                    </View>
+                  </View>
+                );
+              }}
+              className="justify-center items-center "
+            >
+              <Text className="text-sm font-semibold text-red-800">
+                {donation + volunteer + intellectual}
               </Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="justify-center items-center">
-              <Text className="text-sm font-semibold text-blue-800">
-                {intellectual}
-              </Text>
               <Text className="text-xs font-semibold text-gray-500">
-                Intellectual
+                Points
               </Text>
             </TouchableOpacity>
           </View>

@@ -5,8 +5,11 @@ import { images } from '../../../constants';
 import { Ionicons } from '@expo/vector-icons';
 import ProfileTopTabs from '../../../navigations/ProfileTopTabs';
 import { useSearchStore } from '../../../store/searchStore';
+import useBottomSheetStore from '../../../store/bottomSheetStore';
 
 const UserPublicProfile = ({ user }) => {
+  const { setBottomSheet, setBottomSheetContent, setInitialSnap } =
+    useBottomSheetStore((state) => state);
   const [points, setPoints] = useState(0);
   const [donation, setDonation] = useState(0);
   const [volunteer, setVolunteer] = useState(0);
@@ -62,29 +65,48 @@ const UserPublicProfile = ({ user }) => {
           />
 
           <View className="flex-row items-center flex-0.5 gap-4">
-            <TouchableOpacity className="justify-center items-center ">
-              <Text className="text-sm font-semibold text-red-800">
-                {donation}
-              </Text>
-              <Text className="text-xs font-semibold text-gray-500">
-                Donation
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="justify-center items-center">
-              <Text className="text-sm font-semibold text-green-800">
-                {volunteer}
-              </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setBottomSheet(true);
+                setInitialSnap('50%');
 
-              <Text className="text-xs font-semibold text-gray-500">
-                Volunteer
+                setBottomSheetContent(
+                  <View className="w-full flex-col gap-y-2 px-2 mt-8">
+                    <View className="flex-row items-center  w-full justify-between bg-slate-200 p-4">
+                      <Text className="text-sm font-semibold text-gray-800">
+                        Donation Points
+                      </Text>
+                      <Text className="text-sm font-semibold text-green-800">
+                        {donation}
+                      </Text>
+                    </View>
+                    <View className="flex-row items-center  w-full justify-between bg-slate-200 p-4">
+                      <Text className="text-sm font-semibold text-gray-800">
+                        Volunteer Points
+                      </Text>
+
+                      <Text className="text-sm font-semibold text-blue-800">
+                        {volunteer}
+                      </Text>
+                    </View>
+                    <View className="flex-row items-center  w-full justify-between bg-slate-200 p-4">
+                      <Text className="text-sm font-semibold text-gray-800">
+                        Intellectual Points
+                      </Text>
+                      <Text className="text-sm font-semibold text-red-800">
+                        {intellectual}
+                      </Text>
+                    </View>
+                  </View>
+                );
+              }}
+              className="justify-center items-center "
+            >
+              <Text className="text-sm font-semibold text-red-800">
+                {donation + volunteer + intellectual}
               </Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="justify-center items-center">
-              <Text className="text-sm font-semibold text-blue-800">
-                {intellectual}
-              </Text>
               <Text className="text-xs font-semibold text-gray-500">
-                Intellectual
+                Points
               </Text>
             </TouchableOpacity>
           </View>
@@ -100,7 +122,7 @@ const UserPublicProfile = ({ user }) => {
           {user?.address?.city}, {user?.address?.country}
         </Text>
       </View>
-      <View className="flex-row items-center gap-x-2 mx-4 mt-2">
+      {/* <View className="flex-row items-center gap-x-2 mx-4 mt-2">
         <Text className="text-[10px] text-green-700 font-semibold border border-dashed border-green-700 px-1">
           Top Contributor
         </Text>
@@ -110,7 +132,7 @@ const UserPublicProfile = ({ user }) => {
         <Text className="text-[10px] font-semibold border border-dashed border-red-600 text-red-600 px-1">
           Top Volunteer
         </Text>
-      </View>
+      </View> */}
 
       <View className="mx-4 mt-2">
         <Text className="text-xs font-semibold text-gray-500">{user?.bio}</Text>

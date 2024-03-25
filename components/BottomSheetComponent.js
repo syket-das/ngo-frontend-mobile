@@ -4,8 +4,13 @@ import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import useBottomSheetStore from '../store/bottomSheetStore';
 
 const BottomSheetComponent = ({}) => {
-  const { bottomSheet, setBottomSheet, bottomSheetContent, setBottomSheetRef } =
-    useBottomSheetStore((state) => state);
+  const {
+    bottomSheet,
+    setBottomSheet,
+    bottomSheetContent,
+    setBottomSheetRef,
+    initialSnap,
+  } = useBottomSheetStore((state) => state);
   const snapPoints = useMemo(() => ['25%', '50%', '100%'], []);
   const bottomSheetRef = React.useRef(null);
 
@@ -49,7 +54,7 @@ const BottomSheetComponent = ({}) => {
       keyboardBehavior="interactive"
       keyboardBlurBehavior="restore"
       ref={bottomSheetRef}
-      index={-1}
+      index={2}
       snapPoints={snapPoints}
       onChange={(index) => {
         if (index === -1) {
