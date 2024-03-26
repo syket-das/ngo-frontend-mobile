@@ -33,10 +33,8 @@
     "expo-splash-screen": "~0.26.4",
     "expo-status-bar": "~1.11.1",
     "expo-updates": "~0.24.12",
-    "i": "^0.3.7",
     "lottie-react-native": "6.5.1",
     "nativewind": "^2.0.11",
-    "npm": "^10.3.0",
     "react": "18.2.0",
     "react-native": "0.73.2",
     "react-native-datepicker": "^1.7.2",
@@ -60,7 +58,8 @@
     "react-native-toast-message": "^2.2.0",
     "react-native-ui-datepicker": "^2.0.2",
     "react-timeago": "^7.2.0",
-    "zustand": "^4.4.7"
+    "zustand": "^4.4.7",
+    "@expo/metro-runtime": "~3.1.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
