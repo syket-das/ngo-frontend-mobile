@@ -181,7 +181,7 @@ const FundRaisingDetailsCard = ({ fundRaising, hideModal }) => {
           </View>
           <View className="flex-row justify-between items-center">
             <Text className=" font-bold">Funds Needed</Text>
-            <Text className="">{`INR ${fundRaising.fundsRequired || 0}`}</Text>
+            <Text className="">{`INR ${fundRaising.amount || 0}`}</Text>
           </View>
           <View className="flex-row justify-between items-center">
             <Text className=" font-bold">Funds Raised</Text>

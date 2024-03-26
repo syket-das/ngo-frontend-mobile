@@ -3,29 +3,11 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { URL } from '../constants/data';
 
-function dateToIsoString(dateStr) {
-  // Parse the date string into a Date object
-  const dateObj = new Date(dateStr);
-
-  // Check if the date is valid
-  if (isNaN(dateObj.getTime())) {
-    throw new Error(`Invalid date format: ${dateStr}`);
-  }
-
-  // Convert the Date object to ISO datetime format
-  const isoDatetimeStr = dateObj.toISOString();
-
-  return isoDatetimeStr;
-}
-
 export const useCampaignStore = create((set, get) => ({
   campaigns: [],
   campaign: null,
 
   createCampaignByUser: async (body) => {
-    body.startDate = dateToIsoString(body.startDate);
-    body.endDate = dateToIsoString(body.endDate);
-
     try {
       const formData = new FormData();
       formData.append('title', body.title);
@@ -64,9 +46,6 @@ export const useCampaignStore = create((set, get) => ({
     }
   },
   createCampaignByNgo: async (body) => {
-    body.startDate = dateToIsoString(body.startDate);
-    body.endDate = dateToIsoString(body.endDate);
-
     try {
       const formData = new FormData();
       formData.append('title', body.title);

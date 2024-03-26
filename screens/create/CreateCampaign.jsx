@@ -19,6 +19,8 @@ import { TAGS } from '../../constants/data';
 import { MultipleSelectList } from 'react-native-dropdown-select-list';
 import * as ImagePicker from 'expo-image-picker';
 import useLocation from '../../hooks/useLocation';
+import DateTimePicker from 'react-native-ui-datepicker';
+import dayjs from 'dayjs';
 
 const data = [
   { key: '1', value: 'Mobiles', disabled: true },
@@ -251,93 +253,49 @@ const CreateCampaign = ({ navigation }) => {
             </View>
           </View>
 
-          <View
-            style={{ marginBottom: 12 }}
-            className="flex-row justify-between items-center gap-x-2"
-          >
-            <View
-              style={{
-                flexDirection: 'column',
-                marginBottom: 6,
-                flex: 1,
+          <View style={{ marginBottom: 12 }} className="flex justify-between ">
+            <DateTimePicker
+              selectedTextStyle={{
+                color: COLORS.grey,
               }}
-            >
+              mode="range"
+              startDate={campaign.startDate}
+              endDate={campaign.endDate}
+              onChange={(params) => {
+                setCampaign({
+                  ...campaign,
+                  startDate: params.startDate,
+                  endDate: params.endDate,
+                });
+              }}
+            />
+            <View className="flex-row gap-x-2">
               <Text
-                style={{
-                  fontSize: 16,
-                  fontWeight: 400,
-                  marginVertical: 8,
-                }}
+                style={{ fontSize: 16, fontWeight: 400, marginVertical: 8 }}
               >
                 Start Date
               </Text>
-              <View
-                style={{
-                  width: '100%',
-                  height: 48,
-                  borderColor: COLORS.black,
-                  borderWidth: 1,
-                  borderRadius: 8,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  paddingLeft: 22,
-                }}
-              >
-                <TextInput
-                  placeholder="eg. 2024-02-23"
-                  placeholderTextColor={COLORS.grey}
-                  keyboardType="default"
-                  style={{
-                    width: '100%',
-                  }}
-                  value={campaign.startDate}
-                  onChangeText={(val) =>
-                    setCampaign({ ...campaign, startDate: val })
-                  }
-                />
-              </View>
-            </View>
-            <View
-              style={{
-                flexDirection: 'column',
-                marginBottom: 6,
-                flex: 1,
-              }}
-            >
               <Text
-                style={{
-                  fontSize: 16,
-                  fontWeight: 400,
-                  marginVertical: 8,
-                }}
+                style={{ fontSize: 16, fontWeight: 400, marginVertical: 8 }}
+              >
+                {campaign.startDate
+                  ? campaign.startDate.format('YYYY-MM-DD')
+                  : 'Select Date'}
+              </Text>
+            </View>
+            <View className="flex-row gap-x-2">
+              <Text
+                style={{ fontSize: 16, fontWeight: 400, marginVertical: 8 }}
               >
                 End Date
               </Text>
-              <View
-                style={{
-                  width: '100%',
-                  height: 48,
-                  borderColor: COLORS.black,
-                  borderWidth: 1,
-                  borderRadius: 8,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  paddingLeft: 22,
-                }}
+              <Text
+                style={{ fontSize: 16, fontWeight: 400, marginVertical: 8 }}
               >
-                <TextInput
-                  placeholder="eg. 2024-02-23"
-                  placeholderTextColor={COLORS.grey}
-                  keyboardType="default"
-                  style={{
-                    width: '100%',
-                  }}
-                  value={campaign.endDate}
-                  onChangeText={(val) =>
-                    setCampaign({ ...campaign, endDate: val })
-                  }
-                />
-              </View>
+                {campaign.endDate
+                  ? campaign.endDate.format('YYYY-MM-DD')
+                  : 'Select Date'}
+              </Text>
             </View>
           </View>
 

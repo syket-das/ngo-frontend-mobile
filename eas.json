@@ -7,7 +7,10 @@
       "android": {
         "buildType": "apk"
       },
-      "channel": "preview"
+      "channel": "preview",
+      "ios": {
+        "simulator": true
+      }
     },
     "preview2": {
       "android": {
