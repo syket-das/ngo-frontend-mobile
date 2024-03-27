@@ -521,7 +521,13 @@ const EditUserProfile = ({ navigation }) => {
 
         <View className="h-[100px]" />
       </ScrollView>
-      <StatusBar backgroundColor={COLORS.primary} />
+      <StatusBar
+        backgroundColor={COLORS.white}
+        barStyle={'dark-content'}
+        animated
+        style="auto"
+        networkActivityIndicatorVisible={true}
+      />
     </SafeAreaView>
   );
 };

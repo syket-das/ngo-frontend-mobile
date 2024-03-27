@@ -11,7 +11,7 @@ import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import ProfileTopTabs from '../../../navigations/ProfileScreenTopTabs';
 import useBottomSheetStore from '../../../store/bottomSheetStore';
 
-const UserProfile = () => {
+const UserProfile = ({ navigation }) => {
   const { setBottomSheet, setBottomSheetContent, setInitialSnap } =
     useBottomSheetStore((state) => state);
   const { profile, getProfile } = useUserStore((state) => state);
@@ -71,67 +71,89 @@ const UserProfile = () => {
         backgroundColor: COLORS.white,
       }}
     >
-      <StatusBar backgroundColor={COLORS.white} />
-      <View className=" mt-4">
-        <View className="flex-row mx-4 justify-between">
-          <View>
-            <Image
-              source={{ uri: profile?.profileImage?.url || '' }}
-              className="h-14 w-14 rounded-full"
-            />
-          </View>
+      <StatusBar
+        backgroundColor={COLORS.white}
+        animated
+        style="auto"
+        networkActivityIndicatorVisible={true}
+      />
+      <View className=" my-1">
+        <View className="flex-row justify-between items-center mx-4 ">
+          <Text className="text-sm font-semibold mt-2 mx-4  ">
+            {profile?.fullName || 'Full Name'}{' '}
+            {profile?.profession && `(${profile?.profession})`}
+          </Text>
 
-          <View className="flex-row items-center flex-0.5 gap-4">
+          <View className="flex-row items-center gap-4">
             <TouchableOpacity
               onPress={() => {
-                setBottomSheet(true);
-                setInitialSnap('50%');
-
-                setBottomSheetContent(
-                  <View className="w-full flex-col gap-y-2 px-2 mt-8">
-                    <View className="flex-row items-center  w-full justify-between bg-slate-200 p-4">
-                      <Text className="text-sm font-semibold text-gray-800">
-                        Donation Points
-                      </Text>
-                      <Text className="text-sm font-semibold text-green-800">
-                        {donation}
-                      </Text>
-                    </View>
-                    <View className="flex-row items-center  w-full justify-between bg-slate-200 p-4">
-                      <Text className="text-sm font-semibold text-gray-800">
-                        Volunteer Points
-                      </Text>
-
-                      <Text className="text-sm font-semibold text-blue-800">
-                        {volunteer}
-                      </Text>
-                    </View>
-                    <View className="flex-row items-center  w-full justify-between bg-slate-200 p-4">
-                      <Text className="text-sm font-semibold text-gray-800">
-                        Intellectual Points
-                      </Text>
-                      <Text className="text-sm font-semibold text-red-800">
-                        {intellectual}
-                      </Text>
-                    </View>
-                  </View>
-                );
+                navigation.navigate('EditProfile');
               }}
-              className="justify-center items-center "
             >
-              <Text className="text-sm font-semibold text-red-800">
-                {donation + volunteer + intellectual}
-              </Text>
-              <Text className="text-xs font-semibold text-gray-500">
-                Points
-              </Text>
+              <FontAwesome name="edit" size={24} color="black" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Create');
+              }}
+            >
+              <MaterialIcons name="add-box" size={24} color="black" />
             </TouchableOpacity>
           </View>
         </View>
-        <Text className="text-sm font-semibold mt-2 mx-4  ">
-          {profile?.fullName || 'Full Name'}{' '}
-          {profile?.profession && `(${profile?.profession})`}
-        </Text>
+      </View>
+      <View className="flex-row mx-4 justify-between">
+        <View>
+          <Image
+            source={{ uri: profile?.profileImage?.url || '' }}
+            className="h-20 w-h-20 rounded-full"
+          />
+        </View>
+
+        <View className="flex-row items-center flex-0.5 gap-4">
+          <TouchableOpacity
+            onPress={() => {
+              setBottomSheet(true);
+              setInitialSnap('50%');
+
+              setBottomSheetContent(
+                <View className="w-full flex-col gap-y-2 px-2 mt-8">
+                  <View className="flex-row items-center  w-full justify-between bg-slate-200 p-4">
+                    <Text className="text-sm font-semibold text-gray-800">
+                      Donation Points
+                    </Text>
+                    <Text className="text-sm font-semibold text-green-800">
+                      {donation}
+                    </Text>
+                  </View>
+                  <View className="flex-row items-center  w-full justify-between bg-slate-200 p-4">
+                    <Text className="text-sm font-semibold text-gray-800">
+                      Volunteer Points
+                    </Text>
+
+                    <Text className="text-sm font-semibold text-blue-800">
+                      {volunteer}
+                    </Text>
+                  </View>
+                  <View className="flex-row items-center  w-full justify-between bg-slate-200 p-4">
+                    <Text className="text-sm font-semibold text-gray-800">
+                      Intellectual Points
+                    </Text>
+                    <Text className="text-sm font-semibold text-red-800">
+                      {intellectual}
+                    </Text>
+                  </View>
+                </View>
+              );
+            }}
+            className="justify-center items-center "
+          >
+            <Text className="text-sm font-semibold text-red-800">
+              {donation + volunteer + intellectual}
+            </Text>
+            <Text className="text-xs font-semibold text-gray-500">Points</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View className="flex-row  items-center  mx-4">

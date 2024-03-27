@@ -11,7 +11,7 @@ import useNgoStore from '../../../store/ngoStore';
 import ProfileTopTabs from '../../../navigations/ProfileScreenTopTabs';
 import useBottomSheetStore from '../../../store/bottomSheetStore';
 
-const NgoProfile = () => {
+const NgoProfile = ({ navigation }) => {
   const { setBottomSheet, setBottomSheetContent, setInitialSnap } =
     useBottomSheetStore((state) => state);
   const { profile, getProfile } = useNgoStore((state) => state);
@@ -73,10 +73,34 @@ const NgoProfile = () => {
       <StatusBar backgroundColor={COLORS.white} />
 
       <View className=" mt-4 ">
+        <View className=" my-1">
+          <View className="flex-row justify-between items-center mx-4 ">
+            <Text className="text-sm font-semibold mt-2 mx-4  ">
+              {profile?.name || ' Name'} {profile?.type && `(${profile?.type})`}
+            </Text>
+
+            <View className="flex-row items-center gap-4">
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('EditProfile');
+                }}
+              >
+                <FontAwesome name="edit" size={24} color="black" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('Create');
+                }}
+              >
+                <MaterialIcons name="add-box" size={24} color="black" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
         <View className="flex-row mx-4 justify-between">
           <Image
             source={{ uri: profile?.profileImage?.url || '' }}
-            className="h-14 w-14 rounded-full"
+            className="h-20 w-20 rounded-full"
           />
           <View className="flex-row items-center flex-0.5 gap-4">
             <TouchableOpacity
@@ -125,11 +149,8 @@ const NgoProfile = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <Text className="text-sm font-semibold mt-2 mx-4">
-          {profile?.name || 'Name'} {profile?.type && `(${profile?.type})`}
-        </Text>
       </View>
-      <View className="flex-row  items-center  mx-4">
+      <View className="flex-row  items-center  mx-4 mt-2">
         <Ionicons name="location" size={16} color="gray" />
         <Text className="text-xs font-semibold text-gray-500">
           {profile?.address?.city || ''}, {profile?.address?.country || ''}

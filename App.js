@@ -19,7 +19,6 @@ import SearchScreen from './screens/search/SearchScreen';
 import SearchProfile from './screens/search/SearchProfile';
 import Providers from './components/Providers';
 import * as Updates from 'expo-updates';
-import * as Location from 'expo-location';
 import useModalStore from './store/modalStore';
 import { Modal, Portal } from 'react-native-paper';
 import { TouchableOpacity, View } from 'react-native';

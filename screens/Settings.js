@@ -120,11 +120,7 @@ const Settings = ({ navigation }) => {
       text: 'Profile',
       action: navigateToProfile,
     },
-    {
-      icon: 'person-add',
-      text: 'Edit Profile',
-      action: navigateToEditProfile,
-    },
+
     { icon: 'security', text: 'Security', action: navigateToSecurity },
     {
       icon: 'notifications-none',
