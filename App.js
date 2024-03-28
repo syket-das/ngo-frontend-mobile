@@ -26,6 +26,7 @@ import UserProfile from './screens/profile/user/UserProfile';
 import NgoProfile from './screens/profile/ngo/NgoProfile';
 import COLORS from './constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 async function onFetchUpdateAsync() {

@@ -133,7 +133,7 @@ const IssueCard = ({ issue }) => {
                   style={{
                     fontSize: 10,
                   }}
-                  className="text-gray-500 text-xs ml-1"
+                  className="text-gray-500 text-xs ml-1 mr-1"
                 >
                   {issueBy === 'USER'
                     ? issue.ownUser.fullName

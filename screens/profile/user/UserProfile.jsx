@@ -10,8 +10,13 @@ import Toast from 'react-native-toast-message';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import ProfileTopTabs from '../../../navigations/ProfileScreenTopTabs';
 import useBottomSheetStore from '../../../store/bottomSheetStore';
+import useFollowStore from '../../../store/followStore';
 
 const UserProfile = ({ navigation }) => {
+  const { followers, followings, getFollowers, getFollowings } = useFollowStore(
+    (state) => state
+  );
+
   const { setBottomSheet, setBottomSheetContent, setInitialSnap } =
     useBottomSheetStore((state) => state);
   const { profile, getProfile } = useUserStore((state) => state);
@@ -64,6 +69,37 @@ const UserProfile = ({ navigation }) => {
     }
   }, [profile]);
 
+  useEffect(() => {
+    fetchFollowers();
+    fetchFollowings();
+  }, []);
+
+  const fetchFollowers = async () => {
+    try {
+      await getFollowers();
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Error',
+        text2: error.message,
+      });
+    }
+  };
+
+  const fetchFollowings = async () => {
+    try {
+      await getFollowings();
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Error',
+        text2: error.message,
+      });
+    }
+  };
+
   return (
     <SafeAreaView
       style={{
@@ -111,6 +147,28 @@ const UserProfile = ({ navigation }) => {
         </View>
 
         <View className="flex-row items-center flex-0.5 gap-4">
+          <TouchableOpacity
+            onPress={() => {}}
+            className="justify-center items-center "
+          >
+            <Text className="text-sm font-semibold text-green-800">
+              {followers?.length || 0}
+            </Text>
+            <Text className="text-xs font-semibold text-gray-500">
+              Followers
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {}}
+            className="justify-center items-center "
+          >
+            <Text className="text-sm font-semibold text-blue-800">
+              {followings?.length || 0}
+            </Text>
+            <Text className="text-xs font-semibold text-gray-500">
+              Followings
+            </Text>
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               setBottomSheet(true);

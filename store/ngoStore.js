@@ -4,6 +4,7 @@ import { URL } from '../constants/data';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const useNgoStore = create((set, get) => ({
+  ngoData: null,
   profile: null,
   getProfile: async () => {
     const auth = JSON.parse(await AsyncStorage.getItem('auth'));
@@ -105,6 +106,24 @@ const useNgoStore = create((set, get) => ({
       throw new Error(
         error.response.data.message || error.message || 'Please try again'
       );
+    }
+  },
+
+  getNgoData: async (id) => {
+    try {
+      const { data } = await axios({
+        method: 'GET',
+        url: `${URL}/api/v1/ngo/${id}`,
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(await AsyncStorage.getItem('auth')).token
+          }`,
+        },
+      });
+
+      set((state) => ({ ngoData: data.data }));
+    } catch (error) {
+      console.log(error.response.data);
     }
   },
 }));

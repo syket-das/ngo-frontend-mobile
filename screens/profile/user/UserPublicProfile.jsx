@@ -6,8 +6,12 @@ import { Ionicons } from '@expo/vector-icons';
 import ProfileTopTabs from '../../../navigations/ProfileTopTabs';
 import { useSearchStore } from '../../../store/searchStore';
 import useBottomSheetStore from '../../../store/bottomSheetStore';
+import useUserStore from '../../../store/userStore';
+import useFollowStore from '../../../store/followStore';
 
 const UserPublicProfile = ({ user }) => {
+  const { mutateFollow, followers, followings, getFollowers, getFollowings } =
+    useFollowStore((state) => state);
   const { setBottomSheet, setBottomSheetContent, setInitialSnap } =
     useBottomSheetStore((state) => state);
   const [points, setPoints] = useState(0);
@@ -18,6 +22,12 @@ const UserPublicProfile = ({ user }) => {
   const { searchedUser, setSearchedUser, setRole } = useSearchStore(
     (state) => state
   );
+
+  const { userData, getUserData } = useUserStore((state) => state);
+
+  useEffect(() => {
+    getUserData(user?.id);
+  }, []);
 
   useEffect(() => {
     setSearchedUser(user);
@@ -50,6 +60,37 @@ const UserPublicProfile = ({ user }) => {
     setRole('USER');
   }, []);
 
+  useEffect(() => {
+    fetchFollowers();
+    fetchFollowings();
+  }, []);
+
+  const fetchFollowers = async () => {
+    try {
+      await getFollowers();
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Error',
+        text2: error.message,
+      });
+    }
+  };
+
+  const fetchFollowings = async () => {
+    try {
+      await getFollowings();
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Error',
+        text2: error.message,
+      });
+    }
+  };
+
   return (
     <SafeAreaView
       style={{
@@ -58,6 +99,38 @@ const UserPublicProfile = ({ user }) => {
       }}
     >
       <View className="mt-4">
+        <View className="flex-row  items-center justify-between  mx-4">
+          <Text className="text-sm font-semibold  ">
+            {user?.fullName || ' Name'}{' '}
+            {user?.profession && `(${user?.profession})`}
+          </Text>
+
+          {followings?.find((f) => f.followingId === user?.id) ? (
+            <TouchableOpacity
+              onPress={async () => {
+                await mutateFollow(user?.id, 'USER');
+                await fetchFollowings();
+              }}
+              className="bg-primary  rounded-full"
+            >
+              <Text className="text-md font-semibold text-red-800 ">
+                Unfollow
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              onPress={async () => {
+                await mutateFollow(user?.id, 'USER');
+                await fetchFollowings();
+              }}
+              className="bg-primary  rounded-full"
+            >
+              <Text className="text-md font-semibold text-blue-800 ">
+                Follow
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
         <View className="flex-row mx-4 justify-between">
           <Image
             source={{ uri: user?.profileImage?.url || '' }}
@@ -65,6 +138,28 @@ const UserPublicProfile = ({ user }) => {
           />
 
           <View className="flex-row items-center flex-0.5 gap-4">
+            <TouchableOpacity
+              onPress={() => {}}
+              className="justify-center items-center "
+            >
+              <Text className="text-sm font-semibold text-green-800">
+                {userData?.followers?.length || 0}
+              </Text>
+              <Text className="text-xs font-semibold text-gray-500">
+                Followers
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {}}
+              className="justify-center items-center "
+            >
+              <Text className="text-sm font-semibold text-blue-800">
+                {userData?.followings?.length || 0}
+              </Text>
+              <Text className="text-xs font-semibold text-gray-500">
+                Followings
+              </Text>
+            </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
                 setBottomSheet(true);

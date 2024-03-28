@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const useUserStore = create((set, get) => ({
   profile: null,
+  userData: null,
 
   getProfile: async () => {
     const auth = JSON.parse(await AsyncStorage.getItem('auth'));
@@ -109,6 +110,24 @@ const useUserStore = create((set, get) => ({
       throw new Error(
         error.response.data.message || error.message || 'Please try again'
       );
+    }
+  },
+
+  getUserData: async (id) => {
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: `${URL}/api/v1/user/${id}`,
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(await AsyncStorage.getItem('auth')).token
+          }`,
+        },
+      });
+
+      set((state) => ({ userData: response.data.data }));
+    } catch (error) {
+      console.log(error.response.data);
     }
   },
 }));
